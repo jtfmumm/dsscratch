@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="default"
+		module="dsscratch$sbt_2.10"
+		revision="0.1-SNAPSHOT"
+		status="integration"
+		publication="20150714181407"
+	/>
+	<configurations>
+		<conf name="default" visibility="public"/>
+	</configurations>
+	<publications>
+	</publications>
+	<dependencies>
+		<dependency org="org.scala-sbt" name="sbt" rev="0.13.2" conf="default->default(compile)"/>
+		<dependency org="org.jetbrains" name="sbt-structure" rev="2.4.0" conf="default->default(compile)" sbtVersion="0.13" scalaVersion="2.10"/>
+	</dependencies>
+</ivy-module>
