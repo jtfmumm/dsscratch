@@ -5,6 +5,7 @@ import scala.collection.mutable.Queue
 trait Channel {
   def recv(m: Message): Unit
   def deliverNext(): Unit
+  def is(ch: Channel): Boolean
 }
 
 case class TwoChannel(p0: Process, p1: Process) extends Channel {
@@ -24,6 +25,14 @@ case class TwoChannel(p0: Process, p1: Process) extends Channel {
       case b if b == p1 => p0.recv(nextM)
     }
   }
+
+  def is(ch: Channel): Boolean = ch match {
+    case c: TwoChannel => {
+      (p0 == c.p0 && p1 == c.p1) ||
+        (p0 == c.p1 && p1 == c.p0)
+    }
+    case _ => false
+  }
 }
 
 case class MultiChannel(ps: Seq[Process]) extends Channel {
@@ -42,6 +51,11 @@ case class MultiChannel(ps: Seq[Process]) extends Channel {
     for (nd: Process <- ps.filter(_ != sender)) {
       nd.recv(nextM)
     }
+  }
+
+  def is(ch: Channel): Boolean = ch match {
+    case c: MultiChannel => ps.forall(x => c.ps.contains(x))
+    case _ => false
   }
 }
 

@@ -1,0 +1,11 @@
+[0m[[0minfo[0m] [0mRunning dsscratch.Run [0m
+[0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
+[0m[[0mdebug[0m] [0m  Classpath:[0m
+[0m[[0mdebug[0m] [0m	/home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/scala-2.10/classes[0m
+[0m[[0mdebug[0m] [0m	/home/jtfmumm/.sbt/boot/scala-2.10.4/lib/scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	/home/jtfmumm/.ivy2/cache/com.jtfmumm/randomific_2.10/jars/randomific_2.10-0.1.1.jar[0m
+[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
+[0m[[0mdebug[0m] [0mInterrupting remaining threads (should be all daemons).[0m
+[0m[[0mdebug[0m] [0mSandboxed run complete..[0m
+[0m[[0mdebug[0m] [0mExited with code 0[0m

@@ -2,91 +2,112 @@ package dsscratch.components
 
 import randomific.Rand
 import scala.util.Random
+import scala.collection.mutable.ArrayBuffer
 
-class Topology {
-  val nodes = List[Process]()
-  val channels = List[Channel]()
-}
+case class Topology[P](nodes: Seq[P], chs: Seq[Channel])
 
 object Topology {
-  def createTwoChannel(p0: Process, p1: Process): Unit = {
+  def createTwoChannel(p0: Process, p1: Process, chs: ArrayBuffer[Channel]): Unit = {
     val newCh = TwoChannel(p0, p1)
     p0.addChannel(newCh)
     p1.addChannel(newCh)
+    chs.append(newCh)
   }
 
-  def createMultiChannel(ps: Seq[Process]): Unit = {
+  def createMultiChannel(ps: Seq[Process], chs: ArrayBuffer[Channel]): Unit = {
     val newCh = MultiChannel(ps)
     for (p <- ps) p.addChannel(newCh)
+    chs.append(newCh)
   }
 
-  def star(center: Process, others: Seq[Process]) = {
-    for (nd <- others) createTwoChannel(center, nd)
+  def star[P <: Process](center: P, others: Seq[P]): Topology[P] = {
+    val chs = ArrayBuffer[Channel]()
+    for (nd <- others) createTwoChannel(center, nd, chs)
 
-    center +: others
+    Topology(center +: others, chs)
   }
 
-  def bus(nodes: Seq[Process]): Seq[Process] = {
-    createMultiChannel(nodes)
-    nodes
+  def bus[P <: Process](nodes: Seq[P]): Topology[P] = {
+    val chs = ArrayBuffer[Channel]()
+    createMultiChannel(nodes, chs)
+    Topology(nodes, chs)
   }
 
-  def line(nodes: Seq[Process]): Seq[Process] = {
+  def line[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    def loop(s: Seq[Process], acc: Seq[Process]): Seq[Process] = s match {
-      case Nil => acc.reverse
-      case h :: t => {
-        createTwoChannel(h, t.head)
-        h +: acc
+    val chs = ArrayBuffer[Channel]()
+    def loop(s: Seq[P], acc: Seq[P]): Seq[P] = s match {
+      case a if s.isEmpty => acc.reverse
+      case b if b.tail.isEmpty => (b.head +: acc).reverse
+      case c => {
+        createTwoChannel(s.head, s.tail.head, chs)
+        loop(s.tail, s.head +: acc)
       }
     }
-    loop(nodes, Seq[Process]())
+    val finalNodes = loop(nodes, Seq[P]())
+    Topology(finalNodes, chs)
   }
 
-  def ring(nodes: Seq[Process]): Seq[Process] = {
+  def ring[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val shuffled: Seq[Process] = Random.shuffle(nodes)
+    val shuffled: Seq[P] = Random.shuffle(nodes)
 
-    val l: Seq[Process] = line(shuffled)
-    val last: Process = l.reverse.head
+    val l: Topology[P] = line(shuffled)
+    val chs: ArrayBuffer[Channel] = ArrayBuffer(l.chs: _*)
+    val last: P = l.nodes.reverse.head
 
-    createTwoChannel(l.head, last)
-    l //Now a ring
+    createTwoChannel(l.nodes.head, last, chs)
+    Topology(l.nodes, chs)
   }
 
-  def totallyConnected(nodes: Seq[Process]): Seq[Process] = {
+  def totallyConnected[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val shuffled: Seq[Process] = Random.shuffle(nodes)
+    val chs = ArrayBuffer[Channel]()
+    val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val pairs = cProductNoSelfPairs(shuffled)
 
     for (e: (Process, Process) <- pairs) {
-      createTwoChannel(e._1, e._2)
+      createTwoChannel(e._1, e._2, chs)
     }
 
-    shuffled
+    Topology(shuffled, chs)
   }
 
-  def connectedWithKMoreEdges(nodes: Seq[Process], k: Int): Seq[Process] = {
-    assert(nodes.size > 1 && k <= (((nodes.size * nodes.size) - (2 * nodes.size)) + 1)) //(n^2 - 2n) + 1 possible extra edges
-    val shuffled: Seq[Process] = Random.shuffle(nodes)
+  def connectedWithKMoreEdges[P <: Process](k: Int, nodes: Seq[P]): Topology[P] = {
+    assert(nodes.size > 1 && k <= (((nodes.size * nodes.size) - (2 * nodes.size)) + 1)) //(n^2 - n) - (n - 1) = (n^2 - 2n) + 1 possible extra edges
+    val shuffled: Seq[P] = Random.shuffle(nodes)
 
-    val l: Seq[Process] = line(shuffled) //Ensures connected path
-
-    val pairs = cProductNoSelfPairs(l)
+    val l: Topology[P] = line(shuffled) //Ensures connected path
+    val chs = ArrayBuffer(l.chs: _*)
+    val pairs = cProductNoSelfPairs(l.nodes)
+    println(pairs)
 
     val extraEdges = Rand.pickKItems(k, pairs)
 
     for (e: (Process, Process) <- extraEdges) {
-      createTwoChannel(e._1, e._2)
+      createTwoChannel(e._1, e._2, chs)
     }
 
-    l
+    val distinctChs = distinctTwoChs(chs)
+
+    Topology(l.nodes, distinctChs) //Some edges may have been chosen twice
+  }
+
+  private def distinctTwoChs(as: Seq[Channel]): Seq[Channel] = {
+    def loop(s: Seq[Channel], acc: Seq[Channel]): Seq[Channel] = s match {
+      case a if a.isEmpty => acc
+      case b if b.tail.isEmpty => acc
+      case c => if (!s.tail.exists(x => x is s.head)) loop(s.tail, s.head +: acc) else loop(s.tail, acc)
+    }
+    loop(as, Seq[Channel]())
   }
 
   private def cProductNoSelfPairs(s: Seq[Process]): Seq[(Process, Process)] = {
-    s.flatMap(x =>
-      s.tail.map(y => (x, y))
-    )
+    (for (
+      x: Process <- s;
+      y: Process <- s
+    ) yield (x, y)).filter(pair => pair._1 != pair._2)
   }
+
 }
