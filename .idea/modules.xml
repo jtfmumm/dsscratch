@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dsscratch.iml" filepath="$PROJECT_DIR$/.idea/modules/dsscratch.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dsscratch-build.iml" filepath="$PROJECT_DIR$/.idea/modules/dsscratch-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/root.iml" filepath="$PROJECT_DIR$/.idea/modules/root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/root-build.iml" filepath="$PROJECT_DIR$/.idea/modules/root-build.iml" />
     </modules>
   </component>
 </project>

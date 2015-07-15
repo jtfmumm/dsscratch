@@ -3,6 +3,7 @@ package dsscratch.dict
 import dsscratch.components._
 import scala.collection.mutable.{Map => mMap}
 import scala.collection.mutable.Queue
+import scala.collection.mutable.ArrayBuffer
 
 case class Dictionary() {
   var d = mMap[String, Int]()
@@ -26,6 +27,7 @@ case class Delete(key: String) extends Command
 
 // PROCESSES
 case class DictNode extends Process {
+  val chs = ArrayBuffer[Channel]()
   val data = new Dictionary()
   val msgs = Queue[Message]()
 
@@ -39,7 +41,7 @@ case class DictNode extends Process {
     process(nextCommand)
   }
 
-  def process(c: Command): Unit = c match {
+  private def process(c: Command): Unit = c match {
     case Read(k, ch) => {
       val reply = ReadReply(data.get(k))
       send(Message(reply, this, tStamp), ch)
@@ -48,5 +50,12 @@ case class DictNode extends Process {
     case Delete(k) => data.delete(k)
   }
 
-  def tStamp: Count = Count(0)
+  def addChannel(ch: Channel): Unit = chs.append(ch)
+
+  def removeChannel(ch: Channel): Unit = {
+    val i = chs.indexOf(ch)
+    chs.remove(i)
+  }
+
+  private def tStamp: Count = Count(0)
 }

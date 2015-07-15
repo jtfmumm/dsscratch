@@ -2,8 +2,12 @@ package dsscratch.components
 
 import scala.collection.mutable.Queue
 
+trait Channel {
+  def recv(m: Message): Unit
+  def deliverNext(): Unit
+}
 
-case class Channel(p0: Process, p1: Process) {
+case class TwoChannel(p0: Process, p1: Process) extends Channel {
   val msgs = Queue[Message]()
 
   def recv(m: Message) = {
@@ -20,4 +24,27 @@ case class Channel(p0: Process, p1: Process) {
       case b if b == p1 => p0.recv(nextM)
     }
   }
+}
+
+case class MultiChannel(ps: Seq[Process]) extends Channel {
+  val msgs = Queue[Message]()
+
+  def recv(m: Message) = {
+    assert(ps.contains(m.sender))
+    msgs.enqueue(m)
+  }
+
+  def deliverNext(): Unit = {
+    if (msgs.isEmpty) return
+
+    val nextM = msgs.dequeue()
+    val sender = nextM.sender
+    for (nd: Process <- ps.filter(_ != sender)) {
+      nd.recv(nextM)
+    }
+  }
+}
+
+object Channel {
+  val empty = TwoChannel(EmptyProcess(), EmptyProcess())
 }
