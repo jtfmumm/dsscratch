@@ -4,7 +4,7 @@
 		module="dsscratch_2.10"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20150714181407"
+		publication="20150715101432"
 	>
 		<description>
 		dsscratch
@@ -32,7 +32,7 @@
 		<artifact name="dsscratch_2.10" type="doc" ext="jar" conf="docs" e:classifier="javadoc"/>
 	</publications>
 	<dependencies>
-		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.3" conf="scala-tool->default,optional(default)"/>
-		<dependency org="org.scala-lang" name="scala-library" rev="2.10.3" conf="scala-tool->default,optional(default);compile->default(compile)"/>
+		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.4" conf="scala-tool->default,optional(default)"/>
+		<dependency org="org.scala-lang" name="scala-library" rev="2.10.4" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

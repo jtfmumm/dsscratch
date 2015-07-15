@@ -1,0 +1,41 @@
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	modified: Set(/home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala)[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 1 sources: invalidated sources (1) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 1 Scala source to /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/scala-2.10/classes...[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.4[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 74cc0e46, interfacing (CompilerInterface) with Scala compiler version 2.10.4[0m
+[0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/netx.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/plugin.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/classes:/home/jtfmumm/.sbt/boot/scala-2.10.4/lib/scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/scala-2.10/classes[0m
+[0m[[33mwarn[0m] [0mthere were 1 deprecation warning(s); re-run with -deprecation for details[0m
+[0m[[33mwarn[0m] [0mone warning found[0m
+[0m[[0mdebug[0m] [0mScala compilation took 2.857714626 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/jtfmumm/Dropbox/Programming/scala/dsscratch/src/main/scala/dsscratch/Node.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	q, msgs.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m
