@@ -36,6 +36,10 @@ case class TNode(id: Int) extends Process {
   def step(): Unit = {
     if (tokens.isEmpty && finishedTokens.isEmpty) return
     nonParentChsToSend.size match {
+      case 0 if hasNoParent && tokens.nonEmpty => {
+        val t = tokens.dequeue()
+        finishedTokens.enqueue(t)
+      }
       case 0 if hasNoParent =>
       case 0 => {
         sendToken(parentCh)
@@ -62,10 +66,14 @@ case class TNode(id: Int) extends Process {
   }
 
   def initiate(t: Token): Unit = {
+    tokens.enqueue(t)
+    nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
     println(this + " is initiating with " + t)
     val firstCh: Channel = Rand.pickItem(chs)
     val cmd = ProcessToken(t, firstCh)
     firstCh.recv(Message(cmd, this))
+    val firstChIndex = nonParentChsToSend.indexOf(firstCh)
+    nonParentChsToSend.remove(firstChIndex)
   }
 
   private def hasNoParent: Boolean = parentCh == Channel.empty

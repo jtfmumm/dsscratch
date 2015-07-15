@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2815061a-dba6-46bd-bb57-7f40d10183a3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/Run.scala" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/util/Util.scala" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Topology.scala" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Topology.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/$global/$global/discoveredMainClasses/data" afterPath="$PROJECT_DIR$/target/streams/compile/$global/$global/discoveredMainClasses/data" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/export" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/export" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" afterPath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/out" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/run/$global/streams/out" afterPath="$PROJECT_DIR$/target/streams/compile/run/$global/streams/out" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dsscratch.iws" />
@@ -107,18 +102,18 @@
       <file leaf-file-name="Tarry.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.3013437" vertical-offset="0" max-vertical-offset="2772">
-              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.49328214" vertical-offset="388" max-vertical-offset="2948">
+              <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
               <folding>
                 <element signature="e#31#60#0" expanded="true" />
                 <element signature="e#729#733#0" expanded="true" />
                 <element signature="e#904#908#0" expanded="true" />
-                <element signature="e#1438#1442#0" expanded="true" />
-                <element signature="e#1528#1532#0" expanded="true" />
-                <element signature="e#1648#1652#0" expanded="true" />
-                <element signature="e#2066#2070#0" expanded="true" />
-                <element signature="e#2411#2415#0" expanded="true" />
-                <element signature="e#2502#2506#0" expanded="true" />
+                <element signature="e#1565#1569#0" expanded="true" />
+                <element signature="e#1655#1659#0" expanded="true" />
+                <element signature="e#1775#1779#0" expanded="true" />
+                <element signature="e#2386#2390#0" expanded="true" />
+                <element signature="e#2731#2735#0" expanded="true" />
+                <element signature="e#2822#2826#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -714,12 +709,12 @@
       <workItem from="1436966794087" duration="9819000" />
       <workItem from="1436985486691" duration="4643000" />
       <workItem from="1436990341327" duration="61000" />
-      <workItem from="1436990411614" duration="8233000" />
+      <workItem from="1436990411614" duration="9486000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24305000" />
+    <option name="totallyTimeSpent" value="25558000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1175" extended-state="0" />
@@ -838,12 +833,12 @@
             <element signature="e#31#60#0" expanded="true" />
             <element signature="e#729#733#0" expanded="true" />
             <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1438#1442#0" expanded="true" />
-            <element signature="e#1528#1532#0" expanded="true" />
-            <element signature="e#1648#1652#0" expanded="true" />
-            <element signature="e#2066#2070#0" expanded="true" />
-            <element signature="e#2411#2415#0" expanded="true" />
-            <element signature="e#2502#2506#0" expanded="true" />
+            <element signature="e#1565#1569#0" expanded="true" />
+            <element signature="e#1655#1659#0" expanded="true" />
+            <element signature="e#1775#1779#0" expanded="true" />
+            <element signature="e#2386#2390#0" expanded="true" />
+            <element signature="e#2731#2735#0" expanded="true" />
+            <element signature="e#2822#2826#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -924,12 +919,12 @@
             <element signature="e#31#60#0" expanded="true" />
             <element signature="e#729#733#0" expanded="true" />
             <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1438#1442#0" expanded="true" />
-            <element signature="e#1528#1532#0" expanded="true" />
-            <element signature="e#1648#1652#0" expanded="true" />
-            <element signature="e#2066#2070#0" expanded="true" />
-            <element signature="e#2411#2415#0" expanded="true" />
-            <element signature="e#2502#2506#0" expanded="true" />
+            <element signature="e#1565#1569#0" expanded="true" />
+            <element signature="e#1655#1659#0" expanded="true" />
+            <element signature="e#1775#1779#0" expanded="true" />
+            <element signature="e#2386#2390#0" expanded="true" />
+            <element signature="e#2731#2735#0" expanded="true" />
+            <element signature="e#2822#2826#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1010,12 +1005,12 @@
             <element signature="e#31#60#0" expanded="true" />
             <element signature="e#729#733#0" expanded="true" />
             <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1438#1442#0" expanded="true" />
-            <element signature="e#1528#1532#0" expanded="true" />
-            <element signature="e#1648#1652#0" expanded="true" />
-            <element signature="e#2066#2070#0" expanded="true" />
-            <element signature="e#2411#2415#0" expanded="true" />
-            <element signature="e#2502#2506#0" expanded="true" />
+            <element signature="e#1565#1569#0" expanded="true" />
+            <element signature="e#1655#1659#0" expanded="true" />
+            <element signature="e#1775#1779#0" expanded="true" />
+            <element signature="e#2386#2390#0" expanded="true" />
+            <element signature="e#2731#2735#0" expanded="true" />
+            <element signature="e#2822#2826#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1118,18 +1113,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.3013437" vertical-offset="0" max-vertical-offset="2772">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.49328214" vertical-offset="388" max-vertical-offset="2948">
+          <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
             <element signature="e#729#733#0" expanded="true" />
             <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1438#1442#0" expanded="true" />
-            <element signature="e#1528#1532#0" expanded="true" />
-            <element signature="e#1648#1652#0" expanded="true" />
-            <element signature="e#2066#2070#0" expanded="true" />
-            <element signature="e#2411#2415#0" expanded="true" />
-            <element signature="e#2502#2506#0" expanded="true" />
+            <element signature="e#1565#1569#0" expanded="true" />
+            <element signature="e#1655#1659#0" expanded="true" />
+            <element signature="e#1775#1779#0" expanded="true" />
+            <element signature="e#2386#2390#0" expanded="true" />
+            <element signature="e#2731#2735#0" expanded="true" />
+            <element signature="e#2822#2826#0" expanded="true" />
           </folding>
         </state>
       </provider>
