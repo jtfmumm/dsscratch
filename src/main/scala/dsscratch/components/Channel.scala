@@ -4,7 +4,7 @@ import scala.collection.mutable.Queue
 
 trait Channel {
   def recv(m: Message): Unit
-  def deliverNext(): Unit
+  def step(): Unit
   def is(ch: Channel): Boolean
 }
 
@@ -15,6 +15,8 @@ case class TwoChannel(p0: Process, p1: Process) extends Channel {
     assert(m.sender == p0 || m.sender == p1)
     msgs.enqueue(m)
   }
+
+  def step(): Unit = deliverNext()
 
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return
@@ -42,6 +44,8 @@ case class MultiChannel(ps: Seq[Process]) extends Channel {
     assert(ps.contains(m.sender))
     msgs.enqueue(m)
   }
+
+  def step(): Unit = deliverNext()
 
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return

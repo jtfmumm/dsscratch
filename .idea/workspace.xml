@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2815061a-dba6-46bd-bb57-7f40d10183a3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/util/Log.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala" afterPath="$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" afterPath="$PROJECT_DIR$/target/streams/compile/incCompileSetup/$global/streams/inc_compile_2.10" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/out" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/$global/streams/out" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/streams/compile/run/$global/streams/out" afterPath="$PROJECT_DIR$/target/streams/compile/run/$global/streams/out" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -39,16 +40,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Command.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/Command.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="176">
-              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TimeStamp.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/TimeStamp.scala">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,9 +63,12 @@
       <file leaf-file-name="Channel.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="485" max-vertical-offset="1540">
-              <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1628">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding>
+                <element signature="e#375#379#0" expanded="true" />
+                <element signature="e#975#979#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,18 +96,30 @@
       <file leaf-file-name="Tarry.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49328214" vertical-offset="388" max-vertical-offset="2948">
-              <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.915547" vertical-offset="1004" max-vertical-offset="3146">
+              <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
               <folding>
                 <element signature="e#31#60#0" expanded="true" />
-                <element signature="e#729#733#0" expanded="true" />
-                <element signature="e#904#908#0" expanded="true" />
-                <element signature="e#1565#1569#0" expanded="true" />
-                <element signature="e#1655#1659#0" expanded="true" />
-                <element signature="e#1775#1779#0" expanded="true" />
-                <element signature="e#2386#2390#0" expanded="true" />
-                <element signature="e#2731#2735#0" expanded="true" />
-                <element signature="e#2822#2826#0" expanded="true" />
+                <element signature="e#790#794#0" expanded="true" />
+                <element signature="e#965#969#0" expanded="true" />
+                <element signature="e#1626#1630#0" expanded="true" />
+                <element signature="e#1716#1720#0" expanded="true" />
+                <element signature="e#1836#1840#0" expanded="true" />
+                <element signature="e#2494#2498#0" expanded="true" />
+                <element signature="e#2859#2863#0" expanded="true" />
+                <element signature="e#2950#2954#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Log.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/util/Log.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+              <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+              <folding>
+                <element signature="e#357#361#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -171,8 +177,9 @@
         <option value="$PROJECT_DIR$/src/main/scala/dsscratch/util/Util.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/dsscratch/components/Process.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/dsscratch/Run.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/dsscratch/components/Topology.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/dsscratch/util/Log.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala" />
       </list>
     </option>
@@ -263,6 +270,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="dsscratch" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dsscratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dsscratch" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dsscratch" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -709,12 +746,12 @@
       <workItem from="1436966794087" duration="9819000" />
       <workItem from="1436985486691" duration="4643000" />
       <workItem from="1436990341327" duration="61000" />
-      <workItem from="1436990411614" duration="9486000" />
+      <workItem from="1436990411614" duration="11620000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25558000" />
+    <option name="totallyTimeSpent" value="27692000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1175" extended-state="0" />
@@ -805,7 +842,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="726">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#375#379#0" expanded="true" />
+            <element signature="e#975#979#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -831,14 +871,14 @@
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
-            <element signature="e#729#733#0" expanded="true" />
-            <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1565#1569#0" expanded="true" />
-            <element signature="e#1655#1659#0" expanded="true" />
-            <element signature="e#1775#1779#0" expanded="true" />
-            <element signature="e#2386#2390#0" expanded="true" />
-            <element signature="e#2731#2735#0" expanded="true" />
-            <element signature="e#2822#2826#0" expanded="true" />
+            <element signature="e#790#794#0" expanded="true" />
+            <element signature="e#965#969#0" expanded="true" />
+            <element signature="e#1626#1630#0" expanded="true" />
+            <element signature="e#1716#1720#0" expanded="true" />
+            <element signature="e#1836#1840#0" expanded="true" />
+            <element signature="e#2494#2498#0" expanded="true" />
+            <element signature="e#2859#2863#0" expanded="true" />
+            <element signature="e#2950#2954#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -891,7 +931,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="726">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#375#379#0" expanded="true" />
+            <element signature="e#975#979#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -917,14 +960,14 @@
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
-            <element signature="e#729#733#0" expanded="true" />
-            <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1565#1569#0" expanded="true" />
-            <element signature="e#1655#1659#0" expanded="true" />
-            <element signature="e#1775#1779#0" expanded="true" />
-            <element signature="e#2386#2390#0" expanded="true" />
-            <element signature="e#2731#2735#0" expanded="true" />
-            <element signature="e#2822#2826#0" expanded="true" />
+            <element signature="e#790#794#0" expanded="true" />
+            <element signature="e#965#969#0" expanded="true" />
+            <element signature="e#1626#1630#0" expanded="true" />
+            <element signature="e#1716#1720#0" expanded="true" />
+            <element signature="e#1836#1840#0" expanded="true" />
+            <element signature="e#2494#2498#0" expanded="true" />
+            <element signature="e#2859#2863#0" expanded="true" />
+            <element signature="e#2950#2954#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -977,7 +1020,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="572" max-vertical-offset="726">
           <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-          <folding />
+          <folding>
+            <element signature="e#375#379#0" expanded="true" />
+            <element signature="e#975#979#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1003,14 +1049,14 @@
           <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
-            <element signature="e#729#733#0" expanded="true" />
-            <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1565#1569#0" expanded="true" />
-            <element signature="e#1655#1659#0" expanded="true" />
-            <element signature="e#1775#1779#0" expanded="true" />
-            <element signature="e#2386#2390#0" expanded="true" />
-            <element signature="e#2731#2735#0" expanded="true" />
-            <element signature="e#2822#2826#0" expanded="true" />
+            <element signature="e#790#794#0" expanded="true" />
+            <element signature="e#965#969#0" expanded="true" />
+            <element signature="e#1626#1630#0" expanded="true" />
+            <element signature="e#1716#1720#0" expanded="true" />
+            <element signature="e#1836#1840#0" expanded="true" />
+            <element signature="e#2494#2498#0" expanded="true" />
+            <element signature="e#2859#2863#0" expanded="true" />
+            <element signature="e#2950#2954#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1083,22 +1129,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="485" max-vertical-offset="1540">
-          <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/Run.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/Topology.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.821428" vertical-offset="1302" max-vertical-offset="2618">
@@ -1111,20 +1141,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/components/Channel.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1628">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#375#379#0" expanded="true" />
+            <element signature="e#975#979#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/Run.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/util/Log.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+          <folding>
+            <element signature="e#357#361#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/dsscratch/algos/tarry/Tarry.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49328214" vertical-offset="388" max-vertical-offset="2948">
-          <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.915547" vertical-offset="1004" max-vertical-offset="3146">
+          <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
           <folding>
             <element signature="e#31#60#0" expanded="true" />
-            <element signature="e#729#733#0" expanded="true" />
-            <element signature="e#904#908#0" expanded="true" />
-            <element signature="e#1565#1569#0" expanded="true" />
-            <element signature="e#1655#1659#0" expanded="true" />
-            <element signature="e#1775#1779#0" expanded="true" />
-            <element signature="e#2386#2390#0" expanded="true" />
-            <element signature="e#2731#2735#0" expanded="true" />
-            <element signature="e#2822#2826#0" expanded="true" />
+            <element signature="e#790#794#0" expanded="true" />
+            <element signature="e#965#969#0" expanded="true" />
+            <element signature="e#1626#1630#0" expanded="true" />
+            <element signature="e#1716#1720#0" expanded="true" />
+            <element signature="e#1836#1840#0" expanded="true" />
+            <element signature="e#2494#2498#0" expanded="true" />
+            <element signature="e#2859#2863#0" expanded="true" />
+            <element signature="e#2950#2954#0" expanded="true" />
           </folding>
         </state>
       </provider>

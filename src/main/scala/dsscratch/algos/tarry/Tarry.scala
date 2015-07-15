@@ -4,7 +4,7 @@ import dsscratch.components._
 import randomific.Rand
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
-
+import dsscratch.util.Log
 
 //Tarry's algorithm
 //Kicked off by one initiator
@@ -21,6 +21,8 @@ case class TNode(id: Int) extends Process {
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
+  var log = Log()
+  log.write(this)
 
   var parentCh: Channel = Channel.empty
   var nonParentChsToSend = ArrayBuffer[Channel]()
@@ -67,6 +69,7 @@ case class TNode(id: Int) extends Process {
 
   def initiate(t: Token): Unit = {
     tokens.enqueue(t)
+    log.write(Channel.empty)
     nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
     println(this + " is initiating with " + t)
     val firstCh: Channel = Rand.pickItem(chs)
@@ -79,6 +82,7 @@ case class TNode(id: Int) extends Process {
   private def hasNoParent: Boolean = parentCh == Channel.empty
 
   private def sendToken(ch: Channel) = {
+    log.write(ch)
     val pt = ProcessToken(tokens.last, ch)
     ch.recv(Message(pt, this))
   }
@@ -86,6 +90,7 @@ case class TNode(id: Int) extends Process {
   private def processToken(t: Token, ch: Channel): Unit = {
     println("Processing")
     if (tokens.isEmpty && parentCh == Channel.empty && finishedTokens.isEmpty) {
+      log.write(ch)
       parentCh = ch
       nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
       tokens.enqueue(t)
@@ -123,7 +128,11 @@ object Tarry {
     println("************************")
     while (topology.nodes.exists(nd => nd.finishedTokens.isEmpty)) {
       for (nd <- topology.nodes) nd.step()
-      for (ch <- topology.chs) ch.deliverNext()
+      for (ch <- topology.chs) ch.step()
+    }
+    for (nd <- topology.nodes) {
+      println("Next")
+      println(nd.log)
     }
   }
 }
