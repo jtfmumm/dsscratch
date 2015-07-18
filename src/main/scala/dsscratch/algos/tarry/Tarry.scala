@@ -139,6 +139,19 @@ object Tarry {
       println(nd.log.firstMatchFor("Parent"))
       println("----")
     }
+    println("//NETWORK")
     println(topology.chs.dotGraph)
+    //Spanning tree
+    println("//SPANNING TREE")
+    println(
+      "digraph H {\n" +
+      topology.nodes.map(nd => {
+        if (nd.parent != EmptyProcess())
+          "  " + nd.parent + " -> " + nd + ";\n"
+        else
+          ""
+      }).mkString +
+      "}"
+    )
   }
 }

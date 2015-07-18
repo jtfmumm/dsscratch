@@ -1,0 +1,69 @@
+//NETWORK
+digraph G {
+  concentrate=true;
+  TNode1 -> TNode6;
+  TNode6 -> TNode1;
+  TNode6 -> TNode2;
+  TNode2 -> TNode6;
+  TNode2 -> TNode5;
+  TNode5 -> TNode2;
+  TNode5 -> TNode3;
+  TNode3 -> TNode5;
+  TNode3 -> TNode10;
+  TNode10 -> TNode3;
+  TNode10 -> TNode9;
+  TNode9 -> TNode10;
+  TNode9 -> TNode8;
+  TNode8 -> TNode9;
+  TNode8 -> TNode4;
+  TNode4 -> TNode8;
+  TNode4 -> TNode7;
+  TNode7 -> TNode4;
+  TNode5 -> TNode7;
+  TNode7 -> TNode5;
+  TNode2 -> TNode4;
+  TNode4 -> TNode2;
+  TNode6 -> TNode8;
+  TNode8 -> TNode6;
+  TNode1 -> TNode3;
+  TNode3 -> TNode1;
+  TNode1 -> TNode7;
+  TNode7 -> TNode1;
+  TNode1 -> TNode10;
+  TNode10 -> TNode1;
+  TNode6 -> TNode9;
+  TNode9 -> TNode6;
+  TNode3 -> TNode6;
+  TNode6 -> TNode3;
+  TNode2 -> TNode9;
+  TNode9 -> TNode2;
+  TNode4 -> TNode9;
+  TNode9 -> TNode4;
+  TNode2 -> TNode10;
+  TNode10 -> TNode2;
+  TNode3 -> TNode9;
+  TNode9 -> TNode3;
+  TNode7 -> TNode8;
+  TNode8 -> TNode7;
+  TNode5 -> TNode10;
+  TNode10 -> TNode5;
+  TNode2 -> TNode8;
+  TNode8 -> TNode2;
+  TNode1 -> TNode4;
+  TNode4 -> TNode1;
+  TNode8 -> TNode10;
+  TNode10 -> TNode8;
+}
+//SPANNING TREE
+digraph H {
+  TNode1 -> TNode6;
+  TNode9 -> TNode2;
+  TNode3 -> TNode5;
+  TNode1 -> TNode3;
+  TNode3 -> TNode10;
+  TNode3 -> TNode9;
+  TNode7 -> TNode8;
+  TNode1 -> TNode4;
+  TNode1 -> TNode7;
+}
+

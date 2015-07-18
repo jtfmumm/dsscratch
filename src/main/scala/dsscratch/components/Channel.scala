@@ -91,6 +91,7 @@ case class TwoChannels(chs: ArrayBuffer[TwoChannel] = ArrayBuffer[TwoChannel]())
 
   def dotGraph: String = {
     "digraph G {\n" +
+    "  concentrate=true;\n" +
     chs.map(ch => "  " + ch.p0 + " -> " + ch.p1 + ";\n").mkString +
     "}"
   }
