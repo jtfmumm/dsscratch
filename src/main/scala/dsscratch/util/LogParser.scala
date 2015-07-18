@@ -1,6 +1,7 @@
 package dsscratch.util
 
 object LogParser {
+  //Causal order operators
   def <(l0: String, l1: String): Boolean = {
     if (getTime(l0) == getTime(l1))
       getId(l0) < getId(l1)
