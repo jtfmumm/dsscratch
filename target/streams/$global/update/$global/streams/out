@@ -1,202 +1,208 @@
-[0m[[0minfo[0m] [0mUpdating {file:/home/jtfmumm/Dropbox/Programming/scala/dsscratch/}root...[0m
-[0m[[0mdebug[0m] [0m:: resolving dependencies :: com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0[0m
-[0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
-[0m[[0mdebug[0m] [0m	validate = true[0m
-[0m[[0mdebug[0m] [0m	refresh = false[0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'compile'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.10.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@55ea320f[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.10.4[0m
-[0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.10.4 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m	[2.10.4] org.scala-lang#scala-library;2.10.4[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0minfo[0m] [0mResolving com.jtfmumm#randomific_2.10;0.1.1 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.jtfmumm#randomific_2.10;0.1.1 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.jtfmumm#randomific_2.10;0.1.1[0m
-[0m[[0mdebug[0m] [0m	found com.jtfmumm#randomific_2.10;0.1.1 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'runtime'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'test'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'provided'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'optional'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'compile-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'runtime-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'test-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'plugin'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [plugin][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'sources'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [sources][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'docs'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [docs][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'pom'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [pom][0m
-[0m[[0mdebug[0m] [0mresolving dependencies for configuration 'scala-tool'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [scala-tool][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->default][0m
-[0m[[0minfo[0m] [0mResolving org.scala-lang#scala-compiler;2.10.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scala-lang#scala-compiler;2.10.4 {scala-tool=[default, optional(default)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-compiler;2.10.4[0m
-[0m[[0mdebug[0m] [0m	found org.scala-lang#scala-compiler;2.10.4 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->default][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->optional(default)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->master(*)][0m
-[0m[[0minfo[0m] [0mResolving org.scala-lang#scala-reflect;2.10.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scala-lang#scala-reflect;2.10.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.10.4[0m
-[0m[[0mdebug[0m] [0m	found org.scala-lang#scala-reflect;2.10.4 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m	[2.10.4] org.scala-lang#scala-reflect;2.10.4[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [runtime->runtime(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->optional(default)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#jline;2.10.4 [optional->master(*)][0m
-[0m[[0minfo[0m] [0mResolving org.scala-lang#jline;2.10.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scala-lang#jline;2.10.4 {optional=[compile(*), master(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#jline;2.10.4[0m
-[0m[[0mdebug[0m] [0m	found org.scala-lang#jline;2.10.4 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#jline;2.10.4 [optional->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#jline;2.10.4->org.fusesource.jansi#jansi;1.4 [compile->master(*)][0m
-[0m[[0minfo[0m] [0mResolving org.fusesource.jansi#jansi;1.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.fusesource.jansi#jansi;1.4[0m
-[0m[[0mdebug[0m] [0m	found org.fusesource.jansi#jansi;1.4 in sbt-chain[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#jline;2.10.4->org.fusesource.jansi#jansi;1.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->default][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->optional(default)][0m
-[0m[[0mdebug[0m] [0m	resolved ivy file produced in cache[0m
-[0m[[0mdebug[0m] [0m:: downloading artifacts ::[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-library;2.10.4!scala-library.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.jtfmumm#randomific_2.10;0.1.1!randomific_2.10.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-compiler;2.10.4!scala-compiler.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.10.4!scala-reflect.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#jline;2.10.4!jline.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 60ms :: artifacts dl 4ms[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 compile produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-compile.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 runtime produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-runtime.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 test produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-test.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 provided produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-provided.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 optional produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-optional.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 compile-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-compile-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 runtime-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-runtime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 test-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-test-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 plugin produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-plugin.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 sources produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-sources.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 docs produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-docs.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 pom produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-pom.xml[0m
-[0m[[0mdebug[0m] [0m	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 scala-tool produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (60ms resolve - 4ms download)[0m
-[0m[[0minfo[0m] [0mDone updating.[0m
+[info] Updating {file:/home/jtfmumm/Dropbox/Programming/scala/dsscratch/}root...
+[debug] :: resolving dependencies :: com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0
+[debug] 	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool]
+[debug] 	validate = true
+[debug] 	refresh = false
+[debug] resolving dependencies for configuration 'compile'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[info] Resolving org.scala-lang#scala-library;2.10.4 ...
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5593f6f0
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.10.4
+[debug] 	local: revision in cache: org.scala-lang#scala-library;2.10.4
+[debug] 	found org.scala-lang#scala-library;2.10.4 in sbt-chain
+[debug] 	[2.10.4] org.scala-lang#scala-library;2.10.4
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[info] Resolving com.jtfmumm#randomific_2.10;0.1.1 ...
+[debug] sbt-chain: Checking cache for: dependency: com.jtfmumm#randomific_2.10;0.1.1 {compile=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: com.jtfmumm#randomific_2.10;0.1.1
+[debug] 	local: revision in cache: com.jtfmumm#randomific_2.10;0.1.1
+[debug] 	found com.jtfmumm#randomific_2.10;0.1.1 in sbt-chain
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] resolving dependencies for configuration 'runtime'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] resolving dependencies for configuration 'test'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] resolving dependencies for configuration 'provided'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided]
+[debug] resolving dependencies for configuration 'optional'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional]
+[debug] resolving dependencies for configuration 'compile-internal'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile-internal]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided]
+[debug] resolving dependencies for configuration 'runtime-internal'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime-internal]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional]
+[debug] resolving dependencies for configuration 'test-internal'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test-internal]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [test]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [runtime]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->compile]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [compile->master(compile)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies com.jtfmumm#randomific_2.10;0.1.1->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->com.jtfmumm#randomific_2.10;0.1.1 [compile->master]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [optional]
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [provided]
+[debug] resolving dependencies for configuration 'plugin'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [plugin]
+[debug] resolving dependencies for configuration 'sources'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [sources]
+[debug] resolving dependencies for configuration 'docs'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [docs]
+[debug] resolving dependencies for configuration 'pom'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [pom]
+[debug] resolving dependencies for configuration 'scala-tool'
+[debug] == resolving dependencies for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 [scala-tool]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->default]
+[info] Resolving org.scala-lang#scala-compiler;2.10.4 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-compiler;2.10.4 {scala-tool=[default, optional(default)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-compiler;2.10.4
+[debug] 	local: revision in cache: org.scala-lang#scala-compiler;2.10.4
+[debug] 	found org.scala-lang#scala-compiler;2.10.4 in sbt-chain
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->compile]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->default]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->runtime]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->optional(default)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->master(*)]
+[info] Resolving org.scala-lang#scala-reflect;2.10.4 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-reflect;2.10.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.10.4
+[debug] 	local: revision in cache: org.scala-lang#scala-reflect;2.10.4
+[debug] 	found org.scala-lang#scala-reflect;2.10.4 in sbt-chain
+[debug] 	[2.10.4] org.scala-lang#scala-reflect;2.10.4
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->master(*)]
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [compile->compile(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->runtime(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [compile->compile]
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-library;2.10.4 [runtime->compile]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [runtime->runtime(*)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#scala-reflect;2.10.4 [runtime->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-compiler;2.10.4 [scala-tool->optional(default)]
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#jline;2.10.4 [optional->master(*)]
+[info] Resolving org.scala-lang#jline;2.10.4 ...
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#jline;2.10.4 {optional=[compile(*), master(*)]}
+[debug] sbt-chain: module revision found in cache: org.scala-lang#jline;2.10.4
+[debug] 	local: revision in cache: org.scala-lang#jline;2.10.4
+[debug] 	found org.scala-lang#jline;2.10.4 in sbt-chain
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.10.4->org.scala-lang#jline;2.10.4 [optional->compile(*)]
+[debug] == resolving dependencies org.scala-lang#jline;2.10.4->org.fusesource.jansi#jansi;1.4 [compile->master(*)]
+[info] Resolving org.fusesource.jansi#jansi;1.4 ...
+[debug] sbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.4 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] sbt-chain: module revision found in cache: org.fusesource.jansi#jansi;1.4
+[debug] 	local: revision in cache: org.fusesource.jansi#jansi;1.4
+[debug] 	found org.fusesource.jansi#jansi;1.4 in sbt-chain
+[debug] == resolving dependencies org.scala-lang#jline;2.10.4->org.fusesource.jansi#jansi;1.4 [compile->compile(*)]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->default]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->runtime]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->compile]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->master]
+[debug] == resolving dependencies com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0->org.scala-lang#scala-library;2.10.4 [scala-tool->optional(default)]
+[debug] 	resolved ivy file produced in cache
+[debug] :: downloading artifacts ::
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.10.4!scala-library.jar
+[debug] 	[NOT REQUIRED] com.jtfmumm#randomific_2.10;0.1.1!randomific_2.10.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.10.4!scala-compiler.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.10.4!scala-reflect.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#jline;2.10.4!jline.jar
+[debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar
+[debug] :: resolution report :: resolve 59ms :: artifacts dl 3ms
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 compile produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-compile.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 runtime produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-runtime.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 test produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-test.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 provided produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-provided.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 optional produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-optional.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 compile-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-compile-internal.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 runtime-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-runtime-internal.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 test-internal produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-test-internal.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 plugin produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-plugin.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 sources produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-sources.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 docs produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-docs.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 pom produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-pom.xml
+[debug] 	report for com.jtfmumm#distributed-systems-scratchpad_2.10;0.1.0 scala-tool produced in /home/jtfmumm/Dropbox/Programming/scala/dsscratch/target/resolution-cache/reports/com.jtfmumm-distributed-systems-scratchpad_2.10-scala-tool.xml
+[debug] 	resolve done (59ms resolve - 3ms download)
+[info] Done updating.

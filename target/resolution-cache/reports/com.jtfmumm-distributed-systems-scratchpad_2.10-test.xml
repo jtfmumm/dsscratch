@@ -7,7 +7,7 @@
 		revision="0.1.0"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20150715161143"/>
+		date="20150717024706"/>
 	<dependencies>
 		<module organisation="com.jtfmumm" name="randomific_2.10">
 			<revision name="0.1.1" status="release" pubdate="20150715152620" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/jtfmumm/randomific" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="1">

@@ -9,10 +9,10 @@
 		extra-scalaVersion="2.10"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20150715161140"/>
+		date="20150717024702"/>
 	<dependencies>
-		<module organisation="org.scala-sbt" name="global-plugins">
-			<revision name="0.0" status="integration" pubdate="20150715161139" resolver="inter-project" artresolver="inter-project" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="0">
+		<module organisation="default" name="global-plugins">
+			<revision name="0.0" status="integration" pubdate="20150717024700" resolver="inter-project" artresolver="inter-project" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="0">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="default" name="dsscratch-build" conf="test, compile, runtime" rev="0.0" rev-constraint-default="0.0" rev-constraint-dynamic="0.0" callerrev="0.1-SNAPSHOT" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
 				<artifacts>
@@ -23,7 +23,7 @@
 			<revision name="0.5.0" status="release" pubdate="20150504112004" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/xerial/sbt-sonatype" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="11">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3331" time="0" location="/home/jtfmumm/.ivy2/cache/scala_2.10/sbt_0.13/org.xerial.sbt/sbt-sonatype/ivy-0.5.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/xerial/sbt/sbt-sonatype_2.10_0.13/0.5.0/sbt-sonatype-0.5.0.pom"/>
-				<caller organisation="org.scala-sbt" name="global-plugins" conf="compile" rev="0.5.0" rev-constraint-default="0.5.0" rev-constraint-dynamic="0.5.0" callerrev="0.0" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<caller organisation="default" name="global-plugins" conf="compile" rev="0.5.0" rev-constraint-default="0.5.0" rev-constraint-dynamic="0.5.0" callerrev="0.0" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
 				<artifacts>
 					<artifact name="sbt-sonatype" type="jar" ext="jar" status="no" details="" size="164349" time="0" location="/home/jtfmumm/.ivy2/cache/scala_2.10/sbt_0.13/org.xerial.sbt/sbt-sonatype/jars/sbt-sonatype-0.5.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/xerial/sbt/sbt-sonatype_2.10_0.13/0.5.0/sbt-sonatype-0.5.0.jar"/>
@@ -93,7 +93,7 @@
 		<module organisation="com.jsuereth" name="sbt-pgp">
 			<revision name="1.0.0" status="release" pubdate="20141101190304" resolver="sbt-chain" artresolver="sbt-chain" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="1">
 				<metadata-artifact status="no" details="" size="1885" time="0" location="/home/jtfmumm/.ivy2/cache/scala_2.10/sbt_0.13/com.jsuereth/sbt-pgp/ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.jsuereth/sbt-pgp/scala_2.10/sbt_0.13/1.0.0/ivys/ivy.xml"/>
-				<caller organisation="org.scala-sbt" name="global-plugins" conf="compile" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="0.0" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<caller organisation="default" name="global-plugins" conf="compile" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="0.0" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
 				<artifacts>
 					<artifact name="sbt-pgp" type="jar" ext="jar" status="no" details="" size="272544" time="0" location="/home/jtfmumm/.ivy2/cache/scala_2.10/sbt_0.13/com.jsuereth/sbt-pgp/jars/sbt-pgp-1.0.0.jar">
 						<origin-location is-local="false" location="https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.jsuereth/sbt-pgp/scala_2.10/sbt_0.13/1.0.0/jars/sbt-pgp.jar"/>
