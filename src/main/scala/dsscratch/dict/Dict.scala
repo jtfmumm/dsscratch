@@ -1,5 +1,6 @@
 package dsscratch.dict
 
+import dsscratch.clocks.Count
 import dsscratch.components._
 import scala.collection.mutable.{Map => mMap}
 import scala.collection.mutable.Queue

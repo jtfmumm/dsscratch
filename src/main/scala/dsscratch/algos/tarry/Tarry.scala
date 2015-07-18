@@ -1,6 +1,7 @@
 package dsscratch.algos.tarry
 
 import dsscratch.components._
+import dsscratch.clocks._
 import randomific.Rand
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
@@ -18,20 +19,20 @@ case class ProcessToken(t: Token, ch: Channel) extends Command
 
 
 case class TNode(id: Int) extends Process {
+  val clock = LogicalClock()
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
   var log = Log()
-  log.write(this)
+  log.write(this + " log")
 
   var parent: Process = EmptyProcess()
   var parentCh: Channel = Channel.empty
   var nonParentChsToSend = ArrayBuffer[Channel]()
 
   def recv(m: Message): Unit = {
-    println(this + " is receiving from " + m.sender)
     m.cmd match {
-      case ProcessToken(t, ch) => processToken(t, ch, m.sender)
+      case ProcessToken(t, ch) => processToken(t, ch, m.sender, m.ts)
       case _ =>
     }
   }
@@ -72,7 +73,6 @@ case class TNode(id: Int) extends Process {
     tokens.enqueue(t)
     log.write("Initiator: No Parent")
     nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
-    println(this + " is initiating with " + t)
     val firstCh: Channel = Rand.pickItem(chs)
     val cmd = ProcessToken(t, firstCh)
     firstCh.recv(Message(cmd, this))
@@ -81,24 +81,25 @@ case class TNode(id: Int) extends Process {
     nonParentChsToSend.remove(firstChIndex)
   }
 
+  override def toString: String = "TNode " + id
+
   private def hasNoParent: Boolean = parentCh == Channel.empty
 
   private def sendToken(ch: Channel) = {
-    log.write(ch)
     val pt = ProcessToken(tokens.last, ch)
-    ch.recv(Message(pt, this))
+    val msg = Message(pt, this, clock.stamp())
+    log.write(ch + ", " + msg.ts)
+    ch.recv(msg)
   }
 
-  private def processToken(t: Token, ch: Channel, sender: Process): Unit = {
-    println("Processing")
+  private def processToken(t: Token, ch: Channel, sender: Process, ts: TimeStamp): Unit = {
+    clock.compareAndUpdate(ts)
     if (tokens.isEmpty && parentCh == Channel.empty && finishedTokens.isEmpty) {
       parent = sender
-      log.write("Parent: " + parent)
+      log.write("Parent: " + parent + ", " + ts)
       parentCh = chs.filter(_.hasTarget(sender))(0)
       nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
       tokens.enqueue(t)
-      println("I am " + this)
-      println("My parent is " + parentCh)
     }
   }
 
@@ -115,7 +116,6 @@ object Tarry {
   def runFor(nodeCount: Int, density: Double) = {
     assert(density >= 0 && density <= 1)
     val nodes = (1 to nodeCount).map(x => TNode(x))
-    println("Initial nodes: " + nodes)
 
     val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //Rule out self connections
     val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
@@ -127,7 +127,7 @@ object Tarry {
     topology.nodes(0).initiate(Token(1))
     println("*******TOPOLOGY*********")
     println(topology.nodes)
-    println(topology.chs)
+    for (ch <- topology.chs) println(ch)
     println("************************")
     while (topology.nodes.exists(nd => nd.finishedTokens.isEmpty)) {
       for (nd <- topology.nodes) nd.step()

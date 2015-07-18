@@ -83,7 +83,6 @@ object Topology {
     val l: Topology[P] = line(shuffled) //Ensures connected path
     val chs = ArrayBuffer(l.chs: _*)
     val pairs = cProductNoSelfPairs(l.nodes)
-    println(pairs)
 
     val extraEdges = Rand.pickKItems(k, pairs)
 
