@@ -7,11 +7,13 @@ import scala.collection.mutable.ArrayBuffer
 case class Topology[P](nodes: Seq[P], chs: Seq[Channel])
 
 object Topology {
-  def createTwoChannel(p0: Process, p1: Process, chs: ArrayBuffer[Channel]): Unit = {
-    val newCh = TwoChannel(p0, p1)
-    p0.addChannel(newCh)
-    p1.addChannel(newCh)
-    chs.append(newCh)
+  def createTwoWayChannel(p0: Process, p1: Process, chs: ArrayBuffer[Channel]): Unit = {
+    val newCh0 = TwoChannel(p0, p1)
+    val newCh1 = TwoChannel(p1, p0)
+    p0.addChannel(newCh0)
+    p1.addChannel(newCh1)
+    chs.append(newCh0)
+    chs.append(newCh1)
   }
 
   def createMultiChannel(ps: Seq[Process], chs: ArrayBuffer[Channel]): Unit = {
@@ -22,7 +24,7 @@ object Topology {
 
   def star[P <: Process](center: P, others: Seq[P]): Topology[P] = {
     val chs = ArrayBuffer[Channel]()
-    for (nd <- others) createTwoChannel(center, nd, chs)
+    for (nd <- others) createTwoWayChannel(center, nd, chs)
 
     Topology(center +: others, chs)
   }
@@ -40,7 +42,7 @@ object Topology {
       case a if s.isEmpty => acc.reverse
       case b if b.tail.isEmpty => (b.head +: acc).reverse
       case c => {
-        createTwoChannel(s.head, s.tail.head, chs)
+        createTwoWayChannel(s.head, s.tail.head, chs)
         loop(s.tail, s.head +: acc)
       }
     }
@@ -56,7 +58,7 @@ object Topology {
     val chs: ArrayBuffer[Channel] = ArrayBuffer(l.chs: _*)
     val last: P = l.nodes.reverse.head
 
-    createTwoChannel(l.nodes.head, last, chs)
+    createTwoWayChannel(l.nodes.head, last, chs)
     Topology(l.nodes, chs)
   }
 
@@ -68,7 +70,7 @@ object Topology {
     val pairs = cProductNoSelfPairs(shuffled)
 
     for (e: (Process, Process) <- pairs) {
-      createTwoChannel(e._1, e._2, chs)
+      createTwoWayChannel(e._1, e._2, chs)
     }
 
     Topology(shuffled, chs)
@@ -86,21 +88,10 @@ object Topology {
     val extraEdges = Rand.pickKItems(k, pairs)
 
     for (e: (Process, Process) <- extraEdges) {
-      createTwoChannel(e._1, e._2, chs)
+      createTwoWayChannel(e._1, e._2, chs)
     }
 
-    val distinctChs = distinctTwoChs(chs)
-
-    Topology(l.nodes, distinctChs) //Some edges may have been chosen twice
-  }
-
-  private def distinctTwoChs(as: Seq[Channel]): Seq[Channel] = {
-    def loop(s: Seq[Channel], acc: Seq[Channel]): Seq[Channel] = s match {
-      case a if a.isEmpty => acc
-      case b if b.tail.isEmpty => acc
-      case c => if (!s.tail.exists(x => x is s.head)) loop(s.tail, s.head +: acc) else loop(s.tail, acc)
-    }
-    loop(as, Seq[Channel]())
+    Topology(l.nodes, chs) //Some edges may have been chosen twice
   }
 
   private def cProductNoSelfPairs(s: Seq[Process]): Seq[(Process, Process)] = {

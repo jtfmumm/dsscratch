@@ -24,13 +24,14 @@ case class TNode(id: Int) extends Process {
   var log = Log()
   log.write(this)
 
+  var parent: Process = EmptyProcess()
   var parentCh: Channel = Channel.empty
   var nonParentChsToSend = ArrayBuffer[Channel]()
 
   def recv(m: Message): Unit = {
     println(this + " is receiving from " + m.sender)
     m.cmd match {
-      case ProcessToken(t, ch) => processToken(t, ch)
+      case ProcessToken(t, ch) => processToken(t, ch, m.sender)
       case _ =>
     }
   }
@@ -69,12 +70,13 @@ case class TNode(id: Int) extends Process {
 
   def initiate(t: Token): Unit = {
     tokens.enqueue(t)
-    log.write(Channel.empty)
+    log.write("Initiator: No Parent")
     nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
     println(this + " is initiating with " + t)
     val firstCh: Channel = Rand.pickItem(chs)
     val cmd = ProcessToken(t, firstCh)
     firstCh.recv(Message(cmd, this))
+    log.write(firstCh)
     val firstChIndex = nonParentChsToSend.indexOf(firstCh)
     nonParentChsToSend.remove(firstChIndex)
   }
@@ -87,11 +89,12 @@ case class TNode(id: Int) extends Process {
     ch.recv(Message(pt, this))
   }
 
-  private def processToken(t: Token, ch: Channel): Unit = {
+  private def processToken(t: Token, ch: Channel, sender: Process): Unit = {
     println("Processing")
     if (tokens.isEmpty && parentCh == Channel.empty && finishedTokens.isEmpty) {
-      log.write(ch)
-      parentCh = ch
+      parent = sender
+      log.write("Parent: " + parent)
+      parentCh = chs.filter(_.hasTarget(sender))(0)
       nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
       tokens.enqueue(t)
       println("I am " + this)

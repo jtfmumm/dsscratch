@@ -3,11 +3,11 @@ package dsscratch.util
 import scala.collection.mutable.ArrayBuffer
 
 case class Log {
-  var data = ArrayBuffer[Any]()
+  var data = ArrayBuffer[String]()
   var curLine = 0
 
-  def write(a: Any) = data.append(a)
-  def readLine(): Any = {
+  def write(a: Any) = data.append((data.size + 1) + ": " + a.toString)
+  def readLine(): String = {
     if (curLine == data.size) {
       "EOF"
     } else {
@@ -20,7 +20,7 @@ case class Log {
     if (n > data.size) return
     curLine = n
   }
-  def readLines(): List[Any] = data.toList
+  def readLines(): List[String] = data.toList
 
   override def toString: String = {
     (for (l <- data) yield l.toString + "\n").mkString

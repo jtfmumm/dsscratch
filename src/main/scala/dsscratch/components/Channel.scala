@@ -5,14 +5,15 @@ import scala.collection.mutable.Queue
 trait Channel {
   def recv(m: Message): Unit
   def step(): Unit
-  def is(ch: Channel): Boolean
+  def hasTarget(p: Process): Boolean
+//  def is(ch: Channel): Boolean
 }
 
-case class TwoChannel(p0: Process, p1: Process) extends Channel {
+case class TwoChannel(p0: Process, p1: Process, id: Int = 0) extends Channel {
   val msgs = Queue[Message]()
 
   def recv(m: Message) = {
-    assert(m.sender == p0 || m.sender == p1)
+    assert(m.sender == p0, m.sender + " can't send over " + this)
     msgs.enqueue(m)
   }
 
@@ -21,27 +22,21 @@ case class TwoChannel(p0: Process, p1: Process) extends Channel {
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return
 
-    val nextM = msgs.dequeue()
-    nextM.sender match {
-      case a if a == p0 => p1.recv(nextM)
-      case b if b == p1 => p0.recv(nextM)
-    }
+    p1.recv(msgs.dequeue())
   }
 
-  def is(ch: Channel): Boolean = ch match {
-    case c: TwoChannel => {
-      (p0 == c.p0 && p1 == c.p1) ||
-        (p0 == c.p1 && p1 == c.p0)
-    }
-    case _ => false
+  def hasTarget(p: Process) = {
+    p1 == p
   }
+
+  override def toString: String = "Channel " + id + ": " + p0 + " -> " + p1
 }
 
-case class MultiChannel(ps: Seq[Process]) extends Channel {
+case class MultiChannel(ps: Seq[Process], id: Int = 0) extends Channel {
   val msgs = Queue[Message]()
 
   def recv(m: Message) = {
-    assert(ps.contains(m.sender))
+    assert(ps.contains(m.sender), m.sender + " can't send over " + this)
     msgs.enqueue(m)
   }
 
@@ -57,10 +52,14 @@ case class MultiChannel(ps: Seq[Process]) extends Channel {
     }
   }
 
+  def hasTarget(p: Process) = ps.contains(p)
+
   def is(ch: Channel): Boolean = ch match {
     case c: MultiChannel => ps.forall(x => c.ps.contains(x))
     case _ => false
   }
+
+  override def toString: String = "MultiChannel " + id + ": " + ps.mkString(", ")
 }
 
 object Channel {
