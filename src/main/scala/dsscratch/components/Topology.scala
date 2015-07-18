@@ -5,24 +5,25 @@ import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.util.Counter
 
-case class Topology[P](nodes: Seq[P], chs: Channels)
+case class Topology[P](nodes: Seq[P], chs: TwoChannels)
+case class MultiTopology[P](nodes: Seq[P], chs: MultiChannels)
 
 object Topology {
   val chIdGen = Counter()
   val procIdGen = Counter()
 
-  def createOneWayChannel(from: Process, to: Process, chs: Channels): Unit = {
+  def createOneWayChannel(from: Process, to: Process, chs: TwoChannels): Unit = {
     val newCh = TwoChannel(from, to, chIdGen.next())
     from.addChannel(newCh)
     chs.append(newCh)
   }
 
-  def createUniqueOneWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+  def createUniqueOneWayChannel(p0: Process, p1: Process, chs: TwoChannels): Unit = {
     if (chs.containsPath(p0, p1)) return
     createOneWayChannel(p0, p1, chs)
   }
 
-  def createTwoWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+  def createTwoWayChannel(p0: Process, p1: Process, chs: TwoChannels): Unit = {
     val newCh0 = TwoChannel(p0, p1, chIdGen.next())
     val newCh1 = TwoChannel(p1, p0, chIdGen.next())
     p0.addChannel(newCh0)
@@ -31,33 +32,33 @@ object Topology {
     chs.append(newCh1)
   }
 
-  def createUniqueTwoWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+  def createUniqueTwoWayChannel(p0: Process, p1: Process, chs: TwoChannels): Unit = {
     createUniqueOneWayChannel(p0, p1, chs)
     createUniqueOneWayChannel(p1, p0, chs)
   }
 
-  def createMultiChannel(ps: Seq[Process], chs: Channels): Unit = {
+  def createMultiChannel(ps: Seq[Process], chs: MultiChannels): Unit = {
     val newCh = MultiChannel(ps)
     for (p <- ps) p.addChannel(newCh)
     chs.append(newCh)
   }
 
   def star[P <: Process](center: P, others: Seq[P]): Topology[P] = {
-    val chs = Channels()
+    val chs = TwoChannels()
     for (nd <- others) createTwoWayChannel(center, nd, chs)
 
     Topology(center +: others, chs)
   }
 
-  def bus[P <: Process](nodes: Seq[P]): Topology[P] = {
-    val chs = Channels()
+  def bus[P <: Process](nodes: Seq[P]): MultiTopology[P] = {
+    val chs = MultiChannels()
     createMultiChannel(nodes, chs)
-    Topology(nodes, chs)
+    MultiTopology(nodes, chs)
   }
 
   def line[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val chs = Channels()
+    val chs = TwoChannels()
     def loop(s: Seq[P], acc: Seq[P]): Seq[P] = s match {
       case a if s.isEmpty => acc.reverse
       case b if b.tail.isEmpty => (b.head +: acc).reverse
@@ -75,7 +76,7 @@ object Topology {
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val l: Topology[P] = line(shuffled)
-    val chs: Channels = l.chs
+    val chs: TwoChannels = l.chs
     val last: P = l.nodes.reverse.head
 
     createTwoWayChannel(l.nodes.head, last, chs)
@@ -84,7 +85,7 @@ object Topology {
 
   def totallyConnected[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val chs = Channels()
+    val chs = TwoChannels()
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val pairs = cProductNoSelfPairs(shuffled)
@@ -101,16 +102,14 @@ object Topology {
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val l: Topology[P] = line(shuffled) //Ensures connected path
-    val chs: Channels = l.chs
+    val chs: TwoChannels = l.chs
     val pairs = unorderedPairsNoSelf(l.nodes)
 
     val extraEdges = Rand.pickKItems(k, pairs)
-    println("extraEdges: " + extraEdges)
 
     for (e: (Process, Process) <- extraEdges) {
       createUniqueTwoWayChannel(e._1, e._2, chs)
     }
-    println("channels: " + chs)
 
     Topology(l.nodes, chs) //Some edges may have been chosen twice
   }

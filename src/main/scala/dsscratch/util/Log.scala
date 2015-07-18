@@ -19,6 +19,13 @@ case class Log(data: ArrayBuffer[String] = ArrayBuffer[String]()) {
       line
     }
   }
+  def readLine(i: Int): String = {
+    if (data.size < i - 1) {
+      "EOF"
+    } else {
+      data(i)
+    }
+  }
   def seek(n: Int): Unit = {
     if (n > data.size) return
     curLine = n

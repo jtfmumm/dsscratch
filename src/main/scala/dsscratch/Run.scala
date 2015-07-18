@@ -4,6 +4,6 @@ import algos.tarry._
 
 object Run {
   def main(args: Array[String]) = {
-    Tarry.runFor(5, 0.5)
+    Tarry.runFor(10, 0.3)
   }
 }

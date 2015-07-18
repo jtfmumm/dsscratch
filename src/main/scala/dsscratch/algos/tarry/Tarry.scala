@@ -107,7 +107,7 @@ case class TNode(id: Int) extends Process {
     parentCh = Channel.empty
   }
 
-  override def toString: String = "TNode " + id
+  override def toString: String = "TNode" + id
 }
 
 object Tarry {
@@ -123,17 +123,22 @@ object Tarry {
     val topology: Topology[TNode] = Topology.connectedWithKMoreEdges(extras, nodes)
 
     topology.nodes(0).initiate(Token(1))
-    println("*******TOPOLOGY*********")
-    println(topology.nodes)
-    for (ch <- topology.chs) println(ch)
-    println("************************")
     while (topology.nodes.exists(nd => nd.finishedTokens.isEmpty)) {
       for (nd <- topology.nodes) nd.step()
       for (ch <- topology.chs) ch.step()
     }
+    //TRACE
+//    for (nd <- topology.nodes) {
+//      println("Next")
+//      println(nd.log)
+//    }
+    //PARENTS
+    println("*****PARENTS******")
     for (nd <- topology.nodes) {
-      println("Next")
-      println(nd.log)
+      println(nd.log.readLine(0))
+      println(nd.log.firstMatchFor("Parent"))
+      println("----")
     }
+    println(topology.chs.dotGraph)
   }
 }

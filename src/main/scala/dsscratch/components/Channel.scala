@@ -75,17 +75,42 @@ object Channel {
   val empty = TwoChannel(EmptyProcess(), EmptyProcess())
 }
 
-case class Channels(chs: ArrayBuffer[Channel] = ArrayBuffer[Channel]()) {
+case class TwoChannels(chs: ArrayBuffer[TwoChannel] = ArrayBuffer[TwoChannel]()) {
   def containsPath(p0: Process, p1: Process) = chs.exists(ch => ch.hasSource(p0) && ch.hasTarget(p1))
 
-  def append(ch: Channel) = chs.append(ch)
-  def remove(ch: Channel) = {
+  def append(ch: TwoChannel) = chs.append(ch)
+  def remove(ch: TwoChannel) = {
     val idx = chs.indexOf(ch)
     chs.remove(idx)
   }
 
-  def map[B](f: Channel => B): ArrayBuffer[B] = chs.map(f)
-  def flatMap[B](f: Channel => GenTraversableOnce[B]): ArrayBuffer[B] = chs.flatMap(f)
-  def filter[A](f: Channel => Boolean): ArrayBuffer[Channel] = chs.filter(f)
-  def foreach[A](f: Channel => Unit): Unit = chs.foreach(f)
+  def map[B](f: TwoChannel => B): ArrayBuffer[B] = chs.map(f)
+  def flatMap[B](f: TwoChannel => GenTraversableOnce[B]): ArrayBuffer[B] = chs.flatMap(f)
+  def filter[A](f: TwoChannel => Boolean): ArrayBuffer[TwoChannel] = chs.filter(f)
+  def foreach[A](f: TwoChannel => Unit): Unit = chs.foreach(f)
+
+  def dotGraph: String = {
+    "digraph G {\n" +
+    chs.map(ch => "  " + ch.p0 + " -> " + ch.p1 + ";\n").mkString +
+    "}"
+  }
+}
+
+case class MultiChannels(chs: ArrayBuffer[MultiChannel] = ArrayBuffer[MultiChannel]()) {
+  def containsPath(p0: Process, p1: Process) = chs.exists(ch => ch.hasSource(p0) && ch.hasTarget(p1))
+
+  def append(ch: MultiChannel) = chs.append(ch)
+  def remove(ch: MultiChannel) = {
+    val idx = chs.indexOf(ch)
+    chs.remove(idx)
+  }
+
+  def map[B](f: MultiChannel => B): ArrayBuffer[B] = chs.map(f)
+  def flatMap[B](f: MultiChannel => GenTraversableOnce[B]): ArrayBuffer[B] = chs.flatMap(f)
+  def filter[A](f: MultiChannel => Boolean): ArrayBuffer[MultiChannel] = chs.filter(f)
+  def foreach[A](f: MultiChannel => Unit): Unit = chs.foreach(f)
+
+  def dotGraph: String = {
+    "No dot graph available."
+  }
 }
