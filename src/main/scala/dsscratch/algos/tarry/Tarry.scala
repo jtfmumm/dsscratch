@@ -23,7 +23,7 @@ case class TNode(id: Int) extends Process {
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
-  var log = Log()
+  var log = Log(id)
   log.write(this + " log", clock.stamp())
 
   var parent: Process = EmptyProcess()
@@ -128,10 +128,10 @@ object Tarry {
       for (ch <- topology.chs) ch.step()
     }
     //TRACE
-//    for (nd <- topology.nodes) {
-//      println("Next")
-//      println(nd.log)
-//    }
+    for (nd <- topology.nodes) {
+      println("Next")
+      println(nd.log)
+    }
     //PARENTS
     println("*****PARENTS******")
     for (nd <- topology.nodes) {
