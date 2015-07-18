@@ -1,12 +1,13 @@
 package dsscratch.util
 
 import scala.collection.mutable.ArrayBuffer
+import dsscratch.clocks.{TimeStamp, EmptyTimeStamp}
 
 case class Log {
   var data = ArrayBuffer[String]()
   var curLine = 0
 
-  def write(a: Any) = data.append((data.size + 1) + ": " + a.toString)
+  def write(a: Any, ts: TimeStamp = EmptyTimeStamp()) = data.append(ts + ": " + a.toString)
   def readLine(): String = {
     if (curLine == data.size) {
       "EOF"

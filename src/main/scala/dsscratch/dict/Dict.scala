@@ -27,7 +27,7 @@ case class Delete(key: String) extends Command
 
 
 // PROCESSES
-case class DictNode extends Process {
+case class DictNode(id: Int = 0) extends Process {
   val chs = ArrayBuffer[Channel]()
   val data = new Dictionary()
   val msgs = Queue[Message]()

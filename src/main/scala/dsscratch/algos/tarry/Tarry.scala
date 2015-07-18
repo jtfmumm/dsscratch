@@ -15,7 +15,7 @@ import dsscratch.util.Log
 
 case class Token(id: Int)
 
-case class ProcessToken(t: Token, ch: Channel) extends Command
+case class ProcessToken(t: Token) extends Command
 
 
 case class TNode(id: Int) extends Process {
@@ -24,15 +24,17 @@ case class TNode(id: Int) extends Process {
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
   var log = Log()
-  log.write(this + " log")
+  log.write(this + " log", clock.stamp())
 
   var parent: Process = EmptyProcess()
   var parentCh: Channel = Channel.empty
   var nonParentChsToSend = ArrayBuffer[Channel]()
 
   def recv(m: Message): Unit = {
+    clock.compareAndUpdate(m.ts)
+    log.write("Receiving " + m, clock.stamp())
     m.cmd match {
-      case ProcessToken(t, ch) => processToken(t, ch, m.sender, m.ts)
+      case ProcessToken(t) => processToken(t, m.sender)
       case _ =>
     }
   }
@@ -71,45 +73,41 @@ case class TNode(id: Int) extends Process {
 
   def initiate(t: Token): Unit = {
     tokens.enqueue(t)
-    log.write("Initiator: No Parent")
+    log.write("Initiator: No Parent", clock.stamp())
     nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
     val firstCh: Channel = Rand.pickItem(chs)
-    val cmd = ProcessToken(t, firstCh)
-    firstCh.recv(Message(cmd, this))
-    log.write(firstCh)
+    val cmd = ProcessToken(t)
+    val msg = Message(cmd, this, clock.stamp())
+    log.write("Sending on " + firstCh, msg.ts)
+    firstCh.recv(msg)
     val firstChIndex = nonParentChsToSend.indexOf(firstCh)
     nonParentChsToSend.remove(firstChIndex)
   }
 
-  override def toString: String = "TNode " + id
-
   private def hasNoParent: Boolean = parentCh == Channel.empty
 
   private def sendToken(ch: Channel) = {
-    val pt = ProcessToken(tokens.last, ch)
+    val pt = ProcessToken(tokens.last)
     val msg = Message(pt, this, clock.stamp())
-    log.write(ch + ", " + msg.ts)
+    log.write("Sending on " + ch, msg.ts)
     ch.recv(msg)
   }
 
-  private def processToken(t: Token, ch: Channel, sender: Process, ts: TimeStamp): Unit = {
-    clock.compareAndUpdate(ts)
+  private def processToken(t: Token, sender: Process): Unit = {
     if (tokens.isEmpty && parentCh == Channel.empty && finishedTokens.isEmpty) {
       parent = sender
-      log.write("Parent: " + parent + ", " + ts)
+      log.write("Parent: " + parent, clock.stamp())
       parentCh = chs.filter(_.hasTarget(sender))(0)
       nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
       tokens.enqueue(t)
     }
   }
 
-  private def emptyChsToSend(): Unit = {
-    nonParentChsToSend = ArrayBuffer[Channel]()
-  }
-
   private def emptyParent(): Unit = {
     parentCh = Channel.empty
   }
+
+  override def toString: String = "TNode " + id
 }
 
 object Tarry {

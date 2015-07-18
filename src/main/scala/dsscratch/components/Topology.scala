@@ -3,46 +3,66 @@ package dsscratch.components
 import randomific.Rand
 import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
+import dsscratch.util.Counter
 
-case class Topology[P](nodes: Seq[P], chs: Seq[Channel])
+case class Topology[P](nodes: Seq[P], chs: Channels)
 
 object Topology {
-  def createTwoWayChannel(p0: Process, p1: Process, chs: ArrayBuffer[Channel]): Unit = {
-    val newCh0 = TwoChannel(p0, p1)
-    val newCh1 = TwoChannel(p1, p0)
+  val chIdGen = Counter()
+  val procIdGen = Counter()
+
+  def createOneWayChannel(from: Process, to: Process, chs: Channels): Unit = {
+    val newCh = TwoChannel(from, to, chIdGen.next())
+    from.addChannel(newCh)
+    chs.append(newCh)
+  }
+
+  def createUniqueOneWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+    if (chs.containsPath(p0, p1)) return
+    createOneWayChannel(p0, p1, chs)
+  }
+
+  def createTwoWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+    val newCh0 = TwoChannel(p0, p1, chIdGen.next())
+    val newCh1 = TwoChannel(p1, p0, chIdGen.next())
     p0.addChannel(newCh0)
     p1.addChannel(newCh1)
     chs.append(newCh0)
     chs.append(newCh1)
   }
 
-  def createMultiChannel(ps: Seq[Process], chs: ArrayBuffer[Channel]): Unit = {
+  def createUniqueTwoWayChannel(p0: Process, p1: Process, chs: Channels): Unit = {
+    createUniqueOneWayChannel(p0, p1, chs)
+    createUniqueOneWayChannel(p1, p0, chs)
+  }
+
+  def createMultiChannel(ps: Seq[Process], chs: Channels): Unit = {
     val newCh = MultiChannel(ps)
     for (p <- ps) p.addChannel(newCh)
     chs.append(newCh)
   }
 
   def star[P <: Process](center: P, others: Seq[P]): Topology[P] = {
-    val chs = ArrayBuffer[Channel]()
+    val chs = Channels()
     for (nd <- others) createTwoWayChannel(center, nd, chs)
 
     Topology(center +: others, chs)
   }
 
   def bus[P <: Process](nodes: Seq[P]): Topology[P] = {
-    val chs = ArrayBuffer[Channel]()
+    val chs = Channels()
     createMultiChannel(nodes, chs)
     Topology(nodes, chs)
   }
 
   def line[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val chs = ArrayBuffer[Channel]()
+    val chs = Channels()
     def loop(s: Seq[P], acc: Seq[P]): Seq[P] = s match {
       case a if s.isEmpty => acc.reverse
       case b if b.tail.isEmpty => (b.head +: acc).reverse
       case c => {
-        createTwoWayChannel(s.head, s.tail.head, chs)
+        createUniqueTwoWayChannel(s.head, s.tail.head, chs)
         loop(s.tail, s.head +: acc)
       }
     }
@@ -55,7 +75,7 @@ object Topology {
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val l: Topology[P] = line(shuffled)
-    val chs: ArrayBuffer[Channel] = ArrayBuffer(l.chs: _*)
+    val chs: Channels = l.chs
     val last: P = l.nodes.reverse.head
 
     createTwoWayChannel(l.nodes.head, last, chs)
@@ -64,13 +84,13 @@ object Topology {
 
   def totallyConnected[P <: Process](nodes: Seq[P]): Topology[P] = {
     assert(nodes.size > 1)
-    val chs = ArrayBuffer[Channel]()
+    val chs = Channels()
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val pairs = cProductNoSelfPairs(shuffled)
 
     for (e: (Process, Process) <- pairs) {
-      createTwoWayChannel(e._1, e._2, chs)
+      createUniqueOneWayChannel(e._1, e._2, chs)
     }
 
     Topology(shuffled, chs)
@@ -81,14 +101,16 @@ object Topology {
     val shuffled: Seq[P] = Random.shuffle(nodes)
 
     val l: Topology[P] = line(shuffled) //Ensures connected path
-    val chs = ArrayBuffer(l.chs: _*)
-    val pairs = cProductNoSelfPairs(l.nodes)
+    val chs: Channels = l.chs
+    val pairs = unorderedPairsNoSelf(l.nodes)
 
     val extraEdges = Rand.pickKItems(k, pairs)
+    println("extraEdges: " + extraEdges)
 
     for (e: (Process, Process) <- extraEdges) {
-      createTwoWayChannel(e._1, e._2, chs)
+      createUniqueTwoWayChannel(e._1, e._2, chs)
     }
+    println("channels: " + chs)
 
     Topology(l.nodes, chs) //Some edges may have been chosen twice
   }
@@ -98,6 +120,15 @@ object Topology {
       x: Process <- s;
       y: Process <- s
     ) yield (x, y)).filter(pair => pair._1 != pair._2)
+  }
+
+  private def unorderedPairsNoSelf(s: Seq[Process]): Seq[(Process, Process)] = {
+    (for (
+      x: Process <- s;
+      y: Process <- s
+    ) yield {
+      if (x > y) (y, x) else (x, y)
+    }).filter(pair => pair._1 != pair._2).distinct
   }
 
 }
