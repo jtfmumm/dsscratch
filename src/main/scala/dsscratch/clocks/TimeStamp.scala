@@ -43,10 +43,22 @@ case class Vec(vec: Map[Int, Int], id: Int = -1) extends TimeStamp {
     case _ => false
   }
 
-  def >(other: Vec): Boolean = vec.keys == other.vec.keys && vec.forall(pair => pair._2 > other.vec(pair._1))
-  def >=(other: Vec): Boolean = vec.keys == other.vec.keys && vec.forall(pair => pair._2 >= other.vec(pair._1))
-  def <(other: Vec): Boolean = vec.keys == other.vec.keys && vec.forall(pair => pair._2 < other.vec(pair._1))
-  def <=(other: Vec): Boolean = vec.keys == other.vec.keys && vec.forall(pair => pair._2 <= other.vec(pair._1))
+  def >(other: Vec): Boolean = {
+    (other.vec.keys.toSet subsetOf vec.keys.toSet) &&
+      vec.forall(pair => pair._2 > other.vec.getOrElse(pair._1, -1))
+  }
+  def >=(other: Vec): Boolean = {
+    (other.vec.keys.toSet subsetOf vec.keys.toSet) &&
+      vec.forall(pair => pair._2 >= other.vec.getOrElse(pair._1, -1))
+  }
+  def <(other: Vec): Boolean = {
+    (vec.keys.toSet subsetOf other.vec.keys.toSet) &&
+      vec.forall(pair => pair._2 < other.vec(pair._1))
+  }
+  def <=(other: Vec): Boolean = {
+    (vec.keys.toSet subsetOf other.vec.keys.toSet) &&
+      vec.forall(pair => pair._2 <= other.vec(pair._1))
+  }
 
   def isCausallyRelatedTo(other: Vec): Boolean = this >= other || this <= other
   def isConcurrentWith(other: Vec): Boolean = !isCausallyRelatedTo(other)

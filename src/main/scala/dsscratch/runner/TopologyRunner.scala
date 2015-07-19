@@ -19,6 +19,6 @@ case class TopologyRunner[P <: Steppable](t: Topology[P], endCondition: () => Bo
 
   def step(): Unit = {
     val shuffled = Random.shuffle(steppables)
-    for (x <- steppables) x.step()
+    for (x <- shuffled) x.step()
   }
 }
