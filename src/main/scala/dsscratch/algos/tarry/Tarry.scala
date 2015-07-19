@@ -6,6 +6,7 @@ import randomific.Rand
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.util.Log
+import dsscratch.draw.DotGraph
 
 //Tarry's algorithm
 //Kicked off by one initiator
@@ -140,7 +141,7 @@ object Tarry {
       println("----")
     }
     println("//NETWORK")
-    println(topology.chs.dotGraph)
+    println(DotGraph.draw(topology.chs))
     //Spanning tree
     println("//SPANNING TREE")
     println(

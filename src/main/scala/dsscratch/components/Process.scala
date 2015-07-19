@@ -17,7 +17,7 @@ trait Process {
 }
 
 case class EmptyProcess extends Process {
-  val id = -1
+  val id = 0
   val chs = List[Channel]()
   def recv(m: Message): Unit = {}
   def step(): Unit = {}
