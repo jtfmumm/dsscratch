@@ -19,11 +19,11 @@ case class ProcessToken(t: Token) extends Command
 
 
 case class TNode(id: Int) extends Process {
-  val clock = LogicalClock()
+  val clock = LogicalClock(id)
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
-  var log = Log(id)
+  var log = Log()
   log.write(this + " log", clock.stamp())
 
   var parent: Process = EmptyProcess()

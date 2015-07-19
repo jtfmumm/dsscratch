@@ -1,6 +1,6 @@
 package dsscratch.dict
 
-import dsscratch.clocks.Count
+import dsscratch.clocks.TS
 import dsscratch.components._
 import scala.collection.mutable.{Map => mMap}
 import scala.collection.mutable.Queue
@@ -58,5 +58,5 @@ case class DictNode(id: Int = 0) extends Process {
     chs.remove(i)
   }
 
-  private def tStamp: Count = Count(0)
+  private def tStamp: TS = TS(0, id)
 }
