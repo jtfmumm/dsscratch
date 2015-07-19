@@ -6,6 +6,7 @@ import randomific.Rand
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.util.Log
+import dsscratch.runner.TopologyRunner
 import dsscratch.draw.DotGraph
 
 //Tarry's algorithm
@@ -19,11 +20,12 @@ case class Token(id: Int)
 case class ProcessToken(t: Token) extends Command
 
 
-case class TNode(id: Int) extends Process {
+case class TNode(id: Int, initiator: Boolean = false) extends Process {
   val clock = LogicalClock(id)
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
+  var initiated = false
   var log = Log()
   log.write(this + " log", clock.stamp())
 
@@ -41,6 +43,7 @@ case class TNode(id: Int) extends Process {
   }
 
   def step(): Unit = {
+    if (initiator && !initiated) initiate()
     if (tokens.isEmpty && finishedTokens.isEmpty) return
     nonParentChsToSend.size match {
       case 0 if hasNoParent && tokens.nonEmpty => {
@@ -72,7 +75,8 @@ case class TNode(id: Int) extends Process {
     chs.remove(i)
   }
 
-  def initiate(t: Token): Unit = {
+  def initiate(): Unit = {
+    val t = Token(id)
     tokens.enqueue(t)
     log.write("Initiator: No Parent", clock.stamp())
     nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
@@ -83,6 +87,7 @@ case class TNode(id: Int) extends Process {
     firstCh.recv(msg)
     val firstChIndex = nonParentChsToSend.indexOf(firstCh)
     nonParentChsToSend.remove(firstChIndex)
+    initiated = true
   }
 
   private def hasNoParent: Boolean = parentCh == Channel.empty
@@ -113,8 +118,11 @@ case class TNode(id: Int) extends Process {
 
 object Tarry {
   def runFor(nodeCount: Int, density: Double) = {
+
     assert(density >= 0 && density <= 1)
-    val nodes = (1 to nodeCount).map(x => TNode(x))
+    val initiator = TNode(1, initiator = true)
+    val nonInitiators = (2 to nodeCount).map(x => TNode(x))
+    val nodes = Seq(initiator) ++ nonInitiators
 
     val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //Rule out self connections
     val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
@@ -123,11 +131,10 @@ object Tarry {
 
     val topology: Topology[TNode] = Topology.connectedWithKMoreEdges(extras, nodes)
 
-    topology.nodes(0).initiate(Token(1))
-    while (topology.nodes.exists(nd => nd.finishedTokens.isEmpty)) {
-      for (nd <- topology.nodes) nd.step()
-      for (ch <- topology.chs) ch.step()
-    }
+    def endCondition: Boolean = topology.nodes.forall(nd => nd.finishedTokens.nonEmpty)
+
+    TopologyRunner(topology, endCondition _).run()
+
     //TRACE
     for (nd <- topology.nodes) {
       println("Next")

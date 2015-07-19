@@ -2,9 +2,8 @@ package dsscratch.components
 
 import scala.collection.mutable.Queue
 
-trait Channel {
+trait Channel extends Steppable {
   def recv(m: Message): Unit
-  def step(): Unit
   def hasSource(p: Process): Boolean
   def hasTarget(p: Process): Boolean
   def containsPath(p0: Process, p1: Process) = hasSource(p0) && hasTarget(p1)

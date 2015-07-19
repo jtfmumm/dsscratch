@@ -58,5 +58,7 @@ case class DictNode(id: Int = 0) extends Process {
     chs.remove(i)
   }
 
+  def initiate(): Unit = {}
+
   private def tStamp: TS = TS(0, id)
 }
