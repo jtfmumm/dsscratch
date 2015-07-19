@@ -21,7 +21,7 @@ case class ProcessToken(t: Token) extends Command
 
 
 case class TNode(id: Int, initiator: Boolean = false) extends Process {
-  val clock = LamportClock(id)
+  val clock = DynamicVectorClock(id)
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
