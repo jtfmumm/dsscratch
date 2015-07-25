@@ -20,11 +20,9 @@ import dsscratch.draw.DotGraph
 //4) A process terminates when it has received control messages over all channels and has sent
 //   control messages over all channels.
 
-case class Token(id: Int)
-
 case class TakeSnapshot(snapshotId: Int) extends Command
 
-case class TNode(id: Int, initiator: Boolean = false) extends Process {
+case class CLNode(id: Int, initiator: Boolean = false) extends Process {
   val clock = LamportClock(id)
   var initiated = false
   val chs = ArrayBuffer[Channel]()
@@ -121,7 +119,7 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
   override def toString: String = "TNode" + id
 }
 
-object Tarry {
+object ChandyLamport {
   def runFor(nodeCount: Int, density: Double) = {
 
     assert(density >= 0 && density <= 1)

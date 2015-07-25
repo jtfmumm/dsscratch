@@ -44,6 +44,7 @@ case class FDeque[A](leading: List[A], trailing: List[A]) {
       case _ => throw new RuntimeException("Empty deque has no last element!")
     }
   }
+  def size: Int = leading.size + trailing.size
   def tail(): FDeque[A] = {
     val clean = cleaned
     FDeque(clean.leading.tail, clean.trailing)
@@ -56,23 +57,27 @@ object FDeque {
 class MutableDeque[A](l: List[A], t: List[A]) {
   var leading = l
   var trailing = t
-  private def clean(): Unit = if (leading.isEmpty) {
+  private def cleanFromFirst(): Unit = if (leading.isEmpty) {
     leading = trailing.reverse
     trailing = List.empty[A]
   }
+  private def cleanFromLast(): Unit = if (trailing.isEmpty) {
+    trailing = leading.reverse
+    leading = List.empty[A]
+  }
   def isEmpty(): Boolean = leading.isEmpty && trailing.isEmpty
   def prepend(a: A): MutableDeque[A] = {
-    clean()
+    cleanFromLast()
     leading = a::leading
     this
   }
   def append(a: A): MutableDeque[A] = {
-    clean()
+    cleanFromFirst()
     trailing = a::trailing
     this
   }
   def pop(): A = {
-    clean()
+    cleanFromFirst()
     leading match {
       case h::t => {
         leading = leading.tail
@@ -82,7 +87,7 @@ class MutableDeque[A](l: List[A], t: List[A]) {
     }
   }
   def shift(): A = {
-    clean()
+    cleanFromLast()
     trailing match {
       case h::t => {
         trailing = trailing.tail
@@ -98,27 +103,29 @@ class MutableDeque[A](l: List[A], t: List[A]) {
     }
   }
   def peekFirst(): A = {
-    clean()
+    cleanFromFirst()
     leading match {
       case h::t => h
       case _ => throw new RuntimeException("Empty deque has no first element!")
     }
   }
   def peekLast(): A = {
-    clean()
+    cleanFromLast()
     trailing match {
       case h::t => h
       case _ => throw new RuntimeException("Empty deque has no last element!")
     }
   }
+  def size: Int = leading.size + trailing.size
   def tail(): MutableDeque[A] = {
-    clean()
+    cleanFromFirst()
     new MutableDeque(leading.tail, trailing)
   }
 
   override def toString: String = "Leading: " + leading + ", " + "Trailing: " + trailing
 }
 object MutableDeque {
-  def apply[B](l: List[B], t: List[B]) = new MutableDeque[B](l, t)
-  def empty[B](): MutableDeque[B] = MutableDeque(List.empty[B], List.empty[B])
+  def apply[B](): MutableDeque[B] = new MutableDeque[B](List.empty[B], List.empty[B])
+  def apply[B](l: List[B], t: List[B]): MutableDeque[B] = new MutableDeque[B](l, t)
+  def empty[B](): MutableDeque[B] = MutableDeque()
 }
