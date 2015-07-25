@@ -5,7 +5,6 @@ import dsscratch.clocks.{TimeStamp, EmptyTimeStamp}
 
 import scala.util.matching.Regex
 
-
 case class Log(data: ArrayBuffer[String] = ArrayBuffer[String]()) {
   var curLine = 0
 

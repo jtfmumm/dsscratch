@@ -1,0 +1,11 @@
+digraph H {
+  TNode1 -> TNode10;
+  TNode1 -> TNode7;
+  TNode10 -> TNode9;
+  TNode8 -> TNode2;
+  TNode5 -> TNode8;
+  TNode1 -> TNode6;
+  TNode1 -> TNode5;
+  TNode5 -> TNode4;
+  TNode5 -> TNode3;
+}

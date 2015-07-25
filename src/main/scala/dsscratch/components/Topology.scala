@@ -5,7 +5,7 @@ import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.util.Counter
 
-case class Topology[P](nodes: Seq[P], chs: ArrayBuffer[Channel])
+case class Topology(nodes: Seq[Process], chs: ArrayBuffer[Channel])
 
 object Topology {
   val chIdGen = Counter()
@@ -42,23 +42,23 @@ object Topology {
     chs.append(newCh)
   }
 
-  def star[P <: Process](center: P, others: Seq[P]): Topology[P] = {
+  def star(center: Process, others: Seq[Process]): Topology = {
     val chs = ArrayBuffer[Channel]()
     for (nd <- others) createTwoWayChannel(center, nd, chs)
 
     Topology(center +: others, chs)
   }
 
-  def bus[P <: Process](nodes: Seq[P]): Topology[P] = {
+  def bus(nodes: Seq[Process]): Topology = {
     val chs = ArrayBuffer[Channel]()
     createMultiChannel(nodes, chs)
     Topology(nodes, chs)
   }
 
-  def line[P <: Process](nodes: Seq[P]): Topology[P] = {
+  def line(nodes: Seq[Process]): Topology = {
     assert(nodes.size > 1)
     val chs = ArrayBuffer[Channel]()
-    def loop(s: Seq[P], acc: Seq[P]): Seq[P] = s match {
+    def loop(s: Seq[Process], acc: Seq[Process]): Seq[Process] = s match {
       case a if s.isEmpty => acc.reverse
       case b if b.tail.isEmpty => (b.head +: acc).reverse
       case c => {
@@ -66,26 +66,26 @@ object Topology {
         loop(s.tail, s.head +: acc)
       }
     }
-    val finalNodes = loop(nodes, Seq[P]())
+    val finalNodes = loop(nodes, Seq[Process]())
     Topology(finalNodes, chs)
   }
 
-  def ring[P <: Process](nodes: Seq[P]): Topology[P] = {
+  def ring(nodes: Seq[Process]): Topology = {
     assert(nodes.size > 1)
-    val shuffled: Seq[P] = Random.shuffle(nodes)
+    val shuffled: Seq[Process] = Random.shuffle(nodes)
 
-    val l: Topology[P] = line(shuffled)
+    val l: Topology = line(shuffled)
     val chs = l.chs
-    val last: P = l.nodes.reverse.head
+    val last: Process = l.nodes.reverse.head
 
     createTwoWayChannel(l.nodes.head, last, chs)
     Topology(l.nodes, chs)
   }
 
-  def totallyConnected[P <: Process](nodes: Seq[P]): Topology[P] = {
+  def totallyConnected(nodes: Seq[Process]): Topology = {
     assert(nodes.size > 1)
     val chs = ArrayBuffer[Channel]()
-    val shuffled: Seq[P] = Random.shuffle(nodes)
+    val shuffled: Seq[Process] = Random.shuffle(nodes)
 
     val pairs = cProductNoSelfPairs(shuffled)
 
@@ -96,11 +96,11 @@ object Topology {
     Topology(shuffled, chs)
   }
 
-  def connectedWithKMoreEdges[P <: Process](k: Int, nodes: Seq[P]): Topology[P] = {
+  def connectedWithKMoreEdges(k: Int, nodes: Seq[Process]): Topology = {
     assert(nodes.size > 1 && k <= (((nodes.size * nodes.size) - (2 * nodes.size)) + 1)) //(n^2 - n) - (n - 1) = (n^2 - 2n) + 1 possible extra edges
-    val shuffled: Seq[P] = Random.shuffle(nodes)
+    val shuffled: Seq[Process] = Random.shuffle(nodes)
 
-    val l: Topology[P] = line(shuffled) //Ensures connected path
+    val l: Topology = line(shuffled) //Ensures connected path
     val chs = l.chs
     val pairs = unorderedPairsNoSelf(l.nodes)
 

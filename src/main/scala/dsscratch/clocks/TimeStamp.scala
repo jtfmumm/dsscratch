@@ -7,7 +7,7 @@ case class EmptyTimeStamp extends TimeStamp {
   override def toString: String = "<<Empty>>"
 }
 
-case class TS(value: Int, id: Int = -1) extends TimeStamp {
+case class TS(value: Int = -1, id: Int = -1) extends TimeStamp {
   def inc(): TS = TS(value + 1, id)
   def withId(id: Int): TS = TS(value, id)
 

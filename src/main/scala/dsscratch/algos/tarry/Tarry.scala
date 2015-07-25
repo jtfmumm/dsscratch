@@ -22,11 +22,10 @@ case class ProcessToken(t: Token) extends Command
 
 case class TNode(id: Int, initiator: Boolean = false) extends Process {
   val clock = LamportClock(id)
+  var initiated = false
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
   val finishedTokens = Queue[Token]()
-  var initiated = false
-  var log = Log()
   log.write(this + " log", clock.stamp())
 
   var parent: Process = EmptyProcess()
@@ -34,6 +33,7 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
   var nonParentChsToSend = ArrayBuffer[Channel]()
 
   def recv(m: Message): Unit = {
+    if (failed) return
     clock.compareAndUpdate(m.ts)
     log.write("Receiving " + m, clock.stamp())
     m.cmd match {
@@ -43,6 +43,7 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
   }
 
   def step(): Unit = {
+    if (failed) return
     if (initiator && !initiated) initiate()
     if (tokens.isEmpty && finishedTokens.isEmpty) return
     nonParentChsToSend.size match {
@@ -129,9 +130,12 @@ object Tarry {
 
     val extras = (possibleExtras * density).floor.toInt
 
-    val topology: Topology[TNode] = Topology.connectedWithKMoreEdges(extras, nodes)
+    val topology: Topology = Topology.connectedWithKMoreEdges(extras, nodes)
 
-    def endCondition: Boolean = topology.nodes.forall(nd => nd.finishedTokens.nonEmpty)
+    def endCondition: Boolean = topology.nodes.forall({
+      case nd: TNode => nd.finishedTokens.nonEmpty
+      case _ => true
+    })
 
     TopologyRunner(topology, endCondition _).run()
 
@@ -153,13 +157,15 @@ object Tarry {
     println("//SPANNING TREE")
     println(
       "digraph H {\n" +
-      topology.nodes.map(nd => {
-        if (nd.parent != EmptyProcess())
-          "  " + nd.parent + " -> " + nd + ";\n"
-        else
-          ""
-      }).mkString +
-      "}"
+      topology.nodes.map({
+        case nd: TNode => {
+            if (nd.parent != EmptyProcess())
+              "  " + nd.parent + " -> " + nd + ";\n"
+            else
+              ""
+        }
+        case _ => ""
+      }).mkString + "}"
     )
   }
 }
