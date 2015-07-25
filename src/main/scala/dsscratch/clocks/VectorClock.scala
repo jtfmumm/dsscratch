@@ -1,7 +1,7 @@
 package dsscratch.clocks
 
 
-class VectorClock(val id: Int, val vec: Map[Int, Int]) {
+class VectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
   var tick = Vec(vec, id)
 
   def stamp(): TimeStamp = {
@@ -19,7 +19,7 @@ class VectorClock(val id: Int, val vec: Map[Int, Int]) {
   }
 }
 
-class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) {
+class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
   var tick = DynVec(vec, id)
 
   def stamp(): TimeStamp = {

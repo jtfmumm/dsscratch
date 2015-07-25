@@ -1,7 +1,7 @@
 package dsscratch.clocks
 
 
-case class LamportClock(id: Int) {
+case class LamportClock(id: Int) extends Clock {
   var tick = TS(0, id)
 
   def stamp(): TimeStamp = {
