@@ -3,21 +3,27 @@ package dsscratch.components
 import scala.collection.mutable.Queue
 
 trait Channel extends Steppable {
+  var failed = false
   def recv(m: Message): Unit
   def hasSource(p: Process): Boolean
   def hasTarget(p: Process): Boolean
   def containsPath(p0: Process, p1: Process) = hasSource(p0) && hasTarget(p1)
+  def fail(): Unit = failed = true
+  def restart(): Unit = failed = false
 }
 
 case class TwoChannel(p0: Process, p1: Process, id: Int = -1) extends Channel {
   val msgs = Queue[Message]()
 
-  def recv(m: Message) = {
+  def recv(m: Message): Unit = {
+    if (failed) return
     assert(m.sender == p0, m.sender + " can't send over " + this)
     msgs.enqueue(m)
   }
 
-  def step(): Unit = deliverNext()
+  def step(): Unit = {
+    if (!failed) deliverNext()
+  }
 
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return
