@@ -88,7 +88,16 @@ class TarryComponent(val parentProcess: Process, isInitiator: Boolean = false) e
     }
   }
 
-  def initiate(): Unit = {
+  def snapshot: TarryComponent = TarryComponent.buildWith(parentProcess, s)
+
+  def result = {
+    if (s.parent != EmptyProcess())
+      "  " + s.parent + " -> " + parentProcess + ";\n"
+    else
+      ""
+  }
+
+  private def initiate(): Unit = {
     val t = Token(id)
     s.tokens.enqueue(t)
     log.write("[Tarry] Initiator: No Parent", clock.stamp())
@@ -101,15 +110,6 @@ class TarryComponent(val parentProcess: Process, isInitiator: Boolean = false) e
     val firstChIndex = s.nonParentChsToSend.indexOf(firstCh)
     s.nonParentChsToSend.remove(firstChIndex)
     s.initiated = true
-  }
-
-  def snapshot: TarryComponent = TarryComponent.buildWith(parentProcess, s)
-
-  def result = {
-    if (s.parent != EmptyProcess())
-      "  " + s.parent + " -> " + parentProcess + ";\n"
-    else
-      ""
   }
 
   private def hasNoParent: Boolean = s.parentCh == Channel.empty

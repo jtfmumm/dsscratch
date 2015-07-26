@@ -10,21 +10,20 @@ import scala.collection.mutable.ArrayBuffer
 case class Dictionary() {
   var d = mMap[String, Int]()
 
-  def get(k: String) = d.getOrElse(k, 0)
+  def get(k: String) = d.getOrElse(k, -1)
 
-  def put(k: String) = d(k) = 1
+  def put(k: String, v: Int) = d(k) = v
 
-  def delete(k: String) = d(k) = 0
+  def delete(k: String) = d(k) = -1
+}
+
+object Dictionary {
+  def apply(): Dictionary = new Dictionary()
 }
 
 
 // COMMANDS
-case class Read(key: String, ch: Channel) extends Command
-case class ReadReply(v: Any) extends Command
 
-case class Update(key: String) extends Command
-
-case class Delete(key: String) extends Command
 
 
 // PROCESSES
@@ -49,7 +48,7 @@ case class DictNode(id: Int = 0) extends Process {
       val reply = ReadReply(data.get(k))
       send(Message(reply, this, tStamp), ch)
     }
-    case Update(k) => data.put(k)
+    case Update(k, v) => data.put(k, v)
     case Delete(k) => data.delete(k)
   }
 

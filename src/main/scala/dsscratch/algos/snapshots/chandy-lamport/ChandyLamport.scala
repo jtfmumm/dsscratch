@@ -86,7 +86,14 @@ class ChandyLamportComponent(val parentProcess: Process, isInitiator: Boolean = 
     if (outChs.size > s.chsSent.size) sendNextControlMessage()
   }
 
-  def initiate(): Unit = {
+  def snapshot: ChandyLamportComponent = ChandyLamportComponent.buildWith(parentProcess, s)
+
+  def result = {
+    val status = if (terminated) "Terminated" else "Not Terminated"
+    parentProcess + ": " + status
+  }
+
+  private def initiate(): Unit = {
     val cmd = TakeSnapshot(parentProcess.clock.stamp())
     s.controlMessages.append(cmd)
     val firstCh: Channel = Rand.pickItem(outChs)
@@ -96,13 +103,6 @@ class ChandyLamportComponent(val parentProcess: Process, isInitiator: Boolean = 
     s.chsSent.append(firstCh)
     parentProcess.takeSnapshot(cmd.snapId)
     s.initiated = true
-  }
-
-  def snapshot: ChandyLamportComponent = ChandyLamportComponent.buildWith(parentProcess, s)
-
-  def result = {
-    val status = if (terminated) "Terminated" else "Not Terminated"
-    parentProcess + ": " + status
   }
 
   private def takeSnapshot(cmd: TakeSnapshot, sender: Process): Unit = {
