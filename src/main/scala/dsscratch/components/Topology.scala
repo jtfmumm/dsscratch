@@ -13,7 +13,8 @@ object Topology {
 
   def createOneWayChannel(from: Process, to: Process, chs: ArrayBuffer[Channel]): Unit = {
     val newCh = TwoChannel(from, to, chIdGen.next())
-    from.addChannel(newCh)
+    from.addOutChannel(newCh)
+    to.addInChannel(newCh)
     chs.append(newCh)
   }
 
@@ -25,8 +26,10 @@ object Topology {
   def createTwoWayChannel(p0: Process, p1: Process, chs: ArrayBuffer[Channel]): Unit = {
     val newCh0 = TwoChannel(p0, p1, chIdGen.next())
     val newCh1 = TwoChannel(p1, p0, chIdGen.next())
-    p0.addChannel(newCh0)
-    p1.addChannel(newCh1)
+    p0.addOutChannel(newCh0)
+    p0.addInChannel(newCh1)
+    p1.addOutChannel(newCh1)
+    p1.addInChannel(newCh0)
     chs.append(newCh0)
     chs.append(newCh1)
   }
@@ -38,7 +41,10 @@ object Topology {
 
   def createMultiChannel(ps: Seq[Process], chs: ArrayBuffer[Channel]): Unit = {
     val newCh = MultiChannel(ps)
-    for (p <- ps) p.addChannel(newCh)
+    for (p <- ps) {
+      p.addOutChannel(newCh)
+      p.addInChannel(newCh)
+    }
     chs.append(newCh)
   }
 

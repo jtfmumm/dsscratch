@@ -15,11 +15,6 @@ import dsscratch.draw.DotGraph
 //2) A process only forwards the token to its parent when there is no other option
 
 
-case class Token(id: Int)
-
-case class ProcessToken(t: Token) extends Command
-
-
 case class TNode(id: Int, initiator: Boolean = false) extends Process {
   val clock = LamportClock(id)
   var initiated = false
@@ -64,16 +59,6 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
         sendToken(ch)
       }
     }
-  }
-
-  def addChannel(ch: Channel): Unit = {
-    if (!chs.contains(ch)) chs.append(ch)
-  }
-
-  def removeChannel(ch: Channel): Unit = {
-    if (!chs.contains(ch)) return
-    val i = chs.indexOf(ch)
-    chs.remove(i)
   }
 
   def initiate(): Unit = {

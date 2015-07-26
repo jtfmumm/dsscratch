@@ -2,6 +2,7 @@ package dsscratch.dict
 
 import dsscratch.clocks.TS
 import dsscratch.components._
+import dsscratch.clocks.LamportClock
 import scala.collection.mutable.{Map => mMap}
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
@@ -28,6 +29,7 @@ case class Delete(key: String) extends Command
 
 // PROCESSES
 case class DictNode(id: Int = 0) extends Process {
+  val clock = LamportClock(id)
   val chs = ArrayBuffer[Channel]()
   val data = new Dictionary()
   val msgs = Queue[Message]()
