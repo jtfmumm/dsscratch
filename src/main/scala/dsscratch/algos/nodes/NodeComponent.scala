@@ -12,7 +12,7 @@ trait NodeComponent extends Steppable {
   val clock = parentProcess.clock
 
   def processMessage(m: Message): Unit
-  def snapshot(): NodeComponent
+  def snapshot: NodeComponent
   def terminated: Boolean
   def result: String
 }

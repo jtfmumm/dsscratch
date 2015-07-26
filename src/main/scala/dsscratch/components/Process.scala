@@ -6,8 +6,8 @@ import scala.collection.mutable.ArrayBuffer
 
 trait Process extends Steppable {
   val id: Int
-  val clock: Clock
-  val log: Log = Log()
+  val clock: Clock = EmptyClock()
+  var log: Log = Log()
   val outChs = ArrayBuffer[Channel]()
   val inChs = ArrayBuffer[Channel]()
   var failed = false
@@ -41,7 +41,6 @@ trait Process extends Steppable {
 
 case class EmptyProcess extends Process {
   val id = 0
-  val clock = EmptyClock()
   def recv(m: Message): Unit = {}
   def step(): Unit = {}
   override def >(p: Process) = false

@@ -17,6 +17,12 @@ class VectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
     }
     case _ => tick = tick.inc()
   }
+
+  def snapshot: Clock = {
+    val c = new VectorClock(id, vec)
+    c.tick = tick
+    c
+  }
 }
 
 class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
@@ -34,6 +40,12 @@ class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
       else tick = tick.mergeWith(v)
     }
     case _ => tick = tick.inc()
+  }
+
+  def snapshot: Clock = {
+    val c = new DynamicVectorClock(id, vec)
+    c.tick = tick
+    c
   }
 }
 

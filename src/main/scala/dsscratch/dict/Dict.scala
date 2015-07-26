@@ -29,7 +29,7 @@ case class Delete(key: String) extends Command
 
 // PROCESSES
 case class DictNode(id: Int = 0) extends Process {
-  val clock = LamportClock(id)
+  override val clock = LamportClock(id)
   val chs = ArrayBuffer[Channel]()
   val data = new Dictionary()
   val msgs = Queue[Message]()

@@ -16,7 +16,7 @@ import dsscratch.draw.DotGraph
 
 
 case class TNode(id: Int, initiator: Boolean = false) extends Process {
-  val clock = LamportClock(id)
+  override val clock = LamportClock(id)
   var initiated = false
   val chs = ArrayBuffer[Channel]()
   val tokens = Queue[Token]()
