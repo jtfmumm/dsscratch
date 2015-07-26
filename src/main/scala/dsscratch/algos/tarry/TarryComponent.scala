@@ -16,8 +16,6 @@ import dsscratch.draw.DotGraph
 //1) A process never forwards the token through the same channel twice
 //2) A process only forwards the token to its parent when there is no other option
 
-
-
 trait TarryLocalState extends LocalState {
   var initiated: Boolean
   var initiator: Boolean

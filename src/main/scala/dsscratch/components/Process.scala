@@ -1,7 +1,7 @@
 package dsscratch.components
 
 import dsscratch.util.Log
-import dsscratch.clocks.{Clock, EmptyClock}
+import dsscratch.clocks.{Clock, EmptyClock, TimeStamp}
 import scala.collection.mutable.ArrayBuffer
 
 trait Process extends Steppable {
@@ -37,6 +37,7 @@ trait Process extends Steppable {
     val i = inChs.indexOf(ch)
     inChs.remove(i)
   }
+  def takeSnapshot(snapId: TimeStamp): Unit = {}
 }
 
 case class EmptyProcess extends Process {

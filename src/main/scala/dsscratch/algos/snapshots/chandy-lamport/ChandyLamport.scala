@@ -2,12 +2,16 @@ package dsscratch.algos.tarry
 
 import dsscratch.components._
 import dsscratch.clocks._
+import dsscratch.algos._
+import dsscratch.algos.nodes._
 import randomific.Rand
 import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.util.Log
 import dsscratch.runner.TopologyRunner
 import dsscratch.draw.DotGraph
+import scala.collection.mutable.{Map => mMap}
+import scala.util.Random
 
 //Chandy-Lamport snapshot algorithm
 //Kicked off by any initiator (here we choose one)
@@ -20,154 +24,116 @@ import dsscratch.draw.DotGraph
 //4) A process terminates when it has received control messages over all channels and has sent
 //   control messages over all channels.
 
-case class TakeSnapshot(snapshotId: Int) extends Command
 
-case class CLNode(id: Int, initiator: Boolean = false) extends Process {
-  override val clock = LamportClock(id)
-  var initiated = false
-  val chs = ArrayBuffer[Channel]()
-  val tokens = Queue[Token]()
-  val finishedTokens = Queue[Token]()
-  log.write(this + " log", clock.stamp())
+trait ChandyLamportLocalState extends LocalState {
+  var initiated: Boolean
+  var initiator: Boolean
+  var chsSent: ArrayBuffer[Channel]
+  var chsReceived: ArrayBuffer[Channel]
+  var controlMessages: ArrayBuffer[Command]
+  var chStates: mMap[Int, ArrayBuffer[Message]]
+}
 
-  var parent: Process = EmptyProcess()
-  var parentCh: Channel = Channel.empty
-  var nonParentChsToSend = ArrayBuffer[Channel]()
+object ChandyLamportComponent {
+  def apply(parentProcess: Process, isInitiator: Boolean = false): ChandyLamportComponent = {
+    new ChandyLamportComponent(parentProcess, isInitiator)
+  }
+  def buildWith(parentProcess: Process, s: ChandyLamportLocalState): ChandyLamportComponent = {
+    val newC = ChandyLamportComponent(parentProcess, s.initiator)
 
-  def recv(m: Message): Unit = {
-    if (failed) return
-    clock.compareAndUpdate(m.ts)
-    log.write("Receiving " + m, clock.stamp())
-    m.cmd match {
-      case ProcessToken(t) => processToken(t, m.sender)
-      case _ =>
+    newC.s.initiated = s.initiated
+    newC.s.chsSent = s.chsSent.map(x => x)
+    newC.s.chsReceived = s.chsReceived.map(x => x)
+    newC.s.controlMessages = s.controlMessages.map(x => x)
+    newC.s.chStates = s.chStates.map(x => x)
+    newC
+  }
+}
+
+class ChandyLamportComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
+  val algoCode: AlgoCode = AlgoCodes.CHANDY_LAMPORT
+  val outChs = parentProcess.outChs
+  val inChs = parentProcess.inChs
+
+  ////////////////////
+  //LOCAL STATE
+  private object s extends ChandyLamportLocalState {
+    var initiated = false
+    var initiator: Boolean = isInitiator
+    var chsSent = ArrayBuffer[Channel]()
+    var chsReceived = ArrayBuffer[Channel]()
+    var controlMessages = ArrayBuffer[Command]()
+    var chStates = {
+      val cs = mMap[Int, ArrayBuffer[Message]]()
+      inChs.foreach((ch: Channel) => cs.update(ch.id, ArrayBuffer[Message]()))
+      cs
     }
   }
+  ////////////////////
+
+  def processMessage(m: Message): Unit = {
+    m.cmd match {
+      case c @ TakeSnapshot(_) => takeSnapshot(c, m.sender)
+      case _ => {
+        if (s.chsReceived.exists(_.hasSource(m.sender))) return
+        val newCh = inChs.filter(_.hasSource(m.sender))(0)
+        s.chStates(newCh.id).append(m)  // Add this message to the list of messages for our current inCh state
+      }
+    }
+  }
+
+  def terminated: Boolean = s.chsSent.size == outChs.size && s.chsReceived.size == inChs.size
 
   def step(): Unit = {
-    if (failed) return
-    if (initiator && !initiated) initiate()
-    if (tokens.isEmpty && finishedTokens.isEmpty) return
-    nonParentChsToSend.size match {
-      case 0 if hasNoParent && tokens.nonEmpty => {
-        val t = tokens.dequeue()
-        finishedTokens.enqueue(t)
-      }
-      case 0 if hasNoParent =>
-      case 0 => {
-        sendToken(parentCh)
-        val t = tokens.dequeue() //Parent is the last destination for token
-        finishedTokens.enqueue(t)
-        emptyParent()
-      }
-      case _ => {
-        val randChIndex = Rand.rollFromZero(nonParentChsToSend.size)
-        val ch = nonParentChsToSend.remove(randChIndex)
-        sendToken(ch)
-      }
-    }
-  }
-
-  def addChannel(ch: Channel): Unit = {
-    if (!chs.contains(ch)) chs.append(ch)
-  }
-
-  def removeChannel(ch: Channel): Unit = {
-    if (!chs.contains(ch)) return
-    val i = chs.indexOf(ch)
-    chs.remove(i)
+    if (parentProcess.failed) return
+    if (s.initiator && !s.initiated) initiate()
+    if (terminated) return
+    if (outChs.size > s.chsSent.size) sendNextControlMessage()
   }
 
   def initiate(): Unit = {
-    val t = Token(id)
-    tokens.enqueue(t)
-    log.write("Initiator: No Parent", clock.stamp())
-    nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
-    val firstCh: Channel = Rand.pickItem(chs)
-    val cmd = ProcessToken(t)
-    val msg = Message(cmd, this, clock.stamp())
-    log.write("Sending on " + firstCh, msg.ts)
+    val cmd = TakeSnapshot(parentProcess.clock.stamp())
+    s.controlMessages.append(cmd)
+    val firstCh: Channel = Rand.pickItem(outChs)
+    val msg = Message(cmd, parentProcess, clock.stamp())
+    log.write("[CL] Sending on " + firstCh, msg.ts)
     firstCh.recv(msg)
-    val firstChIndex = nonParentChsToSend.indexOf(firstCh)
-    nonParentChsToSend.remove(firstChIndex)
-    initiated = true
+    s.chsSent.append(firstCh)
+    parentProcess.takeSnapshot(cmd.snapId)
+    s.initiated = true
   }
 
-  private def hasNoParent: Boolean = parentCh == Channel.empty
+  def snapshot: ChandyLamportComponent = ChandyLamportComponent.buildWith(parentProcess, s)
 
-  private def sendToken(ch: Channel) = {
-    val pt = ProcessToken(tokens.last)
-    val msg = Message(pt, this, clock.stamp())
-    log.write("Sending on " + ch, msg.ts)
-    ch.recv(msg)
+  def result = {
+    val status = if (terminated) "Terminated" else "Not Terminated"
+    parentProcess + ": " + status
   }
 
-  private def processToken(t: Token, sender: Process): Unit = {
-    if (tokens.isEmpty && parentCh == Channel.empty && finishedTokens.isEmpty) {
-      parent = sender
-      log.write("Parent: " + parent, clock.stamp())
-      parentCh = chs.filter(_.hasTarget(sender))(0)
-      nonParentChsToSend = ArrayBuffer(chs.filter(_ != parentCh): _*)
-      tokens.enqueue(t)
+  private def takeSnapshot(cmd: TakeSnapshot, sender: Process): Unit = {
+    if (s.chsReceived.exists(_.hasSource(sender))) return
+
+    val newCh = inChs.filter(_.hasSource(sender))(0)
+    s.chsReceived.append(newCh)
+
+    if (!s.initiated) {
+      s.controlMessages.append(cmd)
+      parentProcess.takeSnapshot(cmd.snapId)
+      s.initiated = true
     }
   }
 
-  private def emptyParent(): Unit = {
-    parentCh = Channel.empty
+  private def sendNextControlMessage() = {
+    val chsLeft = outChs.filter(!s.chsSent.contains(_))
+    val shuffled: ArrayBuffer[Channel] = Random.shuffle(chsLeft)
+    val nextCh: Channel = shuffled(0)
+    val cmd = s.controlMessages.last
+    val msg = Message(cmd, parentProcess, clock.stamp())
+    log.write("[CL] Sending on " + nextCh, msg.ts)
+    nextCh.recv(msg)
   }
-
-  override def toString: String = "TNode" + id
 }
 
-object ChandyLamport {
-  def runFor(nodeCount: Int, density: Double) = {
-
-    assert(density >= 0 && density <= 1)
-    val initiator = TNode(1, initiator = true)
-    val nonInitiators = (2 to nodeCount).map(x => TNode(x))
-    val nodes = Seq(initiator) ++ nonInitiators
-
-    val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //Rule out self connections
-    val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
-
-    val extras = (possibleExtras * density).floor.toInt
-
-    val topology: Topology = Topology.connectedWithKMoreEdges(extras, nodes)
-
-    def endCondition: Boolean = topology.nodes.forall({
-      case nd: TNode => nd.finishedTokens.nonEmpty
-      case _ => true
-    })
-
-    TopologyRunner(topology, endCondition _).run()
-
-    //TRACE
-    for (nd <- topology.nodes) {
-      println("Next")
-      println(nd.log)
-    }
-    //PARENTS
-    println("*****PARENTS******")
-    for (nd <- topology.nodes) {
-      println(nd.log.readLine(0))
-      println(nd.log.firstMatchFor("Parent"))
-      println("----")
-    }
-    println("//NETWORK")
-    println(DotGraph.draw(topology.chs))
-    //Spanning tree
-    println("//SPANNING TREE")
-    println(
-      "digraph H {\n" +
-        topology.nodes.map({
-          case nd: TNode => {
-            if (nd.parent != EmptyProcess())
-              "  " + nd.parent + " -> " + nd + ";\n"
-            else
-              ""
-          }
-          case _ => ""
-        }).mkString + "}"
-    )
-  }
+object ChandyLamportRunner {
+  def runFor(nodeCount: Int, density: Double) = {}
 }

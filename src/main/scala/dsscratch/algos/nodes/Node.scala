@@ -38,7 +38,7 @@ class Node(val id: Int, clk: Clock, val initiator: Boolean = false) extends Proc
   def initiate(): Unit = {
   }
 
-  def takeSnapshot(snapId: TimeStamp) = {
+  override def takeSnapshot(snapId: TimeStamp) = {
     val snap = new Node(id, clock.snapshot, initiator)
     snap.components = components.map(_.snapshot)
     snap.initiated = initiated

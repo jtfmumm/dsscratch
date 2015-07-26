@@ -3,6 +3,7 @@ package dsscratch.components
 import scala.collection.mutable.Queue
 
 trait Channel extends Steppable {
+  val id = -1
   var failed = false
   def recv(m: Message): Unit
   def hasSource(p: Process): Boolean
@@ -12,7 +13,7 @@ trait Channel extends Steppable {
   def restart(): Unit = failed = false
 }
 
-case class TwoChannel(p0: Process, p1: Process, id: Int = -1) extends Channel {
+case class TwoChannel(p0: Process, p1: Process, override val id: Int = -1) extends Channel {
   val msgs = Queue[Message]()
 
   def recv(m: Message): Unit = {
@@ -42,7 +43,7 @@ case class TwoChannel(p0: Process, p1: Process, id: Int = -1) extends Channel {
   override def toString: String = "Channel " + id + ": " + p0 + " -> " + p1
 }
 
-case class MultiChannel(ps: Seq[Process], id: Int = -1) extends Channel {
+case class MultiChannel(ps: Seq[Process], override val id: Int = -1) extends Channel {
   val msgs = Queue[Message]()
 
   def recv(m: Message) = {
