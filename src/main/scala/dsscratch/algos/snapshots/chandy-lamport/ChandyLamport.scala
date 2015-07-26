@@ -1,15 +1,10 @@
 package dsscratch.algos.tarry
 
 import dsscratch.components._
-import dsscratch.clocks._
 import dsscratch.algos._
 import dsscratch.algos.nodes._
 import randomific.Rand
-import scala.collection.mutable.Queue
 import scala.collection.mutable.ArrayBuffer
-import dsscratch.util.Log
-import dsscratch.runner.TopologyRunner
-import dsscratch.draw.DotGraph
 import scala.collection.mutable.{Map => mMap}
 import scala.util.Random
 
@@ -132,8 +127,4 @@ class ChandyLamportComponent(val parentProcess: Process, isInitiator: Boolean = 
     log.write("[CL] Sending on " + nextCh, msg.ts)
     nextCh.recv(msg)
   }
-}
-
-object ChandyLamportRunner {
-  def runFor(nodeCount: Int, density: Double) = {}
 }

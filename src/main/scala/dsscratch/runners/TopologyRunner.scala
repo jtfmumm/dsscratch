@@ -1,4 +1,4 @@
-package dsscratch.runner
+package dsscratch.runners
 
 import scala.collection.mutable.ArrayBuffer
 import dsscratch.components.Topology

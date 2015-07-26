@@ -1,6 +1,6 @@
 package dsscratch
 
-import algos.tarry._
+import dsscratch.algos.runners._
 
 object Run {
   def main(args: Array[String]) = {
