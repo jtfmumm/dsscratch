@@ -64,16 +64,14 @@ object Topology {
   def line(nodes: Seq[Process]): Topology = {
     assert(nodes.size > 1)
     val chs = ArrayBuffer[Channel]()
-    def loop(s: Seq[Process], acc: Seq[Process]): Seq[Process] = s match {
-      case a if s.isEmpty => acc.reverse
-      case b if b.tail.isEmpty => (b.head +: acc).reverse
-      case c => {
-        createUniqueTwoWayChannel(s.head, s.tail.head, chs)
-        loop(s.tail, s.head +: acc)
-      }
-    }
-    val finalNodes = loop(nodes, Seq[Process]())
-    Topology(finalNodes, chs)
+
+    //create channels
+    nodes.reduceLeft((last, next) => {
+      createUniqueTwoWayChannel(last, next, chs)
+      next
+    })
+
+    Topology(nodes, chs)
   }
 
   def ring(nodes: Seq[Process]): Topology = {
@@ -81,11 +79,10 @@ object Topology {
     val shuffled: Seq[Process] = Random.shuffle(nodes)
 
     val l: Topology = line(shuffled)
-    val chs = l.chs
     val last: Process = l.nodes.reverse.head
 
-    createTwoWayChannel(l.nodes.head, last, chs)
-    Topology(l.nodes, chs)
+    createTwoWayChannel(l.nodes.head, last, l.chs)
+    Topology(l.nodes, l.chs)
   }
 
   def totallyConnected(nodes: Seq[Process]): Topology = {
@@ -108,7 +105,7 @@ object Topology {
 
     val l: Topology = line(shuffled) //Ensures connected path
     val chs = l.chs
-    val pairs = unorderedPairsNoSelf(l.nodes)
+    val pairs = orderedPairsNoSelf(l.nodes)
 
     val extraEdges = Rand.pickKItems(k, pairs)
 
@@ -126,7 +123,7 @@ object Topology {
     ) yield (x, y)).filter(pair => pair._1 != pair._2)
   }
 
-  private def unorderedPairsNoSelf(s: Seq[Process]): Seq[(Process, Process)] = {
+  private def orderedPairsNoSelf(s: Seq[Process]): Seq[(Process, Process)] = {
     (for (
       x: Process <- s;
       y: Process <- s

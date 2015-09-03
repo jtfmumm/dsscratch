@@ -30,13 +30,9 @@ case class TwoChannel(p0: Process, p1: Process, override val id: Int = -1) exten
     p1.recv(msgs.dequeue())
   }
 
-  def hasSource(p: Process) = {
-    p0 == p
-  }
+  def hasSource(p: Process): Boolean = p0 == p
 
-  def hasTarget(p: Process) = {
-    p1 == p
-  }
+  def hasTarget(p: Process): Boolean = p1 == p
 
   override def toString: String = "Channel " + id + ": " + p0 + " -> " + p1
 }
@@ -44,7 +40,7 @@ case class TwoChannel(p0: Process, p1: Process, override val id: Int = -1) exten
 case class MultiChannel(ps: Seq[Process], override val id: Int = -1) extends Channel {
   val msgs = Queue[Message]()
 
-  def recv(m: Message) = {
+  def recv(m: Message): Unit = {
     if (failed) return
     assert(ps.contains(m.sender), m.sender + " can't send over " + this)
     msgs.enqueue(m)
@@ -62,9 +58,9 @@ case class MultiChannel(ps: Seq[Process], override val id: Int = -1) extends Cha
     }
   }
 
-  def hasSource(p: Process) = ps.contains(p)
+  def hasSource(p: Process): Boolean = ps.contains(p)
 
-  def hasTarget(p: Process) = ps.contains(p)
+  def hasTarget(p: Process): Boolean = ps.contains(p)
 
   def is(ch: Channel): Boolean = ch match {
     case c: MultiChannel => ps.forall(x => c.ps.contains(x))
