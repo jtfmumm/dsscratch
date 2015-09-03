@@ -16,6 +16,8 @@ import scala.collection.mutable.ArrayBuffer
 // so it isn't flexible enough to be run simultaneously
 // with other algorithms.
 
+// See TarryComponent for the more flexible version.
+
 case class TNode(id: Int, initiator: Boolean = false) extends Process {
   override val clock = LamportClock(id)
   var initiated = false
@@ -102,56 +104,3 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
 
   override def toString: String = "TNode" + id
 }
-
-//object Tarry {
-//  def runFor(nodeCount: Int, density: Double) = {
-//
-//    assert(density >= 0 && density <= 1)
-//    val initiator = TNode(1, initiator = true)
-//    val nonInitiators = (2 to nodeCount).map(x => TNode(x))
-//    val nodes = Seq(initiator) ++ nonInitiators
-//
-//    val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //Rule out self connections
-//    val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
-//
-//    val extras = (possibleExtras * density).floor.toInt
-//
-//    val topology: Topology = Topology.connectedWithKMoreEdges(extras, nodes)
-//
-//    def endCondition: Boolean = topology.nodes.forall({
-//      case nd: TNode => nd.finishedTokens.nonEmpty
-//      case _ => true
-//    })
-//
-//    TopologyRunner(topology, endCondition _).run()
-//
-//    //TRACE
-//    for (nd <- topology.nodes) {
-//      println("Next")
-//      println(nd.log)
-//    }
-//    //PARENTS
-//    println("*****PARENTS******")
-//    for (nd <- topology.nodes) {
-//      println(nd.log.readLine(0))
-//      println(nd.log.firstMatchFor("Parent"))
-//      println("----")
-//    }
-//    println("//NETWORK")
-//    println(DotGraph.draw(topology.chs))
-//    //Spanning tree
-//    println("//SPANNING TREE")
-//    println(
-//      "digraph H {\n" +
-//      topology.nodes.map({
-//        case nd: TNode => {
-//            if (nd.parent != EmptyProcess())
-//              "  " + nd.parent + " -> " + nd + ";\n"
-//            else
-//              ""
-//        }
-//        case _ => ""
-//      }).mkString + "}"
-//    )
-//  }
-//}

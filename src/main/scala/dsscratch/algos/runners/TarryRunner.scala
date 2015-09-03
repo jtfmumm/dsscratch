@@ -17,7 +17,7 @@ object TarryRunner {
 
     val nodes = Seq(initiator) ++ nonInitiators
 
-    val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //Rule out self connections
+    val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //No self connections
     val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
 
     val extras = (possibleExtras * density).floor.toInt
