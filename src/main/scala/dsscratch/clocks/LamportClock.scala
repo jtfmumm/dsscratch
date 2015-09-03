@@ -10,7 +10,11 @@ class LamportClock(id: Int) extends Clock {
   }
 
   def compareAndUpdate(other: TimeStamp): Unit = other match {
-    case c @ TS(_, _) => if (tick < c) tick = c.inc().withId(id) else tick = tick.inc()
+    case c @ TS(_, _) => if (tick < c) {
+        tick = c.inc().withId(id)
+      } else {
+        tick = tick.inc()
+      }
     case _ => tick = tick.inc()
   }
 
