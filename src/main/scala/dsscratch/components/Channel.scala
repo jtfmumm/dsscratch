@@ -22,9 +22,7 @@ case class TwoChannel(p0: Process, p1: Process, override val id: Int = -1) exten
     msgs.enqueue(m)
   }
 
-  def step(): Unit = {
-    if (!failed) deliverNext()
-  }
+  def step(): Unit = if (!failed) deliverNext()
 
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return
@@ -47,11 +45,12 @@ case class MultiChannel(ps: Seq[Process], override val id: Int = -1) extends Cha
   val msgs = Queue[Message]()
 
   def recv(m: Message) = {
+    if (failed) return
     assert(ps.contains(m.sender), m.sender + " can't send over " + this)
     msgs.enqueue(m)
   }
 
-  def step(): Unit = deliverNext()
+  def step(): Unit = if (!failed) deliverNext()
 
   def deliverNext(): Unit = {
     if (msgs.isEmpty) return
