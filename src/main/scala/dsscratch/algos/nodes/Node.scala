@@ -42,7 +42,7 @@ class Node(val id: Int, clk: Clock, val initiator: Boolean = false) extends Proc
     val snap = new Node(id, clock.snapshot, initiator)
     snap.components = components.map(_.snapshot)
     snap.initiated = initiated
-    snap.snapshots = snapshots
+    snap.snapshots = snapshots.clone()
     snapshots.append(Snapshot(snapId, snap))
   }
 
