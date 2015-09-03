@@ -1,9 +1,7 @@
 package dsscratch.util
 
 
-case class Counter(initial: Int = 0) {
-  var latest = initial
-
+case class Counter(var latest: Int = 0) {
   def next(): Int = {
     latest = latest + 1
     latest
