@@ -26,7 +26,7 @@ case class Log(data: ArrayBuffer[String] = ArrayBuffer[String]()) {
     }
   }
   def seek(n: Int): Unit = {
-    if (n > data.size) return
+    if (n > data.size || n < 0) throw new RuntimeException("Seek: Line number out of bounds.")
     curLine = n
   }
   def readLines(): List[String] = data.toList

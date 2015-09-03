@@ -11,8 +11,8 @@ import randomific.Rand
 ///////////////////////
 //Configuration Options
 //
-//  crashOdds -> Int   //Odds some process will crash any moment
-//  restartOdds -> Int  //Odds some crashed process will restart
+//  crashOdds -> Double   //Odds some process will crash any moment
+//  restartOdds -> Double  //Odds some crashed process will restart
 //
 ///////////////////////
 case class TopologyRunner(t: Topology,
@@ -55,7 +55,7 @@ case class TopologyRunner(t: Topology,
   }
 
   def checkForRestart(): Unit = {
-    if (failedNodes.size > 0 && Rand.rolledByOdds(config("restartOdds"))) {
+    if (failedNodes.nonEmpty && Rand.rolledByOdds(config("restartOdds"))) {
       val idx = Rand.rollFromZero(failedNodes.size)
       val restartedNode = failedNodes.remove(idx)
       restartedNode.restart()
