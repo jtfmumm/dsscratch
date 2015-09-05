@@ -3,6 +3,7 @@ package dsscratch.util
 import scala.collection.mutable.{Queue, Set => mSet}
 
 // Grow only set that only stores the MAX latest members
+// Defaults to containing only the last 250 members added.
 class mLRUSet[A](val data: mSet[A] = mSet[A](), val max: Int = 250) {
   val lru = Queue[A]()
   for (a <- data) lru.enqueue(a)
@@ -34,6 +35,4 @@ object mLRUSet {
     for (el <- els) s += el
     s
   }
-//  def apply[A](data: mSet[A], max: Int = 250): mLRUSet[A] = new mLRUSet[A](data, max)
-//  def apply[A](mx: Int): mLRUSet[A] = new mLRUSet[A](max = mx)
 }
