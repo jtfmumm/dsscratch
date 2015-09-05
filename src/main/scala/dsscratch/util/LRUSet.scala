@@ -19,4 +19,21 @@ class mLRUSet[A](val data: mSet[A] = mSet[A](), val max: Int = 250) {
   }
 
   def contains(a: A): Boolean = data.contains(a)
+
+  override def toString: String = "mLRUSet(" + lru.mkString(", ") + ")"
+}
+
+object mLRUSet {
+  def apply[A](els: A*): mLRUSet[A] = {
+    val s = new mLRUSet[A]()
+    for (el <- els) s += el
+    s
+  }
+  def withMax[A](mx: Int)(els: A*): mLRUSet[A] = {
+    val s = new mLRUSet[A](max = mx)
+    for (el <- els) s += el
+    s
+  }
+//  def apply[A](data: mSet[A], max: Int = 250): mLRUSet[A] = new mLRUSet[A](data, max)
+//  def apply[A](mx: Int): mLRUSet[A] = new mLRUSet[A](max = mx)
 }

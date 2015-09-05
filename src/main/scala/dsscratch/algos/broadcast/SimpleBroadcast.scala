@@ -3,8 +3,7 @@ package dsscratch.algos.broadcast
 import dsscratch.algos._
 import dsscratch.algos.nodes._
 import dsscratch.components._
-
-import scala.collection.mutable.{Set => mSet}
+import dsscratch.util.mLRUSet
 
 
 //If a node wants to broadcast a message, it sends it over every outgoing
@@ -16,9 +15,8 @@ import scala.collection.mutable.{Set => mSet}
 //
 //If a node or channel fails, the message may not reach every node.
 
-
 trait SimpleBroadcastLocalState extends LocalState {
-  var processedMessages: mSet[Message]
+  var processedMessages: mLRUSet[Message]
 }
 
 object SimpleBroadcastComponent {
@@ -41,7 +39,7 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
   ////////////////////
   //LOCAL STATE
   private object s extends SimpleBroadcastLocalState {
-    var processedMessages = mSet[Message]()
+    var processedMessages = mLRUSet[Message]()
   }
   ////////////////////
 
