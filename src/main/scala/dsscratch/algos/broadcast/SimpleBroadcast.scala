@@ -14,6 +14,7 @@ import dsscratch.util.mLRUSet
 //message to itself.
 //
 //If a node or channel fails, the message may not reach every node.
+//There is no guarantee messages will be received in a consistent order.
 
 trait SimpleBroadcastLocalState extends LocalState {
   var processedMessages: mLRUSet[Message]
