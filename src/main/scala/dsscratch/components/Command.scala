@@ -21,3 +21,6 @@ case class ReadReply(v: Int) extends Command
 case class Update(key: String, v: Int) extends Command
 
 case class Delete(key: String) extends Command
+
+//Broadcast
+case class Broadcast(m: Message) extends Command
