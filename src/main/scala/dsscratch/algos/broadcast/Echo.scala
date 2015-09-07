@@ -82,7 +82,7 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
 
   def snapshot: EchoComponent = EchoComponent.buildWith(parentProcess, s)
 
-  def result = s.currentMessage.toString
+  def result = ""
 
   private def initiate(): Unit = s.currentMessage match {
     case Some(msg) => {
