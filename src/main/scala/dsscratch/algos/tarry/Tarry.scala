@@ -26,7 +26,7 @@ case class TNode(id: Int, initiator: Boolean = false) extends Process {
   val finishedTokens = Queue[Token]()
   log.write(this + " log", clock.stamp())
 
-  var parent: Process = EmptyProcess()
+  var parent: Process = EmptyProcess
   var parentCh: Channel = Channel.empty
   var nonParentChsToSend = ArrayBuffer[Channel]()
 

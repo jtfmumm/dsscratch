@@ -47,7 +47,7 @@ trait Process extends Steppable {
   def takeSnapshot(snapId: TimeStamp): Unit = {}
 }
 
-case class EmptyProcess extends Process {
+case object EmptyProcess extends Process {
   val id = 0
 
   def recv(m: Message): Unit = {}

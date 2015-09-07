@@ -71,5 +71,5 @@ case class MultiChannel(ps: Seq[Process], override val id: Int = -1) extends Cha
 }
 
 object Channel {
-  val empty = TwoChannel(EmptyProcess(), EmptyProcess())
+  val empty = TwoChannel(EmptyProcess, EmptyProcess)
 }

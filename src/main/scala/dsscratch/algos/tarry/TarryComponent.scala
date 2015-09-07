@@ -50,7 +50,7 @@ class TarryComponent(val parentProcess: Process, isInitiator: Boolean = false) e
     var initiator: Boolean = isInitiator
     var tokens = Queue[Token]()
     var finishedTokens = Queue[Token]()
-    var parent: Process = EmptyProcess()
+    var parent: Process = EmptyProcess
     var parentCh: Channel = Channel.empty
     var nonParentChsToSend = ArrayBuffer[Channel]()
   }
@@ -91,7 +91,7 @@ class TarryComponent(val parentProcess: Process, isInitiator: Boolean = false) e
   def snapshot: TarryComponent = TarryComponent.buildWith(parentProcess, s)
 
   def result = {
-    if (s.parent != EmptyProcess())
+    if (s.parent != EmptyProcess)
       "  " + s.parent + " -> " + parentProcess + ";\n"
     else
       ""
