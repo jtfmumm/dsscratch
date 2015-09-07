@@ -15,7 +15,8 @@ import scala.collection.mutable.{Set => mSet}
 // sends a message to its neighbors.
 
 // When a node receives an Echo command, if it has no
-// parent, it records the sender as its parent. It then
+// parent, it records the sender as its parent and delivers
+// the contained message to itself. It then
 // sends the message over all its channels except to its
 // parent. It only sends to its parent once its received
 // the same Echo over all incoming channels.
@@ -99,6 +100,8 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
       s.echoParent = m.sender
       s.currentMessage = Some(m)
       for (c <- outChs.filter(!_.hasTarget(m.sender))) c.recv(m)
+      // Deliver wrapped message to self
+      m.cmd match { case Echo(msg) => parentProcess.recv(msg) }
     } else {
       if (s.chsToReceive.isEmpty) outChs.filter(_.hasTarget(s.echoParent)).head.recv(m)
       s.currentMessage = None
