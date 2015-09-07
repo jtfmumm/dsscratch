@@ -24,3 +24,6 @@ case class Delete(key: String) extends Command
 
 //Broadcast
 case class Broadcast(m: Message) extends Command
+
+case class InitiateEcho(m: Message) extends Command
+case class Echo(m: Message) extends Command
