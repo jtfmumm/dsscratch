@@ -40,3 +40,8 @@ case class TwoPCVoteAbort(m: Message) extends TwoPCVote
 case class TwoPCVoteReply(v: TwoPCVote, m: Message, p: Process) extends Command
 case class TwoPCCommit(m: Message) extends Command
 case class TwoPCAbort(m: Message) extends Command
+
+
+//Testing
+case object PassTest extends Command
+case object FailTest extends Command
