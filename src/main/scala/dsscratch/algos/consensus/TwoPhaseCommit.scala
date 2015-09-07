@@ -101,10 +101,12 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def checkForSuccessfulVoteFor(m: Message): Unit = {
-    val result = if (voteSucceedsFor(m)) TwoPCCommit(m) else TwoPCAbort(m)
+    val success = voteSucceedsFor(m)
+    val result = if (success) TwoPCCommit(m) else TwoPCAbort(m)
     val echoMsg = Message(result, parentProcess, m.ts)
     val initiateEchoMsg = Message(InitiateEcho(echoMsg), parentProcess, m.ts)
     parentProcess.recv(initiateEchoMsg)
+    if (success) parentProcess.recv(m)
   }
 
   private def commit(m: Message): Unit = {
