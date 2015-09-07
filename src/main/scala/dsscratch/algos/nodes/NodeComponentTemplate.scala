@@ -5,6 +5,7 @@ import dsscratch.clocks._
 import dsscratch.algos._
 import dsscratch.algos.nodes._
 
+import scala.collection.mutable.ArrayBuffer
 
 // Use this empty example as a template for creating new components.
 // Components encapsulate algorithms and the related local state.
@@ -30,8 +31,8 @@ object NCComponent {
 
 class NCComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
   val algoCode: AlgoCode = AlgoCodes.NONE // <-- use code
-  val outChs = parentProcess.outChs
-  val inChs = parentProcess.inChs
+  val outChs: ArrayBuffer[Channel] = parentProcess.outChs
+  val inChs: ArrayBuffer[Channel] = parentProcess.inChs
 
   ////////////////////
   //LOCAL STATE
