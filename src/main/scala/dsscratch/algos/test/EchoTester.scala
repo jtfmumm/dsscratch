@@ -32,7 +32,7 @@ object EchoTesterComponent {
 }
 
 class EchoTesterComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
-  val algoCode: AlgoCode = AlgoCodes.NONE // <-- use code
+  val algoCode: AlgoCode = AlgoCodes.ECHO_TESTER
   val outChs: ArrayBuffer[Channel] = parentProcess.outChs
   val inChs: ArrayBuffer[Channel] = parentProcess.inChs
 

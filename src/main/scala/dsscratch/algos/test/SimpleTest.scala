@@ -40,7 +40,7 @@ object SimpleTestComponent {
 }
 
 class SimpleTestComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
-  val algoCode: AlgoCode = AlgoCodes.NONE // <-- use code
+  val algoCode: AlgoCode = AlgoCodes.SIMPLE_TEST
   val outChs: ArrayBuffer[Channel] = parentProcess.outChs
   val inChs: ArrayBuffer[Channel] = parentProcess.inChs
 
@@ -72,6 +72,6 @@ class SimpleTestComponent(val parentProcess: Process, isInitiator: Boolean = fal
 
   def snapshot: SimpleTestComponent = SimpleTestComponent.buildWith(parentProcess, s)
 
-  def result = parentProcess + ": " + s.testResult._1 + " from " + s.testResult._2
+  def result = parentProcess + ": " + s.testResult._1 + " from " + s.testResult._2 + "\n"
 }
 

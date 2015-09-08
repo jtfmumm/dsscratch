@@ -8,5 +8,7 @@ object AlgoCodes {
   object DICT extends AlgoCode
   object ECHO extends AlgoCode
   object SIMPLE_BROADCAST extends AlgoCode
+  object SIMPLE_TEST extends AlgoCode
+  object ECHO_TESTER extends AlgoCode
   object NONE extends AlgoCode
 }
