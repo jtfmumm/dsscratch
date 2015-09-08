@@ -16,7 +16,8 @@ import scala.collection.mutable.ArrayBuffer
 //
 // It doesn't actually do anything. To use it, another
 // algorithm (the one being tested) should attempt to broadcast
-// a PassTest command.
+// a PassTest command. You can inspect the result at each
+// node to see if every node passed.
 
 
 trait SimpleTestLocalState extends LocalState {
