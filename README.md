@@ -9,4 +9,6 @@ So far it includes:
 * Lamport clocks and vector clocks  
 * The Tarry algorithm for finding a spanning tree of a network  
 * The Chandy-Lamport snapshot algorithm  
+* Simple broadcast (flooding) and echo algorithms
+* A simple tester to check whether broadcast messages are delivered once and only once to each node
 
