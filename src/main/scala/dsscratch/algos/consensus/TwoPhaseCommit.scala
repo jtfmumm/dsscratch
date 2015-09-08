@@ -61,7 +61,7 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   def processMessage(m: Message): Unit = {
     m.cmd match {
       case InitiateTwoPC(cmd, _, _)  => if (m.sender == parentProcess) initiate2PC(cmd)
-      case TwoPCVoteRequest(cmd, _, _) =>
+      case TwoPCVoteRequest(cmd, _, _) => // IMPLEMENT!
       case r @ TwoPCVoteReply(vote, cmd, process) => if (!isInitiatorFor(cmd)) registerReply(r)
       case TwoPCCommit(cmd, _, _) => if (!isInitiatorFor(cmd)) commit(cmd)
       case TwoPCAbort(cmd, _, _) => if (!isInitiatorFor(cmd)) abort(cmd)
