@@ -4,6 +4,7 @@ import dsscratch.algos.AlgoCode
 import dsscratch.algos.AlgoCodes
 import dsscratch.algos.nodes.LocalState
 import dsscratch.algos.nodes.NodeComponent
+import dsscratch.clocks.TimeStamp
 import dsscratch.components.Message
 import dsscratch.components.Process
 import dsscratch.components._
@@ -25,7 +26,7 @@ trait EchoLocalState extends LocalState {
   var initiated: Boolean
   var initiator: Boolean
   var echoParent: Process
-  var currentMessage: Option[Message]
+  var currentCommand: Option[Command]
   var chsToReceive: mSet[Channel]
 }
 
@@ -39,7 +40,7 @@ object EchoComponent {
     //Set state properties
     newC.s.initiated = s.initiated
     newC.s.echoParent = s.echoParent
-    newC.s.currentMessage = s.currentMessage
+    newC.s.currentCommand = s.currentCommand
     newC.s.chsToReceive = s.chsToReceive
     newC
   }
@@ -56,23 +57,23 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
     var initiated = false
     var initiator: Boolean = isInitiator
     var echoParent: Process = EmptyProcess
-    var currentMessage: Option[Message] = None
+    var currentCommand: Option[Command] = None
     var chsToReceive: mSet[Channel] = mSet[Channel](inChs: _*)
   }
   ////////////////////
 
   def processMessage(m: Message): Unit = {
     m.cmd match {
-      case i @ InitiateEcho(msg) => {
+      case i @ InitiateEcho(cmd, proc, ts) => {
         s.initiator = true
-        s.currentMessage = Some(Message(Echo(msg), parentProcess, m.ts))
+        s.currentCommand = Some(Echo(cmd, proc, ts))
       }
-      case e @ Echo(msg) => if (!terminated) processEcho(m)
+      case e @ Echo(cmd, _, _) => if (!terminated) processEcho(e, m.sender)
       case _ => // do nothing
     }
   }
 
-  def terminated: Boolean = s.chsToReceive.isEmpty && s.currentMessage.isEmpty
+  def terminated: Boolean = s.chsToReceive.isEmpty && s.currentCommand.isEmpty
 
   def step(): Unit = {
     if (parentProcess.failed) return
@@ -84,28 +85,29 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
 
   def result = ""
 
-  private def initiate(): Unit = s.currentMessage match {
-    case Some(msg) => {
-      for (c <- outChs) c.recv(msg)
+  private def initiate(): Unit = s.currentCommand match {
+    case Some(cmd) => {
+      val newEcho = Message(cmd, parentProcess, clock.stamp())
+      for (c <- outChs) c.recv(newEcho)
       s.initiated = true
       s.echoParent = parentProcess
     }
     case None => s.initiated = true
   }
 
-  private def processEcho(m: Message) = {
-    println(parentProcess + "***:***" + outChs)
-    s.chsToReceive -= inChs.filter(_.hasSource(m.sender)).head
+  private def processEcho(cmd: Command, sender: Process) = {
+    val newEcho = Message(cmd, parentProcess, clock.stamp())
+    s.chsToReceive -= inChs.filter(_.hasSource(sender)).head
 
     if (s.echoParent == EmptyProcess) {
-      s.echoParent = m.sender
-      s.currentMessage = Some(m)
-      for (c <- outChs.filter(!_.hasTarget(m.sender))) c.recv(m)
-      // Deliver wrapped message to self
-      m.cmd match { case Echo(msg) => parentProcess.recv(msg) }
+      s.echoParent = sender
+      s.currentCommand = Some(cmd)
+      for (c <- outChs.filter(!_.hasTarget(sender))) c.recv(newEcho)
+      // Deliver command to self
+      parentProcess.recv(newEcho)
     } else {
-      if (s.chsToReceive.isEmpty) outChs.filter(_.hasTarget(s.echoParent)).head.recv(m)
-      s.currentMessage = None
+      if (s.chsToReceive.isEmpty) outChs.filter(_.hasTarget(s.echoParent)).head.recv(newEcho)
+      s.currentCommand = None
       s.echoParent = EmptyProcess
     }
   }

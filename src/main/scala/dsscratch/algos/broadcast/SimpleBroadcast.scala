@@ -17,7 +17,7 @@ import dsscratch.util.mLRUSet
 //There is no guarantee messages will be received in a consistent order.
 
 trait SimpleBroadcastLocalState extends LocalState {
-  var processedMessages: mLRUSet[Message]
+  var processedCommands: mLRUSet[Command]
 }
 
 object SimpleBroadcastComponent {
@@ -27,7 +27,7 @@ object SimpleBroadcastComponent {
   def buildWith(parentProcess: Process, s: SimpleBroadcastLocalState): SimpleBroadcastComponent = {
     val newC = SimpleBroadcastComponent(parentProcess)
 
-    newC.s.processedMessages = s.processedMessages
+    newC.s.processedCommands = s.processedCommands
     newC
   }
 }
@@ -40,17 +40,18 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
   ////////////////////
   //LOCAL STATE
   private object s extends SimpleBroadcastLocalState {
-    var processedMessages = mLRUSet[Message]()
+    var processedCommands = mLRUSet[Command]()
   }
   ////////////////////
 
   def processMessage(m: Message): Unit = {
     m.cmd match {
-      case Broadcast(msg) => {
-        if (s.processedMessages.contains(m)) return
-        if (m.sender != parentProcess) parentProcess.recv(msg)
+      case Broadcast(cmd, _, _) => {
+        if (s.processedCommands.contains(cmd)) return
+        val unwrapped = Message(cmd, parentProcess, clock.stamp())
+        if (m.sender != parentProcess) parentProcess.recv(unwrapped)
 
-        broadcastMessage(m)
+        broadcastMessage(m.cmd)
       }
       case _ => // Ignore the rest
     }
@@ -63,9 +64,10 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
     //nothing to do...
   }
 
-  def broadcastMessage(m: Message): Unit = {
-    for (ch <- outChs) ch.recv(m)
-    s.processedMessages += m
+  def broadcastMessage(cmd: Command): Unit = {
+    val newBroadcast = Message(cmd, parentProcess, clock.stamp())
+    for (ch <- outChs) ch.recv(newBroadcast)
+    s.processedCommands += cmd
   }
 
   def snapshot: SimpleBroadcastComponent = SimpleBroadcastComponent.buildWith(parentProcess, s)

@@ -58,8 +58,8 @@ class EchoTesterComponent(val parentProcess: Process, isInitiator: Boolean = fal
   def result = ""
 
   private def initiate(): Unit = {
-    val passTest = Message(PassTest, parentProcess, clock.stamp())
-    val echo = Message(InitiateEcho(passTest), parentProcess, clock.stamp())
+    val newInitiate = InitiateEcho(PassTest, parentProcess, clock.stamp())
+    val echo = Message(newInitiate, parentProcess, clock.stamp())
     parentProcess.recv(echo)
     s.initiated = true
   }
