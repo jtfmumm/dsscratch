@@ -34,8 +34,8 @@ case class InitiateTwoPC(cmd: Command, sender: Process, ts: TimeStamp) extends C
 case class TwoPCVoteRequest(cmd: Command, sender: Process, ts: TimeStamp) extends Command
 
 trait TwoPCVote
-case class TwoPCVoteCommit(cmd: Command, sender: Process, ts: TimeStamp) extends TwoPCVote
-case class TwoPCVoteAbort(cmd: Command, sender: Process, ts: TimeStamp) extends TwoPCVote
+case object TwoPCVoteCommit extends TwoPCVote
+case object TwoPCVoteAbort extends TwoPCVote
 
 case class TwoPCVoteReply(v: TwoPCVote, cmd: Command, p: Process) extends Command
 case class TwoPCCommit(cmd: Command, sender: Process, ts: TimeStamp) extends Command

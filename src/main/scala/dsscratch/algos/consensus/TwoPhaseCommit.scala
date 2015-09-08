@@ -5,7 +5,7 @@ import dsscratch.clocks._
 import dsscratch.algos._
 import dsscratch.algos.nodes._
 
-import scala.collection.mutable.{Map => mMap, ArrayBuffer}
+import scala.collection.mutable.{Map => mMap, ArrayBuffer, Set => mSet}
 
 // STILL WORK IN PROGRESS
 
@@ -24,6 +24,7 @@ trait TwoPhaseCommitLocalState extends LocalState {
   var curVote: Option[Command]
   var initiatedCmd: Option[Command]
   var votes: mMap[Command, mMap[Process, TwoPCVote]]
+  var votedOn: mSet[Command]
   var networkNodes: Seq[Process]
 }
 
@@ -35,8 +36,9 @@ object TwoPhaseCommitComponent {
     val newC = TwoPhaseCommitComponent(parentProcess, s.networkNodes, s.initiator)
 
     newC.s.initiated = s.initiated
-    newC.s.curVote = None
-    newC.s.initiatedCmd = None
+    newC.s.curVote = s.curVote
+    newC.s.initiatedCmd = s.initiatedCmd
+    newC.s.votedOn = s.votedOn
     newC
   }
 }
@@ -54,6 +56,7 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     var curVote: Option[Command] = None
     var initiatedCmd: Option[Command] = None
     var votes = mMap[Command, mMap[Process, TwoPCVote]]()
+    var votedOn = mSet[Command]()
     var networkNodes = nodes
   }
   ////////////////////
@@ -61,7 +64,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   def processMessage(m: Message): Unit = {
     m.cmd match {
       case InitiateTwoPC(cmd, _, _)  => if (m.sender == parentProcess) initiate2PC(cmd)
-      case TwoPCVoteRequest(cmd, _, _) => // IMPLEMENT!
+      case TwoPCVoteRequest(cmd, _, _) => {
+        if (isInitiatorFor(cmd)) return
+        if (!s.votedOn.contains(cmd)) sendVote(cmd)
+      }
       case r @ TwoPCVoteReply(vote, cmd, process) => if (!isInitiatorFor(cmd)) registerReply(r)
       case TwoPCCommit(cmd, _, _) => if (!isInitiatorFor(cmd)) commit(cmd)
       case TwoPCAbort(cmd, _, _) => if (!isInitiatorFor(cmd)) abort(cmd)
@@ -69,13 +75,12 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     }
   }
 
-  def terminated: Boolean = false //set termination condition
+  def terminated: Boolean = s.votedOn.nonEmpty //checks for one successful voting round
 
   def step(): Unit = {
     if (parentProcess.failed) return
-    if (s.initiator && !s.initiated) initiate()
     if (terminated) return
-    // Do something each step...
+    // Nothing to do...
   }
 
   def snapshot: TwoPhaseCommitComponent = TwoPhaseCommitComponent.buildWith(parentProcess, s)
@@ -101,6 +106,7 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     nodes.forall(p => {
       (for (k <- s.votes(cmd).keys) yield s.votes(cmd).contains(p)).forall(x => x)
     })
+    s.votedOn += cmd
   }
 
   private def checkForSuccessfulVoteFor(cmd: Command): Unit = {
@@ -109,6 +115,14 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     val initiateEchoMsg = Message(InitiateEcho(result, parentProcess, clock.stamp()), parentProcess, clock.stamp())
     parentProcess.recv(initiateEchoMsg)
     if (success) parentProcess.recv(Message(cmd, parentProcess, clock.stamp()))
+  }
+
+  private def sendVote(cmd: Command): Unit = {
+    val vote = if (s.curVote.isEmpty) TwoPCVoteAbort else TwoPCVoteCommit
+    val reply = TwoPCVoteReply(vote, cmd, parentProcess)
+    val initiateEchoMsg = Message(InitiateEcho(reply, parentProcess, clock.stamp()), parentProcess, clock.stamp())
+    parentProcess.recv(initiateEchoMsg)
+    s.votedOn += cmd
   }
 
   private def commit(cmd: Command): Unit = {
@@ -128,17 +142,12 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def isCommitVote(vote: TwoPCVote): Boolean = vote match {
-    case TwoPCVoteCommit(_, _, _) => true
-    case TwoPCVoteAbort(_, _, _) => false
+    case TwoPCVoteCommit => true
+    case TwoPCVoteAbort => false
   }
 
   private def isInitiatorFor(cmd: Command): Boolean = {
     s.initiatedCmd == Some(cmd)
-  }
-
-  private def initiate(): Unit = {
-    //Do some initiation work...
-    s.initiated = true
   }
 }
 
