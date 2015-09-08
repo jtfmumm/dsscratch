@@ -23,23 +23,23 @@ case class Update(key: String, v: Int) extends Command
 case class Delete(key: String) extends Command
 
 //Broadcast
-case class Broadcast(m: Message) extends Command
+case class Broadcast(cmd: Command) extends Command
 
-case class InitiateEcho(m: Message) extends Command
-case class Echo(m: Message) extends Command
+case class InitiateEcho(cmd: Command) extends Command
+case class Echo(cmd: Command) extends Command
 
 //Consensus
 //2PC
-case class InitiateTwoPC(m: Message) extends Command
-case class TwoPCVoteRequest(m: Message) extends Command
+case class InitiateTwoPC(cmd: Command) extends Command
+case class TwoPCVoteRequest(cmd: Command) extends Command
 
 trait TwoPCVote
-case class TwoPCVoteCommit(m: Message) extends TwoPCVote
-case class TwoPCVoteAbort(m: Message) extends TwoPCVote
+case class TwoPCVoteCommit(cmd: Command) extends TwoPCVote
+case class TwoPCVoteAbort(cmd: Command) extends TwoPCVote
 
-case class TwoPCVoteReply(v: TwoPCVote, m: Message, p: Process) extends Command
-case class TwoPCCommit(m: Message) extends Command
-case class TwoPCAbort(m: Message) extends Command
+case class TwoPCVoteReply(v: TwoPCVote, cmd: Command, p: Process) extends Command
+case class TwoPCCommit(cmd: Command) extends Command
+case class TwoPCAbort(cmd: Command) extends Command
 
 
 //Testing

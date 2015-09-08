@@ -9,6 +9,9 @@ import scala.collection.mutable.ArrayBuffer
 
 // Use this empty example as a template for creating new components.
 // Components encapsulate algorithms and the related local state.
+//
+// The parent Node of the component handles clock updates based on messages received,
+// so don't do that here.
 
 trait NCLocalState extends LocalState {
   var initiated: Boolean
