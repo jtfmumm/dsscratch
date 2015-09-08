@@ -8,7 +8,7 @@ import dsscratch.components._
 
 import scala.collection.mutable.ArrayBuffer
 
-// Initiator sends out an InitiateEcho command and then does nothing.
+// Initiator sends out a Broadcast command and then does nothing.
 // Non-initiators do nothing.
 
 trait SimpleBroadcastTesterLocalState extends LocalState {
