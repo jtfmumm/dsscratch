@@ -68,7 +68,7 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
         s.initiator = true
         s.currentCommand = Some(Echo(cmd, proc, ts))
       }
-      case e @ Echo(cmd, _, _) => if (!terminated) processEcho(e, m.sender)
+      case e @ Echo(cmd, _, _) => if (!terminated) processEcho(cmd, m.sender)
       case _ => // do nothing
     }
   }
@@ -96,17 +96,22 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   }
 
   private def processEcho(cmd: Command, sender: Process) = {
-    val newEcho = Message(cmd, parentProcess, clock.stamp())
-    s.chsToReceive -= inChs.filter(_.hasSource(sender)).head
+    val newEcho = Echo(cmd, parentProcess, clock.stamp())
+    val newMsg = Message(newEcho, parentProcess, clock.stamp())
+    val deliverable = Message(cmd, parentProcess, clock.stamp())
+
+    if (sender != parentProcess) {
+      s.chsToReceive -= inChs.filter(_.hasSource(sender)).head
+    }
 
     if (s.echoParent == EmptyProcess) {
       s.echoParent = sender
       s.currentCommand = Some(cmd)
-      for (c <- outChs.filter(!_.hasTarget(sender))) c.recv(newEcho)
+      for (c <- outChs.filter(!_.hasTarget(sender))) c.recv(newMsg)
       // Deliver command to self
-      parentProcess.recv(newEcho)
-    } else {
-      if (s.chsToReceive.isEmpty) outChs.filter(_.hasTarget(s.echoParent)).head.recv(newEcho)
+      parentProcess.recv(deliverable)
+    } else if (s.chsToReceive.isEmpty) {
+      if (s.echoParent != parentProcess) outChs.filter(_.hasTarget(s.echoParent)).head.recv(newMsg)
       s.currentCommand = None
       s.echoParent = EmptyProcess
     }
