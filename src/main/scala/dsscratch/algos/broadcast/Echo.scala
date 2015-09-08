@@ -94,6 +94,7 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   }
 
   private def processEcho(m: Message) = {
+    println(parentProcess + "***:***" + outChs)
     s.chsToReceive -= inChs.filter(_.hasSource(m.sender)).head
 
     if (s.echoParent == EmptyProcess) {
