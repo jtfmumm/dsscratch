@@ -24,14 +24,15 @@ trait TwoPhaseCommitLocalState extends LocalState {
   var curVote: Option[Message]
   var initiatedMsg: Option[Message]
   var votes: mMap[Message, mMap[Process, TwoPCVote]]
+  var networkNodes: Seq[Process]
 }
 
 object TwoPhaseCommitComponent {
-  def apply(parentProcess: Process, isInitiator: Boolean = false): TwoPhaseCommitComponent = {
-    new TwoPhaseCommitComponent(parentProcess, isInitiator)
+  def apply(parentProcess: Process, nodes: Seq[Process], isInitiator: Boolean = false): TwoPhaseCommitComponent = {
+    new TwoPhaseCommitComponent(parentProcess, nodes, isInitiator)
   }
   def buildWith(parentProcess: Process, s: TwoPhaseCommitLocalState): TwoPhaseCommitComponent = {
-    val newC = TwoPhaseCommitComponent(parentProcess, s.initiator)
+    val newC = TwoPhaseCommitComponent(parentProcess, s.networkNodes, s.initiator)
 
     newC.s.initiated = s.initiated
     newC.s.curVote = None
@@ -52,6 +53,8 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     var initiator: Boolean = isInitiator
     var curVote: Option[Message] = None
     var initiatedMsg: Option[Message] = None
+    var votes = mMap[Message, mMap[Process, TwoPCVote]]()
+    var networkNodes = nodes
   }
   ////////////////////
 
@@ -60,8 +63,8 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
       case InitiateTwoPC(msg) => if (m.sender == parentProcess) initiate2PC(msg)
       case TwoPCVoteRequest(msg) =>
       case r @ TwoPCVoteReply(vote, msg, process) => if (!isInitiatorFor(msg)) registerReply(r)
-      case TwoPCVoteCommit(msg) => if (!isInitiatorFor(msg)) commit(msg)
-      case TwoPCVoteAbort(msg) => if (!isInitiatorFor(msg)) abort(msg)
+      case TwoPCCommit(msg) => if (!isInitiatorFor(msg)) commit(msg)
+      case TwoPCAbort(msg) => if (!isInitiatorFor(msg)) abort(msg)
       case _ => // Ignore the rest
     }
   }
