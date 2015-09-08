@@ -21,6 +21,9 @@ class mLRUSet[A](val data: mSet[A] = mSet[A](), val max: Int = 250) {
 
   def contains(a: A): Boolean = data.contains(a)
 
+  def isEmpty: Boolean = data.isEmpty
+  def nonEmpty: Boolean = data.nonEmpty
+
   override def toString: String = "mLRUSet(" + lru.mkString(", ") + ")"
 }
 

@@ -9,7 +9,7 @@ import dsscratch.draw.DotGraph
 
 object TarryRunner {
   def runFor(nodeCount: Int, density: Double) = {
-    assert(density >= 0 && density <= 1)
+    assert(density >= 0 && density <= 1, "Topology density must be between 0 and 1")
     val initiator = Node(1)
     val nonInitiators = (2 to nodeCount).map(x => Node(x))
     initiator.addComponent(TarryComponent(initiator, isInitiator = true))

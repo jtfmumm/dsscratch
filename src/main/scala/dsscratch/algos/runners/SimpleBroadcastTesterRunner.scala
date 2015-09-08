@@ -8,15 +8,15 @@ import dsscratch.components._
 import dsscratch.draw.DotGraph
 import dsscratch.runners.TopologyRunner
 
-object EchoTesterRunner {
+object SimpleBroadcastTesterRunner {
   def runFor(nodeCount: Int, density: Double) = {
     assert(density >= 0 && density <= 1, "Topology density must be between 0 and 1")
     val initiator = Node(1)
     val nonInitiators = (2 to nodeCount).map(x => Node(x))
-    initiator.addComponent(EchoTesterComponent(initiator, isInitiator = true))
-    nonInitiators.foreach((nd: Node) => nd.addComponent(EchoTesterComponent(nd)))
-    initiator.addComponent(EchoComponent(initiator, isInitiator = true))
-    nonInitiators.foreach((nd: Node) => nd.addComponent(EchoComponent(nd)))
+    initiator.addComponent(SimpleBroadcastTesterComponent(initiator, isInitiator = true))
+    nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleBroadcastTesterComponent(nd)))
+    initiator.addComponent(SimpleBroadcastComponent(initiator))
+    nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleBroadcastComponent(nd)))
     initiator.addComponent(SimpleTestComponent(initiator))
     nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleTestComponent(nd)))
 
@@ -30,7 +30,7 @@ object EchoTesterRunner {
     val topology: Topology = Topology.connectedWithKMoreEdges(extras, nodes)
 
     def endCondition: Boolean = topology.nodes.forall({
-      case nd: Node => nd.terminatedFor(AlgoCodes.ECHO)
+      case nd: Node => nd.terminatedFor(AlgoCodes.SIMPLE_BROADCAST)
       case _ => true
     })
 
@@ -47,11 +47,12 @@ object EchoTesterRunner {
     //Spanning tree
     println("//TEST RESULTS")
     println(DotGraph.drawStrings(
-        topology.nodes.map({
-          case nd: Node => nd.resultFor(AlgoCodes.SIMPLE_TEST)
-          case _ => ""
-        })
-      )
+      topology.nodes.map({
+        case nd: Node => nd.resultFor(AlgoCodes.SIMPLE_TEST)
+        case _ => ""
+      })
+    )
     )
   }
 }
+

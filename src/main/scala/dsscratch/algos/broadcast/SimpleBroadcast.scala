@@ -33,7 +33,7 @@ object SimpleBroadcastComponent {
 }
 
 class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
-  val algoCode: AlgoCode = AlgoCodes.NONE // <-- use code
+  val algoCode: AlgoCode = AlgoCodes.SIMPLE_BROADCAST
   val outChs = parentProcess.outChs
   val inChs = parentProcess.inChs
 
@@ -50,6 +50,7 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
         if (s.processedCommands.contains(cmd)) return
         val unwrapped = Message(cmd, parentProcess, clock.stamp())
         if (m.sender != parentProcess) parentProcess.recv(unwrapped)
+        s.processedCommands += cmd
 
         broadcastMessage(m.cmd)
       }
@@ -57,7 +58,10 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
     }
   }
 
-  def terminated: Boolean = false
+  // This only checks that at least one command has been processed
+  def terminated: Boolean = s.processedCommands.nonEmpty
+
+  def terminatedFor(cmd: Command): Boolean = s.processedCommands.contains(cmd)
 
   def step(): Unit = {
     if (parentProcess.failed) return
@@ -67,7 +71,6 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
   def broadcastMessage(cmd: Command): Unit = {
     val newBroadcast = Message(cmd, parentProcess, clock.stamp())
     for (ch <- outChs) ch.recv(newBroadcast)
-    s.processedCommands += cmd
   }
 
   def snapshot: SimpleBroadcastComponent = SimpleBroadcastComponent.buildWith(parentProcess, s)

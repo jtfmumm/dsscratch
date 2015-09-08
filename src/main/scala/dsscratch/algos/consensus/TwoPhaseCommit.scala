@@ -42,7 +42,7 @@ object TwoPhaseCommitComponent {
 }
 
 class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], isInitiator: Boolean = false) extends NodeComponent {
-  val algoCode: AlgoCode = AlgoCodes.NONE // <-- use code
+  val algoCode: AlgoCode = AlgoCodes.TWO_PHASE_COMMIT
   val outChs: ArrayBuffer[Channel] = parentProcess.outChs
   val inChs: ArrayBuffer[Channel] = parentProcess.inChs
 
