@@ -2,7 +2,7 @@ package dsscratch.clocks
 
 
 class VectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
-  var tick = Vec(vec, id)
+  var tick = VecStamp(vec, id)
 
   def stamp(): TimeStamp = {
     tick = tick.inc()
@@ -10,7 +10,7 @@ class VectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
   }
 
   def compareAndUpdate(other: TimeStamp): Unit = other match {
-    case v @ Vec(_, _) => {
+    case v @ VecStamp(_, _) => {
       if (tick <= v) tick = v.inc().withId(id)
       else if (tick >= v) tick = tick.inc()
       else tick = tick.mergeWith(v)
@@ -26,7 +26,7 @@ class VectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
 }
 
 class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
-  var tick = DynVec(vec, id)
+  var tick = DynVecStamp(vec, id)
 
   def stamp(): TimeStamp = {
     tick = tick.inc()
@@ -34,7 +34,7 @@ class DynamicVectorClock(val id: Int, val vec: Map[Int, Int]) extends Clock {
   }
 
   def compareAndUpdate(other: TimeStamp): Unit = other match {
-    case v @ DynVec(_, _) => {
+    case v @ DynVecStamp(_, _) => {
       if (tick <= v) tick = v.inc().withId(id)
       else if (tick >= v) tick = tick.inc()
       else tick = tick.mergeWith(v)

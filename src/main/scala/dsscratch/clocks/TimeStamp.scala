@@ -18,13 +18,13 @@ case class TS(value: Int = -1, id: Int = -1) extends TimeStamp {
   override def toString: String = "<<" + id + "::" + value + ">>"
 }
 
-case class Vec(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
-  def inc(): Vec = {
+case class VecStamp(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
+  def inc(): VecStamp = {
     val incd = vecMap.updated(id, vecMap(id) + 1)
-    Vec(incd, id)
+    VecStamp(incd, id)
   }
-  def withId(id: Int): Vec = Vec(vecMap, id)
-  def mergeWith(other: Vec): Vec = {
+  def withId(id: Int): VecStamp = VecStamp(vecMap, id)
+  def mergeWith(other: VecStamp): VecStamp = {
     // We can expect that both clocks have the same keys
     // If you want dynamic keys, use DynVec instead of Vec
     val merged = vecMap.keys.map(k => {
@@ -33,35 +33,35 @@ case class Vec(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
       else
         k -> other.vecMap(k)
     }).toMap
-    Vec(merged, id)
+    VecStamp(merged, id)
   }
   def hasEntry(key: Int): Boolean = vecMap.get(key) match {
     case Some(_) => true
     case _ => false
   }
 
-  def >(other: Vec): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 > other.vecMap(pair._1))
-  def >=(other: Vec): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 >= other.vecMap(pair._1))
-  def <(other: Vec): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 < other.vecMap(pair._1))
-  def <=(other: Vec): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 <= other.vecMap(pair._1))
+  def >(other: VecStamp): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 > other.vecMap(pair._1))
+  def >=(other: VecStamp): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 >= other.vecMap(pair._1))
+  def <(other: VecStamp): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 < other.vecMap(pair._1))
+  def <=(other: VecStamp): Boolean = vecMap.keys == other.vecMap.keys && vecMap.forall(pair => pair._2 <= other.vecMap(pair._1))
 
-  def isCausallyRelatedTo(other: Vec): Boolean = this >= other || this <= other
-  def isConcurrentWith(other: Vec): Boolean = !isCausallyRelatedTo(other)
+  def isCausallyRelatedTo(other: VecStamp): Boolean = this >= other || this <= other
+  def isConcurrentWith(other: VecStamp): Boolean = !isCausallyRelatedTo(other)
 
   private def vectorToString: String = (for (x <- vecMap.toList.sortBy(_._1)) yield x._1 + ":" + x._2).mkString(",")
   override def toString: String = "<<" + id + "::[" + vectorToString + "]>>"
 }
 
 //Dynamic Vector Clock timestamp
-case class DynVec(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
-  def inc(): DynVec = {
+case class DynVecStamp(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
+  def inc(): DynVecStamp = {
     val incd = vecMap.updated(id, vecMap(id) + 1)
-    DynVec(incd, id)
+    DynVecStamp(incd, id)
   }
-  def withId(id: Int): DynVec = DynVec(vecMap, id)
+  def withId(id: Int): DynVecStamp = DynVecStamp(vecMap, id)
 
   //Allows new entries for nodes not yet encountered
-  def mergeWith(other: DynVec): DynVec = {
+  def mergeWith(other: DynVecStamp): DynVecStamp = {
     val keys = vecMap.keys ++ other.vecMap.keys
     val merged = keys.map(k => {
       if (!this.hasEntry(k))
@@ -73,32 +73,32 @@ case class DynVec(vecMap: Map[Int, Int], id: Int = -1) extends TimeStamp {
       else
         k -> other.vecMap(k)
     }).toMap
-    DynVec(merged, id)
+    DynVecStamp(merged, id)
   }
   def hasEntry(key: Int): Boolean = vecMap.get(key) match {
     case Some(_) => true
     case _ => false
   }
 
-  def >(other: DynVec): Boolean = {
+  def >(other: DynVecStamp): Boolean = {
     (other.vecMap.keys.toSet subsetOf vecMap.keys.toSet) &&
       vecMap.forall(pair => pair._2 > other.vecMap.getOrElse(pair._1, -1))
   }
-  def >=(other: DynVec): Boolean = {
+  def >=(other: DynVecStamp): Boolean = {
     (other.vecMap.keys.toSet subsetOf vecMap.keys.toSet) &&
       vecMap.forall(pair => pair._2 >= other.vecMap.getOrElse(pair._1, -1))
   }
-  def <(other: DynVec): Boolean = {
+  def <(other: DynVecStamp): Boolean = {
     (vecMap.keys.toSet subsetOf other.vecMap.keys.toSet) &&
       vecMap.forall(pair => pair._2 < other.vecMap(pair._1))
   }
-  def <=(other: DynVec): Boolean = {
+  def <=(other: DynVecStamp): Boolean = {
     (vecMap.keys.toSet subsetOf other.vecMap.keys.toSet) &&
       vecMap.forall(pair => pair._2 <= other.vecMap(pair._1))
   }
 
-  def isCausallyRelatedTo(other: DynVec): Boolean = this >= other || this <= other
-  def isConcurrentWith(other: DynVec): Boolean = !isCausallyRelatedTo(other)
+  def isCausallyRelatedTo(other: DynVecStamp): Boolean = this >= other || this <= other
+  def isConcurrentWith(other: DynVecStamp): Boolean = !isCausallyRelatedTo(other)
 
   private def vectorMapToString: String = (for (x <- vecMap.toList.sortBy(_._1)) yield x._1 + ":" + x._2).mkString(",")
   override def toString: String = "<<" + id + "::[" + vectorMapToString + "]>>"
