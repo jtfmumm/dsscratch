@@ -4,6 +4,8 @@ import dsscratch.clocks.TimeStamp
 
 trait Command
 
+// This mess of commands needs to be broken out
+
 
 case class Token(id: Int)
 
