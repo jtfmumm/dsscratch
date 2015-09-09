@@ -11,5 +11,6 @@ object AlgoCodes {
   object TWO_PHASE_COMMIT extends AlgoCode
   object SIMPLE_TEST extends AlgoCode
   object ECHO_TESTER extends AlgoCode
+  object BROADCAST_TESTER extends AlgoCode
   object NONE extends AlgoCode
 }

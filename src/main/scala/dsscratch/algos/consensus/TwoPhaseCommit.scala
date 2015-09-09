@@ -63,6 +63,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
 
   def processMessage(m: Message): Unit = {
     m.cmd match {
+      case Commit(cmd, sender, ts) => {
+        val initiateTwoPC = InitiateTwoPC(cmd, sender, ts)
+        parentProcess.recv(Message(initiateTwoPC, parentProcess, clock.stamp()))
+      }
       case InitiateTwoPC(cmd, _, _)  => if (m.sender == parentProcess) initiate2PC(cmd)
       case TwoPCVoteRequest(cmd, _, _) => {
         if (isInitiatorFor(cmd)) return
@@ -89,10 +93,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
 
   private def initiate2PC(cmd: Command): Unit = {
     val voteRequest = TwoPCVoteRequest(cmd, parentProcess, clock.stamp())
-    val initiateEchoMsg = Message(InitiateEcho(voteRequest, parentProcess, clock.stamp()), parentProcess, clock.stamp())
+    val initiateBroadcastMsg = Message(Broadcast(voteRequest, parentProcess, clock.stamp()), parentProcess, clock.stamp())
     s.initiatedCmd = Some(cmd)
     s.votes.update(cmd, mMap[Process, TwoPCVote]())
-    parentProcess.recv(initiateEchoMsg)
+    parentProcess.recv(initiateBroadcastMsg)
   }
 
   private def registerReply(r: TwoPCVoteReply) = r match {
@@ -103,10 +107,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def allVotesReceived(cmd: Command): Boolean = {
+    s.votedOn += cmd
     nodes.forall(p => {
       (for (k <- s.votes(cmd).keys) yield s.votes(cmd).contains(p)).forall(x => x)
     })
-    s.votedOn += cmd
   }
 
   private def checkForSuccessfulVoteFor(cmd: Command): Unit = {

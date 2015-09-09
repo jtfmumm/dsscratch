@@ -14,7 +14,7 @@ case class ProcessToken(t: Token) extends Command
 
 case class TakeSnapshot(snapId: TimeStamp) extends Command
 
-//CRUD
+////CRUD
 case class Read(key: String) extends Command
 case class ReadReply(v: Int) extends Command
 
@@ -22,13 +22,22 @@ case class Update(key: String, v: Int) extends Command
 
 case class Delete(key: String) extends Command
 
-//Broadcast
+////Broadcast
+
+//General broadcast command
 case class Broadcast(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+
+case class SimpleBroadcast(cmd: Command, sender: Process, ts: TimeStamp) extends Command
 
 case class InitiateEcho(cmd: Command, sender: Process, ts: TimeStamp) extends Command
 case class Echo(cmd: Command, sender: Process, ts: TimeStamp) extends Command
 
-//Consensus
+////Consensus
+
+//General commit command
+case class Commit(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+
+
 //2PC
 case class InitiateTwoPC(cmd: Command, sender: Process, ts: TimeStamp) extends Command
 case class TwoPCVoteRequest(cmd: Command, sender: Process, ts: TimeStamp) extends Command

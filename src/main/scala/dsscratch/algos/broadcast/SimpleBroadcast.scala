@@ -46,9 +46,13 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
 
   def processMessage(m: Message): Unit = {
     m.cmd match {
-      case Broadcast(cmd, _, _) => {
+      case Broadcast(cmd, sender, ts) => {
+        val simpleBroadcast = SimpleBroadcast(cmd, sender, ts)
+        parentProcess.recv(Message(simpleBroadcast, parentProcess, clock.stamp()))
+      }
+      case SimpleBroadcast(cmd, _, _) => {
         if (s.processedCommands.contains(cmd)) return
-        val unwrapped = Message(cmd, parentProcess, clock.stamp())
+        val unwrapped = Message(cmd, m.sender, clock.stamp())
         if (m.sender != parentProcess) parentProcess.recv(unwrapped)
         s.processedCommands += cmd
 

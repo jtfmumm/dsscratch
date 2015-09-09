@@ -5,7 +5,7 @@ import dsscratch.algos.nodes._
 import dsscratch.algos.test._
 import dsscratch.algos.broadcast._
 import dsscratch.components._
-import dsscratch.draw.DotGraph
+import dsscratch.draw._
 import dsscratch.runners.TopologyRunner
 
 object SimpleBroadcastTesterRunner {
@@ -13,12 +13,10 @@ object SimpleBroadcastTesterRunner {
     assert(density >= 0 && density <= 1, "Topology density must be between 0 and 1")
     val initiator = Node(1)
     val nonInitiators = (2 to nodeCount).map(x => Node(x))
-    initiator.addComponent(SimpleBroadcastTesterComponent(initiator, isInitiator = true))
-    nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleBroadcastTesterComponent(nd)))
+    initiator.addComponent(BroadcastTesterComponent(initiator, isInitiator = true))
+    nonInitiators.foreach((nd: Node) => nd.addComponent(BroadcastTesterComponent(nd)))
     initiator.addComponent(SimpleBroadcastComponent(initiator))
     nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleBroadcastComponent(nd)))
-    initiator.addComponent(SimpleTestComponent(initiator))
-    nonInitiators.foreach((nd: Node) => nd.addComponent(SimpleTestComponent(nd)))
 
     val nodes = Seq(initiator) ++ nonInitiators
 
@@ -46,9 +44,10 @@ object SimpleBroadcastTesterRunner {
     println(DotGraph.drawChs(topology.chs))
     //Spanning tree
     println("//TEST RESULTS")
-    println(DotGraph.drawStrings(
+    println("//All nodes should be SUCCESS except Node1, which should be NO_VAL")
+    println(Draw.asStrings(
       topology.nodes.map({
-        case nd: Node => nd.resultFor(AlgoCodes.SIMPLE_TEST)
+        case nd: Node => nd.resultFor(AlgoCodes.BROADCAST_TESTER)
         case _ => ""
       })
     )

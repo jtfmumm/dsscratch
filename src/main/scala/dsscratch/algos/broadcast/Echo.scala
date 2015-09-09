@@ -64,6 +64,10 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
 
   def processMessage(m: Message): Unit = {
     m.cmd match {
+      case Broadcast(cmd, proc, ts) => {
+        val initiateEcho = InitiateEcho(cmd, proc, ts)
+        parentProcess.recv(Message(initiateEcho, parentProcess, clock.stamp()))
+      }
       case i @ InitiateEcho(cmd, proc, ts) => {
         s.initiator = true
         s.currentCommand = Some(Echo(cmd, proc, ts))
@@ -98,7 +102,7 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   private def processEcho(cmd: Command, sender: Process) = {
     val newEcho = Echo(cmd, parentProcess, clock.stamp())
     val newMsg = Message(newEcho, parentProcess, clock.stamp())
-    val deliverable = Message(cmd, parentProcess, clock.stamp())
+    val deliverable = Message(cmd, sender, clock.stamp())
 
     if (sender != parentProcess) {
       s.chsToReceive -= inChs.filter(_.hasSource(sender)).head

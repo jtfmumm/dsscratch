@@ -1,6 +1,9 @@
 package dsscratch.algos.test
 
-trait TestCode
+trait TestCode {
+  val name = "\\$.+\\$".r
+  override def toString: String = name.findFirstMatchIn(this.getClass.getName).getOrElse("").toString
+}
 
 object TestCodes {
   object SUCCESS extends TestCode
