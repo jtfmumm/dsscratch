@@ -8,10 +8,16 @@ import dsscratch.components._
 
 import scala.collection.mutable.ArrayBuffer
 
-// Initiator sends out an InitiateEcho command.
+// Initiator sends out a Broadcast command. This kicks
+// off whatever broadcast protocol is implemented on the nodes.
 
 // All nodes act as a store for test messages.
 // Protocol checks that a message is delivered once and only once.
+
+// To use it, another
+// algorithm (the one being tested) should attempt to broadcast
+// a PassTest command. You can inspect the result at each
+// node to see if every node passed.
 
 trait BroadcastTesterLocalState extends LocalState {
   var initiated: Boolean
