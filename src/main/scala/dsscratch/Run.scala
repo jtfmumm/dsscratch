@@ -7,6 +7,7 @@ object Run {
 //    TarryRunner.runFor(10, 0.5)
 
 //    EchoTesterRunner.runFor(10, 0.5)
-    SimpleBroadcastTesterRunner.runFor(10, 0.5)
+//    SimpleBroadcastTesterRunner.runFor(10, 0.5)
+    TwoPhaseCommitTesterRunner.runFor(10, 0.5)
   }
 }

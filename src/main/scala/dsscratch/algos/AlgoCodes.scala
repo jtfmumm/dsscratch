@@ -12,5 +12,6 @@ object AlgoCodes {
   object SIMPLE_TEST extends AlgoCode
   object ECHO_TESTER extends AlgoCode
   object BROADCAST_TESTER extends AlgoCode
+  object COMMIT_TESTER extends AlgoCode
   object NONE extends AlgoCode
 }

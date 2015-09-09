@@ -8,6 +8,8 @@ import dsscratch.algos.nodes._
 import scala.collection.mutable.{Map => mMap, ArrayBuffer, Set => mSet}
 
 // STILL WORK IN PROGRESS
+// This doesn't work right now since the broadcast protocols
+// currently only process one message in total
 
 // An initiator sends a message to all other nodes
 // asking for a vote (either yes or abort).
@@ -64,6 +66,7 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   def processMessage(m: Message): Unit = {
     m.cmd match {
       case Commit(cmd, sender, ts) => {
+        println("//TWO_PHASE_COMMIT CURRENTLY FAILS TO TERMINATE because broadcast protocols only process one message in total")
         val initiateTwoPC = InitiateTwoPC(cmd, sender, ts)
         parentProcess.recv(Message(initiateTwoPC, parentProcess, clock.stamp()))
       }
@@ -79,7 +82,8 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     }
   }
 
-  def terminated: Boolean = s.votedOn.nonEmpty //checks for one successful voting round
+  //checks for one successful voting round, whether or not it was aborted
+  def terminated: Boolean = s.votedOn.nonEmpty
 
   def step(): Unit = {
     if (parentProcess.failed) return
@@ -107,7 +111,6 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def allVotesReceived(cmd: Command): Boolean = {
-    s.votedOn += cmd
     nodes.forall(p => {
       (for (k <- s.votes(cmd).keys) yield s.votes(cmd).contains(p)).forall(x => x)
     })
@@ -116,16 +119,17 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   private def checkForSuccessfulVoteFor(cmd: Command): Unit = {
     val success = voteSucceedsFor(cmd)
     val result = if (success) TwoPCCommit(cmd, parentProcess, clock.stamp()) else TwoPCAbort(cmd, parentProcess, clock.stamp())
-    val initiateEchoMsg = Message(InitiateEcho(result, parentProcess, clock.stamp()), parentProcess, clock.stamp())
-    parentProcess.recv(initiateEchoMsg)
+    val initiateBroadcastMsg = Message(Broadcast(result, parentProcess, clock.stamp()), parentProcess, clock.stamp())
+    parentProcess.recv(initiateBroadcastMsg)
+    s.votedOn += cmd
     if (success) parentProcess.recv(Message(cmd, parentProcess, clock.stamp()))
   }
 
   private def sendVote(cmd: Command): Unit = {
     val vote = if (s.curVote.isEmpty) TwoPCVoteAbort else TwoPCVoteCommit
     val reply = TwoPCVoteReply(vote, cmd, parentProcess)
-    val initiateEchoMsg = Message(InitiateEcho(reply, parentProcess, clock.stamp()), parentProcess, clock.stamp())
-    parentProcess.recv(initiateEchoMsg)
+    val initiateBroadcastMsg = Message(Broadcast(reply, parentProcess, clock.stamp()), parentProcess, clock.stamp())
+    parentProcess.recv(initiateBroadcastMsg)
     s.votedOn += cmd
   }
 
