@@ -8,8 +8,9 @@ import dsscratch.algos.nodes._
 import scala.collection.mutable.{Map => mMap, ArrayBuffer, Set => mSet}
 
 // STILL WORK IN PROGRESS
-// This doesn't work right now since the broadcast protocols
+// Broadcast protocols
 // currently only process one message in total
+// but this protocol requires broadcasting multiple messages
 
 // An initiator sends a message to all other nodes
 // asking for a vote (either yes or abort).
