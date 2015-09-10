@@ -9,9 +9,9 @@ import scala.collection.mutable.Queue
 
 
 // Distributed key value dictionary
-// At the moment, this algorithm will fail to
-// coordinate properly as it naively just has
-// each node pass transactions along.
+// The algorithm receives requests and
+// tries to commit them, relaying on the
+// available commit/consensus protocol.
 
 trait DictLocalState extends LocalState {
   var dict: Dictionary
