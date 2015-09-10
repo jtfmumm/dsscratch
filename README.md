@@ -7,6 +7,9 @@ So far it includes:
 * A TopologyRunner that simulates time and concurrency
 * Nodes that can be augmented with components for encapsulating state and behavior  
 * A NodeComponent template for quickly implementing new components
+  * NodeComponents allow algorithm decoupling. For example, the Two Phase Commit
+    component sends a Broadcast command that will be executed by whatever
+    broadcast component is present.
 * Lamport clocks and vector clocks  
 * The Tarry algorithm for finding a spanning tree of a network  
 * The Chandy-Lamport snapshot algorithm  
