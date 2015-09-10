@@ -89,15 +89,13 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   def result = ""
 
   private def initiateEcho(cmd: Command, proc: Process, ts: TimeStamp): Unit = {
-    println("Initiating Echo at " + parentProcess + " for " + cmd)
-      val newEcho = Echo(cmd, proc, ts)
-      println(outChs)
-      for (c <- outChs) c.recv(Message(newEcho, parentProcess, clock.stamp()))
-      setParentFor(cmd, parentProcess)
+    val newEcho = Echo(cmd, proc, ts)
+    println(outChs)
+    for (c <- outChs) c.recv(Message(newEcho, parentProcess, clock.stamp()))
+    setParentFor(cmd, parentProcess)
   }
 
   private def processEcho(cmd: Command, sender: Process) = {
-    println("Processing Echo at " + parentProcess + " for " + cmd)
     if (!hasInitiatedChsFor(cmd)) generateInChsFor(cmd)
 
     val newEcho = Echo(cmd, parentProcess, clock.stamp())
