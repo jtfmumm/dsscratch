@@ -25,9 +25,10 @@ trait TwoPhaseCommitLocalState extends LocalState {
   var initiated: Boolean
   var initiator: Boolean
   var curVote: Option[Command]
-  var initiatedCmd: Option[Command]
+  var initiatedCmds: mSet[Command]
   var votes: mMap[Command, mMap[Process, TwoPCVote]]
   var votedOn: mSet[Command]
+  var committed: mSet[Command]
   var networkNodes: Seq[Process]
 }
 
@@ -40,8 +41,9 @@ object TwoPhaseCommitComponent {
 
     newC.s.initiated = s.initiated
     newC.s.curVote = s.curVote
-    newC.s.initiatedCmd = s.initiatedCmd
+    newC.s.initiatedCmds = s.initiatedCmds
     newC.s.votedOn = s.votedOn
+    newC.s.committed = s.committed
     newC
   }
 }
@@ -57,9 +59,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     var initiated = false
     var initiator: Boolean = isInitiator
     var curVote: Option[Command] = None
-    var initiatedCmd: Option[Command] = None
+    var initiatedCmds: mSet[Command] = mSet[Command]()
     var votes = mMap[Command, mMap[Process, TwoPCVote]]()
     var votedOn = mSet[Command]()
+    var committed = mSet[Command]()
     var networkNodes = nodes
   }
   ////////////////////
@@ -67,7 +70,6 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   def processMessage(m: Message): Unit = {
     m.cmd match {
       case Commit(cmd, sender, ts) => {
-        println("//TWO_PHASE_COMMIT CURRENTLY FAILS TO TERMINATE because broadcast protocols only process one message in total")
         val initiateTwoPC = InitiateTwoPC(cmd, sender, ts)
         parentProcess.recv(Message(initiateTwoPC, parentProcess, clock.stamp()))
       }
@@ -76,15 +78,15 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
         if (isInitiatorFor(cmd)) return
         if (!s.votedOn.contains(cmd)) sendVote(cmd)
       }
-      case r @ TwoPCVoteReply(vote, cmd, process) => if (!isInitiatorFor(cmd)) registerReply(r)
-      case TwoPCCommit(cmd, _, _) => if (!isInitiatorFor(cmd)) commit(cmd)
-      case TwoPCAbort(cmd, _, _) => if (!isInitiatorFor(cmd)) abort(cmd)
+      case r @ TwoPCVoteReply(vote, cmd, process) => if (isInitiatorFor(cmd)) registerReply(r)
+      case TwoPCCommit(cmd, _, _) => commit(cmd)
+      case TwoPCAbort(cmd, _, _) => abort(cmd)
       case _ => // Ignore the rest
     }
   }
 
   //checks for one successful voting round, whether or not it was aborted
-  def terminated: Boolean = s.votedOn.nonEmpty
+  def terminated: Boolean = s.committed.nonEmpty
 
   def step(): Unit = {
     if (parentProcess.failed) return
@@ -99,7 +101,8 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   private def initiate2PC(cmd: Command): Unit = {
     val voteRequest = TwoPCVoteRequest(cmd, parentProcess, clock.stamp())
     val initiateBroadcastMsg = Message(Broadcast(voteRequest, parentProcess, clock.stamp()), parentProcess, clock.stamp())
-    s.initiatedCmd = Some(cmd)
+    s.initiatedCmds += cmd
+    s.votedOn += cmd
     s.votes.update(cmd, mMap[Process, TwoPCVote]())
     parentProcess.recv(initiateBroadcastMsg)
   }
@@ -112,8 +115,8 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def allVotesReceived(cmd: Command): Boolean = {
-    nodes.forall(p => {
-      (for (k <- s.votes(cmd).keys) yield s.votes(cmd).contains(p)).forall(x => x)
+    nodes.filter(_ != parentProcess).forall(p => {
+      s.votes(cmd).contains(p)
     })
   }
 
@@ -122,12 +125,12 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     val result = if (success) TwoPCCommit(cmd, parentProcess, clock.stamp()) else TwoPCAbort(cmd, parentProcess, clock.stamp())
     val initiateBroadcastMsg = Message(Broadcast(result, parentProcess, clock.stamp()), parentProcess, clock.stamp())
     parentProcess.recv(initiateBroadcastMsg)
-    s.votedOn += cmd
+    s.committed += cmd
     if (success) parentProcess.recv(Message(cmd, parentProcess, clock.stamp()))
   }
 
   private def sendVote(cmd: Command): Unit = {
-    val vote = if (s.curVote.isEmpty) TwoPCVoteAbort else TwoPCVoteCommit
+    val vote = if (s.curVote.isEmpty) TwoPCVoteCommit else TwoPCVoteAbort
     val reply = TwoPCVoteReply(vote, cmd, parentProcess)
     val initiateBroadcastMsg = Message(Broadcast(reply, parentProcess, clock.stamp()), parentProcess, clock.stamp())
     parentProcess.recv(initiateBroadcastMsg)
@@ -135,11 +138,10 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
   }
 
   private def commit(cmd: Command): Unit = {
-    if (s.curVote.nonEmpty) {
-      val deliverable = Message(cmd, parentProcess, clock.stamp())
-      parentProcess.recv(deliverable)
-      s.curVote = None
-    }
+    val deliverable = Message(cmd, parentProcess, clock.stamp())
+    parentProcess.recv(deliverable)
+    s.committed += cmd
+    s.curVote = None
   }
 
   private def abort(cmd: Command): Unit = {
@@ -155,8 +157,6 @@ class TwoPhaseCommitComponent(val parentProcess: Process, nodes: Seq[Process], i
     case TwoPCVoteAbort => false
   }
 
-  private def isInitiatorFor(cmd: Command): Boolean = {
-    s.initiatedCmd == Some(cmd)
-  }
+  private def isInitiatorFor(cmd: Command): Boolean = s.initiatedCmds.contains(cmd)
 }
 

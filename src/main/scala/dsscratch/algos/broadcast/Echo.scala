@@ -10,7 +10,7 @@ import dsscratch.components.Process
 import dsscratch.components._
 
 
-import scala.collection.mutable.{Set => mSet}
+import scala.collection.mutable.{Set => mSet, Map => mMap}
 
 // When a initiateEcho command is received, a node
 // sends a message to its neighbors.
@@ -25,9 +25,8 @@ import scala.collection.mutable.{Set => mSet}
 trait EchoLocalState extends LocalState {
   var initiated: Boolean
   var initiator: Boolean
-  var echoParent: Process
-  var currentCommand: Option[Command]
-  var chsToReceive: mSet[Channel]
+  var echoParents: mMap[Command, Process]
+  var chsToReceive: mMap[Command, mSet[Channel]]
 }
 
 object EchoComponent {
@@ -39,8 +38,7 @@ object EchoComponent {
 
     //Set state properties
     newC.s.initiated = s.initiated
-    newC.s.echoParent = s.echoParent
-    newC.s.currentCommand = s.currentCommand
+    newC.s.echoParents = s.echoParents
     newC.s.chsToReceive = s.chsToReceive
     newC
   }
@@ -56,9 +54,8 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   private object s extends EchoLocalState {
     var initiated = false
     var initiator: Boolean = isInitiator
-    var echoParent: Process = EmptyProcess
-    var currentCommand: Option[Command] = None
-    var chsToReceive: mSet[Channel] = mSet[Channel](inChs: _*)
+    var echoParents: mMap[Command, Process] = mMap[Command, Process]()
+    var chsToReceive: mMap[Command, mSet[Channel]] = mMap[Command, mSet[Channel]]()//mSet[Channel](inChs: _*)
   }
   ////////////////////
 
@@ -68,57 +65,72 @@ class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
         val initiateEcho = InitiateEcho(cmd, proc, ts)
         parentProcess.recv(Message(initiateEcho, parentProcess, clock.stamp()))
       }
-      case i @ InitiateEcho(cmd, proc, ts) => {
-        s.initiator = true
-        s.currentCommand = Some(Echo(cmd, proc, ts))
-      }
-      case e @ Echo(cmd, _, _) => if (!terminated) processEcho(cmd, m.sender)
+      case i @ InitiateEcho(cmd, proc, ts) => initiateEcho(cmd, proc, ts)
+      case e @ Echo(cmd, _, _) => if (!terminatedFor(cmd)) processEcho(cmd, m.sender)
       case _ => // do nothing
     }
   }
 
-  def terminated: Boolean = s.chsToReceive.isEmpty && s.currentCommand.isEmpty
+  def terminated: Boolean = false
+
+  def terminatedFor(cmd: Command): Boolean = s.chsToReceive.get(cmd) match {
+    case Some(chs) => chs.isEmpty
+    case None => false
+  }
 
   def step(): Unit = {
     if (parentProcess.failed) return
     if (terminated) return
-    if (s.initiator && !s.initiated) initiate()
+    // nothing to do...
   }
 
   def snapshot: EchoComponent = EchoComponent.buildWith(parentProcess, s)
 
   def result = ""
 
-  private def initiate(): Unit = s.currentCommand match {
-    case Some(cmd) => {
-      val newEcho = Message(cmd, parentProcess, clock.stamp())
-      for (c <- outChs) c.recv(newEcho)
-      s.initiated = true
-      s.echoParent = parentProcess
-    }
-    case None => s.initiated = true
+  private def initiateEcho(cmd: Command, proc: Process, ts: TimeStamp): Unit = {
+    println("Initiating Echo at " + parentProcess + " for " + cmd)
+      val newEcho = Echo(cmd, proc, ts)
+      println(outChs)
+      for (c <- outChs) c.recv(Message(newEcho, parentProcess, clock.stamp()))
+      setParentFor(cmd, parentProcess)
   }
 
   private def processEcho(cmd: Command, sender: Process) = {
+    println("Processing Echo at " + parentProcess + " for " + cmd)
+    if (!hasInitiatedChsFor(cmd)) generateInChsFor(cmd)
+
     val newEcho = Echo(cmd, parentProcess, clock.stamp())
     val newMsg = Message(newEcho, parentProcess, clock.stamp())
     val deliverable = Message(cmd, sender, clock.stamp())
 
     if (sender != parentProcess) {
-      s.chsToReceive -= inChs.filter(_.hasSource(sender)).head
+      s.chsToReceive(cmd) -= inChs.filter(_.hasSource(sender)).head
     }
 
-    if (s.echoParent == EmptyProcess) {
-      s.echoParent = sender
-      s.currentCommand = Some(cmd)
+    if (!hasProcessed(cmd)) {
+      setParentFor(cmd, sender)
       for (c <- outChs.filter(!_.hasTarget(sender))) c.recv(newMsg)
       // Deliver command to self
       parentProcess.recv(deliverable)
-    } else if (s.chsToReceive.isEmpty) {
-      if (s.echoParent != parentProcess) outChs.filter(_.hasTarget(s.echoParent)).head.recv(newMsg)
-      s.currentCommand = None
-      s.echoParent = EmptyProcess
+    } else if (hasReceivedAllMsgsFor(cmd)) {
+      val echoParent = s.echoParents(cmd)
+      if (echoParent != parentProcess) outChs.filter(_.hasTarget(echoParent)).head.recv(newMsg)
     }
   }
+
+  private def generateInChsFor(cmd: Command): Unit = {
+    val newInChs = mSet[Channel]()
+    for (c <- inChs) newInChs += c
+    s.chsToReceive(cmd) = newInChs
+  }
+
+  private def hasProcessed(cmd: Command): Boolean = s.echoParents.get(cmd).nonEmpty
+
+  private def hasInitiatedChsFor(cmd: Command): Boolean = s.chsToReceive.get(cmd).nonEmpty
+
+  private def hasReceivedAllMsgsFor(cmd: Command): Boolean = s.chsToReceive.get(cmd).isEmpty
+
+  private def setParentFor(cmd: Command, p: Process): Unit = s.echoParents(cmd) = p
 }
 
