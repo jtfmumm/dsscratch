@@ -11,5 +11,7 @@ So far it includes:
 * The Tarry algorithm for finding a spanning tree of a network  
 * The Chandy-Lamport snapshot algorithm  
 * Simple broadcast (flooding) and echo algorithms
-* A simple tester to check whether broadcast messages are delivered once and only once to each node
+* Two Phase Commit
+* A test module to check whether broadcast algorithms work
+* A test module to check whether commit/consensus algorithms work
 
