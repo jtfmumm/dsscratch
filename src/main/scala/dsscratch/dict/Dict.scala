@@ -12,6 +12,8 @@ class Dictionary(var d: mMap[String, Int] = mMap[String, Int]()) {
 
   def delete(k: String) = d.remove(k)
 
+  def keys: Seq[String] = d.keys.toSeq
+
   override def clone(): Dictionary = new Dictionary(d.map(x => x))
   override def toString: String = {
     "{{ \n" +

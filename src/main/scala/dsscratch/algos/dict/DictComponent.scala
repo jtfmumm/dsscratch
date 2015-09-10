@@ -15,7 +15,6 @@ import scala.collection.mutable.Queue
 
 trait DictLocalState extends LocalState {
   var dict: Dictionary
-  var nextCommands: Queue[Command]
 }
 
 object DictComponent {
@@ -26,7 +25,6 @@ object DictComponent {
     val newC = DictComponent(parentProcess)
 
     newC.s.dict = s.dict.clone()
-    newC.s.nextCommands = s.nextCommands.map(x => x).toQueue
     newC
   }
 }
@@ -40,7 +38,6 @@ class DictComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
   //LOCAL STATE
   private object s extends DictLocalState {
     var dict = Dictionary()
-    var nextCommands = Queue[Command]()
   }
   ////////////////////
 
@@ -52,35 +49,41 @@ class DictComponent(val parentProcess: Process, isInitiator: Boolean = false) ex
       log.write("[Dict] Sending on " + ch, msg.ts)
       ch.recv(msg)
     }
+    case RequestUpdate(k, v) => requestUpdate(k, v)
     case Update(k, v) => {
       try {
         s.dict.put(k, v)
-        s.nextCommands.enqueue(m.cmd)
       }
       catch {
         case _: Throwable =>
       }
     }
+    case RequestDelete(k) => requestDelete(k)
     case Delete(k) => {
       s.dict.delete(k)
-      s.nextCommands.enqueue(m.cmd)
     }
     case _ =>
   }
 
-  def terminated: Boolean = false
+  def terminated: Boolean = s.dict.keys.nonEmpty
 
   def step(): Unit = {
     if (parentProcess.failed) return
     if (terminated) return
-    if (s.nextCommands.nonEmpty) {
-      val next = s.nextCommands.dequeue()
-      val msg = Message(next, parentProcess, clock.stamp())
-      outChs.foreach(_.recv(msg))
-    }
+    // nothing to do...
+  }
+
+  private def requestUpdate(k: String, v: Int) = {
+    val commit = Commit(Update(k, v), parentProcess, clock.stamp())
+    parentProcess.recv(Message(commit, parentProcess, clock.stamp()))
+  }
+
+  private def requestDelete(k: String) = {
+    val commit = Commit(Delete(k), parentProcess, clock.stamp())
+    parentProcess.recv(Message(commit, parentProcess, clock.stamp()))
   }
 
   def snapshot: DictComponent = DictComponent.buildWith(parentProcess, s)
 
-  def result = s.dict.toString
+  def result = parentProcess + ": " + s.dict.toString + "\n"
 }
