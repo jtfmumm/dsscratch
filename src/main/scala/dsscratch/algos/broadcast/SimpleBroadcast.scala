@@ -62,8 +62,7 @@ class SimpleBroadcastComponent(val parentProcess: Process, isInitiator: Boolean 
     }
   }
 
-  // This only checks that at least one command has been processed
-  def terminated: Boolean = s.processedCommands.nonEmpty
+  def terminated: Boolean = false
 
   def terminatedFor(cmd: Command): Boolean = s.processedCommands.contains(cmd)
 

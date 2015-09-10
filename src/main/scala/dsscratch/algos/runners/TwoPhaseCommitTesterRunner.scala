@@ -1,7 +1,7 @@
 package dsscratch.algos.runners
 
 import dsscratch.algos._
-import dsscratch.algos.broadcast.EchoComponent
+import dsscratch.algos.broadcast._
 import dsscratch.algos.consensus._
 import dsscratch.algos.nodes._
 import dsscratch.algos.test._
@@ -20,7 +20,7 @@ object TwoPhaseCommitTesterRunner {
     nonInitiators.foreach((nd: Node) => nd.addComponent(CommitTesterComponent(nd)))
     initiator.addComponent(TwoPhaseCommitComponent(initiator, nodes, isInitiator = true))
     nonInitiators.foreach((nd: Node) => nd.addComponent(TwoPhaseCommitComponent(nd, nodes)))
-    initiator.addComponent(EchoComponent(initiator, isInitiator = true))
+    initiator.addComponent(EchoComponent(initiator))
     nonInitiators.foreach((nd: Node) => nd.addComponent(EchoComponent(nd)))
 
     val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //No self connections
