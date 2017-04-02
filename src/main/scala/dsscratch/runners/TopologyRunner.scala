@@ -1,64 +1,39 @@
 package dsscratch.runners
 
 import scala.collection.mutable.ArrayBuffer
-import dsscratch.components.Topology
-import dsscratch.components.Steppable
+import dsscratch.algos.nodes._
 import dsscratch.components.Channel
+import dsscratch.components.Node
 import dsscratch.components.Process
+import dsscratch.components.Steppable
+import dsscratch.components.Topology
+import dsscratch.model.SystemModel
 import scala.util.Random
-import randomific.Rand
+import dsscratch.util.Rand
 
-///////////////////////
-//Configuration Options
-//
-//  crashOdds -> Double   //Odds some process will crash any moment
-//  restartOdds -> Double  //Odds some crashed process will restart
-//
-///////////////////////
+
 case class TopologyRunner(t: Topology,
                           endCondition: () => Boolean,
-                          options: Map[String, Double] = Map[String, Double]()) {
-  val config = setConfig(options)
+                          val systemModel: SystemModel,
+                          timeout: Int = 0)
+{
   val nodes = t.nodes
   val chs = t.chs
-  val failedNodes = ArrayBuffer[Process]()
+  val failedNodes = ArrayBuffer[Node]()
   val partitionedChs = ArrayBuffer[Channel]()
   val steppables: Seq[Steppable] = nodes ++ chs
   var moment = 0
 
   def run(): Unit = {
-    if (failuresArePossible) runWithFailures() else runWithoutFailures()
-  }
-
-  def runWithoutFailures(): Unit = {
-    while(!endCondition()) {
-      moment = moment + 1
-      step()
-    }
-  }
-
-  def runWithFailures(): Unit = {
-    while(!endCondition()) {
+    while(!endCondition() && !timedOut) {
       moment = moment + 1
       checkForRestart()
       checkForFailure()
+      checkForCrash()
+      checkForPartitionHeal()
+      checkForPartition()
+      checkForDelay()
       step()
-    }
-  }
-
-  def checkForFailure(): Unit = {
-    if (Rand.rolledByOdds(config("failureOdds"))) {
-      val failedNode = Rand.pickItem(nodes)
-      failedNode.fail()
-      if (!failedNodes.contains(failedNode)) failedNodes.append(failedNode)
-    }
-  }
-
-  def checkForRestart(): Unit = {
-    if (failedNodes.nonEmpty && Rand.rolledByOdds(config("restartOdds"))) {
-      val idx = Rand.rollFromZero(failedNodes.size)
-      val restartedNode = failedNodes.remove(idx)
-      restartedNode.restart()
     }
   }
 
@@ -67,14 +42,63 @@ case class TopologyRunner(t: Topology,
     for (x <- shuffled) x.step()
   }
 
-  private def failuresArePossible: Boolean = config("failureOdds") > 0
+  def timedOut: Boolean = {
+    if (timeout > 0)
+      moment > timeout
+    else
+      false
+  }
 
-  private def setConfig(o: Map[String, Double]): Map[String, Double] = {
-    Map(
-      "failureOdds" -> o.getOrElse("failureOdds", 0.0),
-      "restartOdds" -> o.getOrElse("restartOdds", 0.0)
-    )
+  def checkForFailure(): Unit = {
+    if (Rand.rolledByOdds(systemModel.nodeFailureOdds)) {
+      val failedNode = Rand.pickItem(nodes)
+      failedNode.fail()
+      if (!failedNodes.contains(failedNode)) failedNodes.append(failedNode)
+    }
+  }
+
+  def checkForRestart(): Unit = {
+    if (failedNodes.nonEmpty &&
+      Rand.rolledByOdds(systemModel.nodeRestartOdds))
+    {
+      val idx = Rand.rollFromZero(failedNodes.size)
+      val restartedNode = failedNodes.remove(idx)
+      restartedNode.restart()
+    }
+  }
+
+  def checkForCrash(): Unit = {
+    if (Rand.rolledByOdds(systemModel.nodeCrashStopOdds)) {
+      val failedNode = Rand.pickItem(nodes)
+      // Since this isn't added to failedNodes, it will never be restarted
+      failedNode.fail()
+    }
+  }
+
+  def checkForPartition(): Unit = {
+    if (Rand.rolledByOdds(systemModel.partitionOdds)) {
+      val partitionedCh = Rand.pickItem(chs)
+      partitionedCh.fail()
+      if (!partitionedChs.contains(partitionedCh))
+        partitionedChs.append(partitionedCh)
+    }
+  }
+
+  def checkForPartitionHeal(): Unit = {
+    if (partitionedChs.nonEmpty &&
+      Rand.rolledByOdds(systemModel.healPartitionOdds))
+    {
+      val idx = Rand.rollFromZero(partitionedChs.size)
+      val healedCh = partitionedChs.remove(idx)
+      healedCh.restart()
+    }
+  }
+
+  def checkForDelay(): Unit = {
+    if (Rand.rolledByOdds(systemModel.delayOdds)) {
+      val delayedCh = Rand.pickItem(chs)
+      val delay = Rand.rollFromZero(systemModel.maxDelay)
+      delayedCh.delay(delay)
+    }
   }
 }
-
-

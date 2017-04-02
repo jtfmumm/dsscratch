@@ -1,16 +1,20 @@
 package dsscratch.components
 
 import dsscratch.clocks.TimeStamp
+import dsscratch.client_server._
+import dsscratch.algos.crdt.p_counter._
 
 trait Command
 
 // This mess of commands needs to be broken out
 
 
-case class Token(id: Int)
+case class Token(id: ProcessId)
 
 
 case class EmptyCommand() extends Command
+
+case class IntToken(t: Token) extends Command
 
 case class ProcessToken(t: Token) extends Command
 
@@ -29,31 +33,50 @@ case class Delete(key: String) extends Command
 ////Broadcast
 
 //General broadcast command
-case class Broadcast(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class Broadcast(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
 
-case class SimpleBroadcast(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class SimpleBroadcast(cmd: Command, senderId: ProcessId, ts: TimeStamp) extends Command
 
-case class InitiateEcho(cmd: Command, sender: Process, ts: TimeStamp) extends Command
-case class Echo(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class InitiateEcho(cmd: Command, senderId: ProcessId, ts: TimeStamp) extends Command
+case class Echo(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
 
 ////Consensus
 
 //General commit command
-case class Commit(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class Commit(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
 
 
 //2PC
-case class InitiateTwoPC(cmd: Command, sender: Process, ts: TimeStamp) extends Command
-case class TwoPCVoteRequest(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class InitiateTwoPC(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
+case class TwoPCVoteRequest(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
 
 trait TwoPCVote
 case object TwoPCVoteCommit extends TwoPCVote
 case object TwoPCVoteAbort extends TwoPCVote
 
-case class TwoPCVoteReply(v: TwoPCVote, cmd: Command, p: Process) extends Command
-case class TwoPCCommit(cmd: Command, sender: Process, ts: TimeStamp) extends Command
-case class TwoPCAbort(cmd: Command, sender: Process, ts: TimeStamp) extends Command
+case class TwoPCVoteReply(v: TwoPCVote, cmd: Command, pId: ProcessId)
+  extends Command
+case class TwoPCCommit(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
+case class TwoPCAbort(cmd: Command, senderId: ProcessId, ts: TimeStamp)
+  extends Command
 
+////ClientConnection
+case class Request(cmd: Command, conn: ClientConnection) extends Command
+case class Response(cmd: Command) extends Command
+
+////Gossip
+case object StartGossip extends Command
+
+//PCounter
+case class MergePCounter(pCounter: PCounter) extends Command
+case object IncrementPCounter extends Command
+case class UpdatedPCounter(pCounter: PCounter) extends Command
 
 //Testing
 case object PassTest extends Command

@@ -1,0 +1,33 @@
+digraph G {
+  concentrate=true;
+  Node1 -> Node2;
+  Node2 -> Node1;
+  Node2 -> Node5;
+  Node5 -> Node2;
+  Node5 -> Node9;
+  Node9 -> Node5;
+  Node9 -> Node7;
+  Node7 -> Node9;
+  Node7 -> Node6;
+  Node6 -> Node7;
+  Node6 -> Node10;
+  Node10 -> Node6;
+  Node10 -> Node8;
+  Node8 -> Node10;
+  Node8 -> Node3;
+  Node3 -> Node8;
+  Node3 -> Node4;
+  Node4 -> Node3;
+  Node9 -> Node10;
+  Node10 -> Node9;
+  Node1 -> Node4;
+  Node4 -> Node1;
+  Node2 -> Node4;
+  Node4 -> Node2;
+  Node2 -> Node8;
+  Node8 -> Node2;
+  Node3 -> Node10;
+  Node10 -> Node3;
+  Node1 -> Node7;
+  Node7 -> Node1;
+}

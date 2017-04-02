@@ -8,7 +8,7 @@ import scala.util.matching.Regex
 case class Log(data: ArrayBuffer[String] = ArrayBuffer[String]()) {
   var curLine = 0
 
-  def write(a: Any, ts: TimeStamp = EmptyTimeStamp()) = data.append(ts + " " + a.toString)
+  def write(a: Any, ts: TimeStamp = EmptyTimeStamp) = data.append(ts + " " + a.toString)
   def readLine(): String = {
     if (curLine == data.size) {
       "EOF"

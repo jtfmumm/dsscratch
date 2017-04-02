@@ -3,7 +3,7 @@ package dsscratch.clocks
 
 trait TimeStamp
 
-case class EmptyTimeStamp extends TimeStamp {
+case object EmptyTimeStamp extends TimeStamp {
   override def toString: String = "<<Empty>>"
 }
 

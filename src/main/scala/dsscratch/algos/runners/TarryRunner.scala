@@ -4,32 +4,22 @@ import dsscratch.components._
 import dsscratch.algos._
 import dsscratch.algos.tarry._
 import dsscratch.algos.nodes._
+import dsscratch.model._
 import dsscratch.runners.TopologyRunner
 import dsscratch.draw.DotGraph
 
 object TarryRunner {
   def runFor(nodeCount: Int, density: Double) = {
-    assert(density >= 0 && density <= 1, "Topology density must be between 0 and 1")
-    val initiator = Node(1)
-    val nonInitiators = (2 to nodeCount).map(x => Node(x))
-    initiator.addComponent(TarryComponent(initiator, isInitiator = true))
-    nonInitiators.foreach((nd: Node) => nd.addComponent(TarryComponent(nd)))
+    val moduleBuilders = List(TarryModule)
 
-    val nodes = Seq(initiator) ++ nonInitiators
+    val topology = TopologyBuilder(nodeCount, density)
+      .withModuleBuilders(moduleBuilders)
+      .build()
 
-    val maxEdges = (nodeCount * (nodeCount - 1)) - nodeCount //No self connections
-    val possibleExtras = maxEdges - (nodeCount - 1) //Topology must be connected, so we need at least one path of n - 1 edges
+    def endCondition: Boolean =
+      topology.nodes.forall(_.terminatedFor(AlgoCodes.TARRY))
 
-    val extras = (possibleExtras * density).floor.toInt
-
-    val topology: Topology = Topology.connectedWithKMoreEdges(extras, nodes)
-
-    def endCondition: Boolean = topology.nodes.forall({
-      case nd: Node => nd.terminatedFor(AlgoCodes.TARRY)
-      case _ => true
-    })
-
-    TopologyRunner(topology, endCondition _).run()
+    TopologyRunner(topology, endCondition _, SystemModel()).run()
 
     //TRACE
     for (nd <- topology.nodes) {

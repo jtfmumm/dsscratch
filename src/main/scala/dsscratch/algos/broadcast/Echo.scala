@@ -2,8 +2,6 @@ package dsscratch.algos.broadcast
 
 import dsscratch.algos.AlgoCode
 import dsscratch.algos.AlgoCodes
-import dsscratch.algos.nodes.LocalState
-import dsscratch.algos.nodes.NodeComponent
 import dsscratch.clocks.TimeStamp
 import dsscratch.components.Message
 import dsscratch.components.Process
@@ -12,123 +10,156 @@ import dsscratch.components._
 
 import scala.collection.mutable.{Set => mSet, Map => mMap}
 
-// When a initiateEcho command is received, a node
-// sends a message to its neighbors.
+/*
+When a Broadcast command is received at a node, it sends an Echo message to its
+neighbors, kicking off the echo broadcast algorithm.
 
-// When a node receives an Echo command, if it has no
-// parent, it records the sender as its parent and delivers
-// the contained message to itself. It then
-// sends the message over all its channels except to its
-// parent. It only sends to its parent once its received
-// the same Echo over all incoming channels.
+When a node receives an Echo command, if it has no echo parent, it records the
+sender as its parent and delivers the contained message to itself. It then
+sends the message over all its channels except to its parent. It only sends to
+its parent once it has received the same Echo over all incoming channels.
+*/
 
 trait EchoLocalState extends LocalState {
-  var initiated: Boolean
-  var initiator: Boolean
-  var echoParents: mMap[Command, Process]
-  var chsToReceive: mMap[Command, mSet[Channel]]
+  var initiated: mSet[Command]
+  var echoParentIds: mMap[Command, ProcessId]
+  var toReceive: mMap[Command, mSet[ProcessId]]
 }
 
-object EchoComponent {
-  def apply(parentProcess: Process, isInitiator: Boolean = false): EchoComponent = {
-    new EchoComponent(parentProcess, isInitiator)
+object EchoModule extends NodeModuleBuilder {
+  def apply(parentNode: Node, nodeIds: Set[ProcessId],
+    isInitiator: Boolean = false): EchoModule = {
+    new EchoModule(parentNode)
   }
-  def buildWith(parentProcess: Process, s: EchoLocalState): EchoComponent = {
-    val newC = EchoComponent(parentProcess, s.initiator)
+  def buildWith(parentNode: Node, s: EchoLocalState): EchoModule = {
+    val newC = new EchoModule(parentNode)
 
     //Set state properties
     newC.s.initiated = s.initiated
-    newC.s.echoParents = s.echoParents
-    newC.s.chsToReceive = s.chsToReceive
+    newC.s.echoParentIds = s.echoParentIds
+    newC.s.toReceive = s.toReceive
     newC
   }
 }
 
-class EchoComponent(val parentProcess: Process, isInitiator: Boolean = false) extends NodeComponent {
+class EchoModule(val parentNode: Node) extends NodeModule {
   val algoCode: AlgoCode = AlgoCodes.ECHO
-  val outChs = parentProcess.outChs
-  val inChs = parentProcess.inChs
 
   ////////////////////
   //LOCAL STATE
   private object s extends EchoLocalState {
-    var initiated = false
-    var initiator: Boolean = isInitiator
-    var echoParents: mMap[Command, Process] = mMap[Command, Process]()
-    var chsToReceive: mMap[Command, mSet[Channel]] = mMap[Command, mSet[Channel]]()//mSet[Channel](inChs: _*)
+    var initiated: mSet[Command] = mSet[Command]()
+    var echoParentIds: mMap[Command, ProcessId] = mMap[Command, ProcessId]()
+    var toReceive: mMap[Command, mSet[ProcessId]] =
+      mMap[Command, mSet[ProcessId]]()
   }
   ////////////////////
 
-  def processMessage(m: Message): Unit = {
-    m.cmd match {
-      case Broadcast(cmd, proc, ts) => {
-        val initiateEcho = InitiateEcho(cmd, proc, ts)
-        parentProcess.recv(Message(initiateEcho, parentProcess, clock.stamp()))
-      }
-      case i @ InitiateEcho(cmd, proc, ts) => initiateEcho(cmd, proc, ts)
-      case e @ Echo(cmd, _, _) => if (!terminatedFor(cmd)) processEcho(cmd, m.sender)
+  def processMessage(cmd: Command, chSenderId: ProcessId, ts: TimeStamp):
+    Unit = {
+    cmd match {
+      case Broadcast(cmd, senderId, ts) => initiateEcho(cmd, senderId, ts)
+      case e @ Echo(cmd, _, _) =>
+        if (!terminatedFor(cmd)) processEcho(cmd, chSenderId)
       case _ => // do nothing
     }
   }
 
-  def terminated: Boolean = false
+  def terminated: Boolean = {
+    if (s.initiated.isEmpty) return false
 
-  def terminatedFor(cmd: Command): Boolean = s.chsToReceive.get(cmd) match {
-    case Some(chs) => chs.isEmpty
-    case None => false
+    (for ((cmd, _) <- s.toReceive) yield {
+      initiatedFor(cmd) && terminatedFor(cmd);
+    }).forall(b => b)
   }
 
+  private def initiatedFor(cmd: Command): Boolean = s.initiated.contains(cmd)
+
+  private def terminatedFor(cmd: Command): Boolean =
+    isComplete(s.toReceive.get(cmd))
+
   def step(): Unit = {
-    if (parentProcess.failed) return
     if (terminated) return
     // nothing to do...
   }
 
-  def snapshot: EchoComponent = EchoComponent.buildWith(parentProcess, s)
+  def snapshot: EchoModule = EchoModule.buildWith(parentNode, s)
 
   def result = ""
 
-  private def initiateEcho(cmd: Command, proc: Process, ts: TimeStamp): Unit = {
-    val newEcho = Echo(cmd, proc, ts)
-    println(outChs)
-    for (c <- outChs) c.recv(Message(newEcho, parentProcess, clock.stamp()))
-    setParentFor(cmd, parentProcess)
+  private def initiateEcho(cmd: Command, senderId: ProcessId, ts: TimeStamp): Unit =
+  {
+    if (!isInitiatorFor(cmd)) {
+      val newEcho = Echo(cmd, senderId, ts)
+      for (targetId <- outProcessIds) {
+        val msg = Message(newEcho, parentNode.id, clock.stamp())
+        parentNode.send(targetId, msg)
+      }
+      setEchoParentFor(cmd, parentNode.id)
+      s.initiated += cmd
+    }
   }
 
-  private def processEcho(cmd: Command, sender: Process) = {
+  private def processEcho(cmd: Command, senderId: ProcessId): Unit = {
+    // If we initiated this echo, ignore incoming echo messages
+    if (isInitiatorFor(cmd)) return
+
     if (!hasInitiatedChsFor(cmd)) generateInChsFor(cmd)
+    removeSenderFromReceiveSet(cmd, senderId)
 
-    val newEcho = Echo(cmd, parentProcess, clock.stamp())
-    val newMsg = Message(newEcho, parentProcess, clock.stamp())
-    val deliverable = Message(cmd, sender, clock.stamp())
-
-    if (sender != parentProcess) {
-      s.chsToReceive(cmd) -= inChs.filter(_.hasSource(sender)).head
-    }
+    val newEcho = Echo(cmd, parentNode.id, clock.stamp())
+    val newMsg = Message(newEcho, parentNode.id, clock.stamp())
 
     if (!hasProcessed(cmd)) {
-      setParentFor(cmd, sender)
-      for (c <- outChs.filter(!_.hasTarget(sender))) c.recv(newMsg)
-      // Deliver command to self
-      parentProcess.recv(deliverable)
-    } else if (hasReceivedAllMsgsFor(cmd)) {
-      val echoParent = s.echoParents(cmd)
-      if (echoParent != parentProcess) outChs.filter(_.hasTarget(echoParent)).head.recv(newMsg)
+      s.initiated += cmd
+      setEchoParentFor(cmd, senderId)
+      for (targetId <- outProcessIds.filter(_ != parentNode.id))
+        parentNode.send(targetId, newMsg)
+      // Deliver wrapped command to self
+      val deliverable = Message(cmd, senderId, clock.stamp())
+      parentNode.deliver(deliverable)
+    }
+
+    if (hasReceivedAllMsgsFor(cmd)) {
+      val echoParentId = s.echoParentIds(cmd)
+      parentNode.send(echoParentId, newMsg)
     }
   }
 
   private def generateInChsFor(cmd: Command): Unit = {
-    val newInChs = mSet[Channel]()
-    for (c <- inChs) newInChs += c
-    s.chsToReceive(cmd) = newInChs
+    val newInNodeIds = mSet[ProcessId]()
+    for (newId <- inProcessIds) newInNodeIds += newId
+    s.toReceive(cmd) = newInNodeIds
   }
 
-  private def hasProcessed(cmd: Command): Boolean = s.echoParents.get(cmd).nonEmpty
+  private def removeSenderFromReceiveSet(cmd: Command, senderId: ProcessId):
+    Unit = {
+    s.toReceive(cmd) -= senderId
+  }
 
-  private def hasInitiatedChsFor(cmd: Command): Boolean = s.chsToReceive.get(cmd).nonEmpty
+  private def hasProcessed(cmd: Command): Boolean =
+    s.echoParentIds.get(cmd).nonEmpty
 
-  private def hasReceivedAllMsgsFor(cmd: Command): Boolean = s.chsToReceive.get(cmd).isEmpty
+  private def hasInitiatedChsFor(cmd: Command): Boolean =
+    s.toReceive.get(cmd).nonEmpty
 
-  private def setParentFor(cmd: Command, p: Process): Unit = s.echoParents(cmd) = p
+  private def hasReceivedAllMsgsFor(cmd: Command): Boolean =
+    isComplete(s.toReceive.get(cmd))
+
+  private def setEchoParentFor(cmd: Command, id: ProcessId): Unit =
+    s.echoParentIds(cmd) = id
+
+  private def isInitiatorFor(cmd: Command): Boolean =
+    s.echoParentIds.get(cmd) match {
+      case Some(echoParentId) => parentNode.id == echoParentId
+      case _ => false
+    }
+
+  private def isComplete[A](o: Option[mSet[ProcessId]]): Boolean = {
+    o match {
+      case Some(set) => set.isEmpty
+      case _ => false
+    }
+  }
 }
 
