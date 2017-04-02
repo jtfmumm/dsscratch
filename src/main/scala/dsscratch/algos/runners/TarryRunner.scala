@@ -23,7 +23,7 @@ object TarryRunner {
 
     //TRACE
     for (nd <- topology.nodes) {
-      println("Next")
+      println(nd)
       println(nd.log)
     }
     //PARENTS

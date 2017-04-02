@@ -36,6 +36,8 @@ case class Delete(key: String) extends Command
 case class Broadcast(cmd: Command, senderId: ProcessId, ts: TimeStamp)
   extends Command
 
+case class AckBroadcast(senderId: ProcessId, ts: TimeStamp)
+
 case class SimpleBroadcast(cmd: Command, senderId: ProcessId, ts: TimeStamp) extends Command
 
 case class InitiateEcho(cmd: Command, senderId: ProcessId, ts: TimeStamp) extends Command

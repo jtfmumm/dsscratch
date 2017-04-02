@@ -8,7 +8,7 @@ object Run {
 
    EchoTesterRunner.runFor(100, 0.125)
    SimpleBroadcastTesterRunner.runFor(100, 0.125)
-   // TwoPhaseCommitTesterRunner.runFor(20, 0.125)
+   TwoPhaseCommitTesterRunner.runFor(20, 0.125)
    // DictTesterRunner.runFor(10, 0.125)
   }
 }

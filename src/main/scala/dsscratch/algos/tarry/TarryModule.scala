@@ -22,6 +22,7 @@ trait TarryLocalState extends LocalState {
   var tokens: Queue[Token]
   var finishedTokens: Queue[Token]
   var parentChNodeId: ProcessId
+  var parentResult: ProcessId
   var nonParentChNodeIdsToSend: ArrayBuffer[ProcessId]
 }
 
@@ -37,6 +38,7 @@ object TarryModule extends NodeModuleBuilder {
     newC.s.tokens = s.tokens.map(x => x).toQueue
     newC.s.finishedTokens = s.finishedTokens.map(x => x).toQueue
     newC.s.parentChNodeId = s.parentChNodeId
+    newC.s.parentResult = s.parentResult
     newC.s.nonParentChNodeIdsToSend = s.nonParentChNodeIdsToSend.map(x => x)
     newC
   }
@@ -53,6 +55,7 @@ class TarryModule(val parentNode: Node, isInitiator: Boolean = false) extends No
     var tokens = Queue[Token]()
     var finishedTokens = Queue[Token]()
     var parentChNodeId: ProcessId = ProcessId.empty
+    var parentResult: ProcessId = ProcessId.empty
     var nonParentChNodeIdsToSend = ArrayBuffer[ProcessId]()
   }
   ////////////////////
@@ -79,6 +82,7 @@ class TarryModule(val parentNode: Node, isInitiator: Boolean = false) extends No
         sendToken(s.parentChNodeId)
         val t = s.tokens.dequeue() //Parent is the last destination for token
         s.finishedTokens.enqueue(t)
+        s.parentResult = s.parentChNodeId
         emptyParent()
       }
       case _ => {
@@ -92,9 +96,9 @@ class TarryModule(val parentNode: Node, isInitiator: Boolean = false) extends No
 
   def snapshot: TarryModule = TarryModule.buildWith(parentNode, s)
 
-  def result = {
-    if (s.parentChNodeId != ProcessId.empty)
-      "  Node" + s.parentChNodeId + " -> " + parentNode + ";\n"
+  def result: String = {
+    if (s.parentResult != ProcessId.empty)
+      "  Node" + s.parentResult + " -> " + parentNode + ";\n"
     else
       ""
   }
@@ -131,7 +135,7 @@ class TarryModule(val parentNode: Node, isInitiator: Boolean = false) extends No
     {
       s.parentChNodeId = senderId
       log.write("[Tarry] Parent: Node" + s.parentChNodeId, clock.stamp())
-      s.parentChNodeId = outProcessIds.filter(_ == senderId).head
+      // s.parentChNodeId = outProcessIds.filter(_ == senderId).head
       s.nonParentChNodeIdsToSend =
         ArrayBuffer(outProcessIds.filter(_ != s.parentChNodeId): _*)
       s.tokens.enqueue(t)

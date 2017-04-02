@@ -64,11 +64,14 @@ class Node(clk: Clock = EmptyClock(), val initiator: Boolean = false)
     timers.tick()
   }
 
-  def setTimer(timeout: Int, cmd: () => Unit, repeat: Boolean = false):
-    Unit = {
+  def setTimer(timeout: Int, f: () => Unit, repeat: Boolean = false): Timer =
+  {
     val t = Timer(timeout, f, repeat)
     timers.addTimer(t)
+    t
   }
+
+  def cancelTimer(t: Timer): Unit = timers.removeTimer(t)
 
   private def initiate(): Unit = {}
 
