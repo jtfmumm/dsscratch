@@ -5,6 +5,7 @@ import dsscratch.algos.snapshots.Snapshot
 import dsscratch.algos.test._
 import dsscratch.client_server._
 import dsscratch.clocks._
+import dsscratch.timers._
 import dsscratch.util.MutableDeque
 import dsscratch.util.Rand
 
@@ -20,6 +21,7 @@ class Node(clk: Clock = EmptyClock(), val initiator: Boolean = false)
   var snapshots = ArrayBuffer[Snapshot]()
   var outgoingQueue = Queue[(ProcessId, Message)]()
   var incomingQueue = Queue[Message]()
+  var timers = Timers()
 
   override val clock = clk match {
     case EmptyClock() => LamportClock(code)
@@ -59,26 +61,36 @@ class Node(clk: Clock = EmptyClock(), val initiator: Boolean = false)
     processNextMessage()
     modules.foreach(_.step())
     sendNextMessage()
+    timers.tick()
+  }
+
+  def setTimer(timeout: Int, cmd: () => Unit, repeat: Boolean = false):
+    Unit = {
+    val t = Timer(timeout, f, repeat)
+    timers.addTimer(t)
   }
 
   private def initiate(): Unit = {}
 
-  private def processNextMessage(): Unit =
+  private def processNextMessage(): Unit = {
     if (incomingQueue.nonEmpty)
       incomingQueue.dequeue() match {
         case Message(cmd, senderId, ts) => {
           modules.foreach(_.processMessage(cmd, senderId, ts))
         }
       }
+  }
 
-  private def sendNextMessage(): Unit =
+  private def sendNextMessage(): Unit = {
     if (outgoingQueue.nonEmpty) {
       val (targetId, msg) = outgoingQueue.dequeue()
       outChs.filter(_.hasTargetId(targetId)).head.recv(msg)
     }
+  }
 
-  def addModule(c: NodeModule) =
+  def addModule(c: NodeModule) = {
     if (!modules.exists(_.algoCode == c.algoCode)) modules.append(c)
+  }
 
   def connectClient(conn: ClientConnection): Unit = {
     modules.foreach(_.connectClient(conn))

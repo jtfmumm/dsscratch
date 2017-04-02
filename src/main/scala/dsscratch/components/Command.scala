@@ -73,6 +73,10 @@ case class Response(cmd: Command) extends Command
 ////Gossip
 case object StartGossip extends Command
 
+// Hearbeat
+case object SendHeartbeat extends Command
+case class Heartbeat(senderId: ProcessId, ts: TimeStamp) extends Command
+
 //PCounter
 case class MergePCounter(pCounter: PCounter) extends Command
 case object IncrementPCounter extends Command

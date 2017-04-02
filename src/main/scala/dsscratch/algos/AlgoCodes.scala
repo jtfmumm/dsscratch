@@ -13,6 +13,7 @@ object AlgoCodes {
   object P_COUNTER extends AlgoCode
   object SIMPLE_BROADCAST extends AlgoCode
   object SIMPLE_GOSSIP extends AlgoCode
+  object SIMPLE_HEARTBEAT extends AlgoCode
   object SIMPLE_TEST extends AlgoCode
   object TARRY extends AlgoCode
   object TWO_PHASE_COMMIT extends AlgoCode
