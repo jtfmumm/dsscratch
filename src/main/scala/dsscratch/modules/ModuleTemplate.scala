@@ -6,27 +6,27 @@ import dsscratch.components._
 import scala.collection.mutable.ArrayBuffer
 
 /*
-Use this empty example as a template for creating new components.
+Use this empty example as a template for creating new modules.
 Modules encapsulate algorithms and the related local state.
-Find and replace NC with your component name in your copy of this file.
+Find and replace ZZ with your component name in your copy of this file.
 
 The parent Node of the component handles clock updates based on messages
 received, so don't do that here.
 */
 
-trait NCLocalState extends LocalState {
+trait ZZLocalState extends LocalState {
   var initiated: Boolean
   var initiator: Boolean
   //state fields...
 }
 
-object NCModule extends ModuleBuilder {
+object ZZModule extends ModuleBuilder {
   def apply(parent: ModuleParent, nodeIds: Set[ProcessId],
-    isInitiator: Boolean = false): NCModule = {
-    new NCModule(parent, isInitiator)
+    isInitiator: Boolean = false): ZZModule = {
+    new ZZModule(parent, isInitiator)
   }
-  def buildWith(parent: ModuleParent, s: NCLocalState): NCModule = {
-    val newC = new NCModule(parent, s.initiator)
+  def buildWith(parent: ModuleParent, s: ZZLocalState): ZZModule = {
+    val newC = new ZZModule(parent, s.initiator)
 
     newC.s.initiated = s.initiated
     //newC.s.x = ...
@@ -34,7 +34,7 @@ object NCModule extends ModuleBuilder {
   }
 }
 
-class NCModule(val parent: ModuleParent, isInitiator: Boolean = false) extends Module {
+class ZZModule(val parent: ModuleParent, isInitiator: Boolean = false) extends Module {
   val moduleCode: ModuleCode = ModuleCodes.NONE // <-- use code
   // A Module can access the ids of Nodes it has channels to and
   // Nodes that have channels to its parent via the following methods
@@ -44,7 +44,7 @@ class NCModule(val parent: ModuleParent, isInitiator: Boolean = false) extends M
 
   ////////////////////
   //LOCAL STATE
-  private object s extends NCLocalState {
+  private object s extends ZZLocalState {
     // Optional state fileds for keeping track of initiation
     var initiated: Boolean = false
     var initiator: Boolean = isInitiator
@@ -70,7 +70,7 @@ class NCModule(val parent: ModuleParent, isInitiator: Boolean = false) extends M
     // Do something each step...
   }
 
-  def snapshot: NCModule = NCModule.buildWith(parent, s)
+  def snapshot: ZZModule = ZZModule.buildWith(parent, s)
 
   def result = "" // For printing results
 
