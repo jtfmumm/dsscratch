@@ -1,6 +1,12 @@
-# Distributed-Systems-Scratchpad
+# Fitzroy
 
-A system for experimenting with implementing distributed systems.
+Distributed system simulator and distributed algorithm scratchpad.
+
+* [Installation](#installation)
+* [Fitzroy Model](#fitzroy-model)
+* [Getting Started](#getting-started)
+
+![Fitzroy](/images/fitzroy.gif?raw=true "Fitzroy")
 
 So far it includes:  
 * Processes, Channels, and Topologies  
@@ -17,4 +23,10 @@ So far it includes:
 * Two Phase Commit
 * A test module to check whether broadcast algorithms work
 * A test module to check whether commit/consensus algorithms work
+
+## Installation
+
+## Fitzroy Model
+
+## Getting Started
 
