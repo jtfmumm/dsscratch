@@ -6,6 +6,7 @@ Distributed system simulator and distributed algorithm scratchpad.
 * [Fitzroy Model](#fitzroy-model)
 * [Getting Started](#getting-started)
 
+Fitzroy exploring the treacherous waters of distributed systems theory:
 ![Fitzroy](/images/fitzroy.gif?raw=true "Fitzroy")
 
 So far it includes:  
