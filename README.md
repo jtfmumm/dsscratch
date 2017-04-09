@@ -37,7 +37,8 @@ For example, `Echo.scala` defines a simple echo algorithm for broadcasting over 
 
 In order to use Fitzroy to implement distributed algorithms, you will implement
 a `Module`. You can look at `Module.scala` for the complete interface (and the
-`ModuleParent` interface, which is how a `Module` communicates with its encapsulating `Node`). `ModuleTemplate.scala` provides a template and some guidelines for creating a `Module`.
+`ModuleParent` interface, which is how a `Module` communicates with its encapsulating `Node`). `ModuleTemplate.scala` provides a template and some guidelines for creating a `Module`. For a simple example, see 
+`SimpleBroadcast.scala`.
 
 In order to create a test of your algorithm, you will need to define a separate
 test `Module`. For an example of such a test `Module`, see 
