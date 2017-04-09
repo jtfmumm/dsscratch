@@ -6,7 +6,7 @@ import dsscratch.draw._
 import dsscratch.model._
 import dsscratch.topology._
 
-"""
+/*
 ModuleTest is used to construct and run tests. At the minimum,
 you must specify a test module that will return a TestCode via
 its testCode method indicating whether the test passed or failed.
@@ -17,7 +17,7 @@ You can also specify one or more modules that will be used to check
 for termination (if there are more than one, ModuleTest will wait
 until they all terminate). If you provide zero termination modules,
 then the test will run until a provided timeout is reached.
-"""
+*/
 
 
 object ModuleTest {
