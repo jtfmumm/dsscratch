@@ -4,7 +4,7 @@ lazy val randomific = "com.jtfmumm" %% "randomific" % "0.1.1"
 
 lazy val commonSettings = Seq(
   organization := "com.jtfmumm",
-  version := "0.1.0"
+  version := "0.2.0"
 )
 
 lazy val root = (project in file(".")).
