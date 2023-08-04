@@ -1,9 +1,9 @@
-# Fitzroy
+# dsscratch
 
 Distributed system simulator and distributed algorithm scratchpad.
 
 * [Installation](#installation)
-* [Fitzroy Model](#fitzroy-model)
+* [dsscratch Model](#dsscratch-model)
 * [Getting Started](#getting-started)
 * [Illustration](#illustraction)
 
@@ -25,7 +25,7 @@ So far it includes:
 
 ## Installation
 
-## Fitzroy Model
+## dsscratch Model
 
 Multiple `Nodes` communicate over FIFO `Channels`. Each `Node` encapsulates one or more `Modules` that represent the logic executed in response to messages (and potentially timers) and encapsulate local state used in that logic. 
 
@@ -35,7 +35,7 @@ For example, `Echo.scala` defines a simple echo algorithm for broadcasting over 
 
 ## Getting Started
 
-In order to use Fitzroy to implement distributed algorithms, you will implement
+In order to use dsscratch to implement distributed algorithms, you will implement
 a `Module`. You can look at `Module.scala` for the complete interface (and the
 `ModuleParent` interface, which is how a `Module` communicates with its encapsulating `Node`). `ModuleTemplate.scala` provides a template and some guidelines for creating a `Module`. For a simple example, see 
 `SimpleBroadcast.scala`.
